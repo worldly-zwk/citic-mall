@@ -1,0 +1,2 @@
+export const CACHE_KEY_HOME = 'CACHE_HOME';
+export const CACHE_KEY_CATEGORY = 'CACHE_CATEGORY';
