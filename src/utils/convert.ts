@@ -1,4 +1,4 @@
-export function convertProduct(info: API.Product): ScrollProduct {
+export function convertProduct(info: API.Product): ProductItem {
   return {
     id: info.id,
     name: info.name1,

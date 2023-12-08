@@ -53,6 +53,7 @@ declare namespace API {
   interface Product {
     id: string;
     name1: string;
+    name2: string;
     masterImg: string;
     mallPcPrice: number;
     marketPrice: number;
@@ -60,9 +61,38 @@ declare namespace API {
     productStock: number;
     productGoodsId: number;
     productBrandName: string;
+    productLeadPicList: string[];
+    productGoodsList: ProductGoods[];
+    productServe: Record<string, string>;
+    productStock: number;
+    nationalFlag?: string;
+    normMap: Record<string, string[]>;
+    countryId?: string;
+    countryName?: string;
     state: number;
     isSelf: number;
     isDelete: number;
+  }
+
+  interface ProductGoods {
+    id: number;
+    images: string;
+    isDefault: number;
+    mallPcPrice: number;
+    marketPrice: number;
+    normName: string;
+    orderLimitMax: number;
+    orderLimitMin: number;
+    productStock: number;
+    skuCode: string;
+  }
+
+  interface ProductInfo extends Product {
+    catalogRandomProList: Product[];
+    sellerId: number;
+    sellerLogo: string;
+    sellerName: string;
+    sellerNotice: string;
   }
 
   interface AdvInfo {

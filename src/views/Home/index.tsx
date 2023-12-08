@@ -1,5 +1,5 @@
-import { useEffect, useMemo } from "react";
-import { StyleSheet, Text, View, SafeAreaView, ScrollView } from "react-native";
+import { useMemo } from "react";
+import { StyleSheet, Text, View, SafeAreaView, ScrollView, TouchableNativeFeedback } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import SearchBar from "@/components/SearchBar";
 import { convertProduct } from "@/utils/convert";
@@ -30,6 +30,9 @@ const Home = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <TouchableNativeFeedback onPress={() => navigation.navigate('Product', { id: '97654' })}>
+        <Text>123123</Text>
+      </TouchableNativeFeedback>
       <SearchBar />
       <ScrollView style={styles.main}>
         <Carousel banners={data?.banners} />

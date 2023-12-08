@@ -6,5 +6,8 @@ export const HOME = {
 
 export const PRODUCT = {
   category: '/product/productcatalogs/list',
-  recommends: '/product/memberrecommends'
+  recommends: '/product/memberrecommends',
+  top: '/product/productlist/memberTop',
+  details: '/product/product/details',
+  description: '/product/product/description',
 }

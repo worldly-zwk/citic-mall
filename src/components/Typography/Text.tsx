@@ -5,32 +5,37 @@ interface TypographyTextProps extends TextProps {
   primary?: boolean;
   strong?: boolean;
   size?: 'large' | 'small' | 'mini';
-  type?: 'secondary';
+  type?: 'secondary' | 'disabled';
+  delete?: boolean;
 }
 
-const TypographyText = ({ style, primary, size, strong, type, ...restProps }: TypographyTextProps) => {
+const TypographyText = ({ style, primary, size, strong, type, lineBreakMode = 'tail', delete: deleteLine, ...restProps }: TypographyTextProps) => {
   const textStyles = useMemo(() => {
     const items: StyleProp<TextStyle>[]  = [styles.text];
     if (primary) {
       items.push(styles.primary);
     }
 
+    if (deleteLine) {
+      items.push(styles.delete);
+    }
+
     if (strong) {
-      items.push(styles.strong)
+      items.push(styles.strong);
     }
 
     if (size) {
       items.push(styles[size]);
     }
 
-    if (type === 'secondary') {
-      items.push(styles.secondary);
+    if (type) {
+      items.push(styles[type]);
     }
 
     return StyleSheet.compose(items, style);
-  }, [style]);
+  }, [style, primary, size, type, strong, deleteLine]);
 
-  return <Text {...restProps} style={textStyles} />
+  return <Text {...restProps} lineBreakMode={lineBreakMode} style={textStyles} />
 }
 
 const styles = StyleSheet.create({
@@ -45,7 +50,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   small: {
-    fontSize: 12
+    fontSize: 12,
+    lineHeight: 16,
   },
   mini: {
     fontSize: 10
@@ -55,6 +61,12 @@ const styles = StyleSheet.create({
   },
   secondary: {
     color: '#666'
+  },
+  disabled: {
+    color: '#999'
+  },
+  delete: {
+    textDecorationLine: 'line-through'
   }
 });
 

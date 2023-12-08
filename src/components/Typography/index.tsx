@@ -1,9 +1,8 @@
-import { PropsWithChildren } from 'react';
-import { View } from 'react-native';
+import { View, ViewProps } from 'react-native';
 import TypographyText from './Text';
 import TypographyTitle from './Title';
 
-interface TypographyProps extends PropsWithChildren {
+interface TypographyProps extends ViewProps {
 
 }
 

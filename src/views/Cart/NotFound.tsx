@@ -37,7 +37,7 @@ const CartNotFound = () => {
 
 const styles = StyleSheet.create({
   card: {
-    margin: 10,
+    margin: 12,
     borderRadius: 6,
     backgroundColor: '#fff'
   },

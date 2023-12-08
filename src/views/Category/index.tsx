@@ -1,4 +1,4 @@
-import { StyleSheet, Text, SafeAreaView, ScrollView, View, Image } from 'react-native';
+import { StyleSheet, SafeAreaView, ScrollView, View, Image } from 'react-native';
 import SearchBar from '@/components/SearchBar';
 import SideBar from '@/components/SideBar';
 import { useRequest } from '@/hooks';
