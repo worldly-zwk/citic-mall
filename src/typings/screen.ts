@@ -6,14 +6,19 @@ export type RootStackParamList = {
   Product: {
     id: string;
   },
+  CategoryTabs: {
+    id: string;
+  }
 }
 
 export  type TabParamList = {
   Home: NavigatorScreenParams<RootStackParamList>;
-  Category: undefined;
-  Cart: undefined;
-  Member: undefined;
+  Category: NavigatorScreenParams<RootStackParamList>;
+  Cart: NavigatorScreenParams<RootStackParamList>;
+  Member: NavigatorScreenParams<RootStackParamList>;
 };
 
+export type CategoryScreenProps = NativeStackScreenProps<RootStackParamList>;
 export type ProductScreenProps = NativeStackScreenProps<RootStackParamList, 'Product'>;
+export type CategoryTabsScreenProps = NativeStackScreenProps<RootStackParamList, 'CategoryTabs'>;
 

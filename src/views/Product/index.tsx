@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { StyleSheet, ScrollView, View, Image, SafeAreaView } from 'react-native';
 import { useBoolean, useRequest } from '@/hooks';
 import { PRODUCT } from '@/services';
@@ -20,8 +20,8 @@ import Button from '@/components/Button';
 
 const Product = ({ route }: ProductScreenProps) => {
   const { id } = route.params;
+  const [count, setCount] = useState(1);
   const [visible, setVisible] = useBoolean();
-
 
   const [state] = useRequest<API.ProductInfo>(`${PRODUCT.details}/${id}`);
   const [descState] = useRequest<string>(`${PRODUCT.description}/${id}`);
@@ -49,7 +49,7 @@ const Product = ({ route }: ProductScreenProps) => {
       <ScrollView style={styles.main}>
         <Carousel items={state.data?.productLeadPicList} />
         <BasisCard data={state.data} />
-        <GoodsCard info={curGoodsInfo} services={services} onClickNorm={() => setVisible(true)} />
+        <GoodsCard info={curGoodsInfo} count={count} services={services} onClickNorm={() => setVisible(true)} />
         <FeedbackCard />
         <StoreCard data={state.data} />
         <SuggestCard data={state.data?.catalogRandomProList} />
@@ -77,7 +77,7 @@ const Product = ({ route }: ProductScreenProps) => {
             </FormItem>
           ))}
           <FormItem label="购买数量" layout="horizontal" contentStyle={styles.number}>
-            <InputNumber />
+            <InputNumber value={count} onChange={setCount} />
           </FormItem>
         </ScrollView>
         <Button.Group style={{ height: 49 }}>

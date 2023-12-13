@@ -1,12 +1,11 @@
-import { FC } from "react";
-import { Image, StyleSheet, View } from "react-native";
+import { Image, StyleSheet, View } from 'react-native';
 import Swiper from 'react-native-swiper';
 
 interface CarouselProps {
   items?: string[];
 }
 
-const Carousel: FC<CarouselProps> = ({ items = [] }) => {
+const Carousel = ({ items = [] }: CarouselProps) => {
   return (
     <Swiper
       autoplay
@@ -15,6 +14,7 @@ const Carousel: FC<CarouselProps> = ({ items = [] }) => {
       dotStyle={styles.dot}
       activeDotStyle={styles.activeDot}
       paginationStyle={styles.pagination}
+      key={items.length}
     >
       {items.map((item) => (
         <View style={styles.silde} key={item}>

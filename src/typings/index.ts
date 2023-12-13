@@ -8,5 +8,7 @@ interface ProductItem {
 interface SideBar {
   key: string | number;
   title: string;
+  value: string | number;
   children?: React.ReactElement;
+  [key: string]: any;
 }

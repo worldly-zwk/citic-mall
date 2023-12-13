@@ -1,4 +1,9 @@
 declare namespace API {
+  interface BasePageResponse<T> {
+    count: number;
+    data: T[];
+  }
+
   interface Home {
     banners: Banner[];
     channels: HomeChannel[];
@@ -64,7 +69,7 @@ declare namespace API {
     productLeadPicList: string[];
     productGoodsList: ProductGoods[];
     productServe: Record<string, string>;
-    productStock: number;
+    productAttrList: ProductAttr[];
     nationalFlag?: string;
     normMap: Record<string, string[]>;
     countryId?: string;
@@ -87,6 +92,13 @@ declare namespace API {
     skuCode: string;
   }
 
+  interface ProductAttr {
+    id: number;
+    name: string;
+    value: string;
+    state: number;
+  }
+
   interface ProductInfo extends Product {
     catalogRandomProList: Product[];
     sellerId: number;
@@ -107,6 +119,8 @@ declare namespace API {
     productList: Product[];
   }
 
+  type LigthCatalog = Pick<Catalog, 'id' | 'name'>;
+
   interface Catalog {
     id: string;
     name: string;
@@ -115,9 +129,15 @@ declare namespace API {
   }
 
   interface CatalogProduct {
-    id: number;
+    id: string;
     name: string;
     image: string;
     productCatalogVOList: Omit<CatalogProduct, 'productCatalogVOList'>[];
+  }
+
+  interface CatalogProductList {
+    count: number;
+    heardTitle: string;
+    productList: Product[];
   }
 }

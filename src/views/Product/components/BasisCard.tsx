@@ -13,10 +13,7 @@ const GoodsInfo: FC<GoodsInfoProps> = ({ data }) => {
         <Typography.Title style={styles.name} numberOfLines={2} lineBreakMode="tail">{data.name1}</Typography.Title>
         <Typography.Text size="small" primary>{data.name2}</Typography.Text>
         <Typography style={styles.mallPrice}>
-          <Typography style={styles.mallPriceContainer}>
-            <Typography.Text size="small" primary strong style={styles.mallPriceUnit}>¥</Typography.Text>
-            <Typography.Title level={2} primary>{data.mallPcPrice}</Typography.Title>
-          </Typography>
+          <Typography.Price size="large">{data.mallPcPrice}</Typography.Price>
           <Typography.Text size="small" type="disabled" style={styles.marketPrice} delete>¥{data.marketPrice}</Typography.Text>
         </Typography>
         {data.countryId && (
@@ -47,12 +44,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     columnGap: 4,
     marginTop: 12,
-  },
-  mallPriceContainer: {
-    flexDirection: 'row',
+    alignItems: 'flex-end',
   },
   marketPrice: {
-    marginTop: 12
+    marginBottom: 3
   },
   mallPriceUnit: {
     marginTop: 12,

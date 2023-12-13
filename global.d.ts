@@ -1,4 +1,4 @@
-type RecordAny = Record<string | number, any>;
+type RecordAny<T = any> = Record<string | number, T>;
 
 interface ScreenChildrenProps {
   route: RouteProp;

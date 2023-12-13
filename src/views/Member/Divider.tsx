@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     height: 16
   },
   lineAfter: {
-    transform: 'rotate(180deg)'
+    transform: [{ rotate: '180deg' }]
   }
 })
 

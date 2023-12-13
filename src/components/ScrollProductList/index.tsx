@@ -1,7 +1,9 @@
 import { FC } from "react";
-import { Image, ScrollView, ScrollViewProps, StyleProp, StyleSheet, Text, View, ViewStyle } from "react-native";
+import { Image, ScrollView, ScrollViewProps, StyleProp, StyleSheet, TouchableWithoutFeedback, View, ViewStyle } from "react-native";
 import { isLastItem } from "@/utils/array";
 import Typography from "../Typography";
+import { useNavigation } from "@react-navigation/native";
+import { ProductScreenProps } from "@/typings/screen";
 
 interface ScrollProductListProps extends ScrollViewProps {
   items: ProductItem[];
@@ -10,17 +12,21 @@ interface ScrollProductListProps extends ScrollViewProps {
 }
 
 const ScrollProductList: FC<ScrollProductListProps> = ({ items, style, containerStyle, ...restProps }) => {
+  const navigation = useNavigation<ProductScreenProps['navigation']>();
+
   return (
     <View style={style}>
       <ScrollView horizontal {...restProps} style={containerStyle}>
-        {items.map(({ name, image, price }, index) => (
-          <View style={[styles.item, isLastItem(index, items.length) ? styles.lastItem : undefined]} key={`${index}-${name}`}>
-            <Image style={styles.image} source={{ uri: image }} resizeMode="contain" />
-            <View>
-              <Typography.Text style={styles.name} size="small" numberOfLines={1}>{name}</Typography.Text>
-              <Typography.Text style={styles.amount} primary strong>¥{price}</Typography.Text>
+        {items.map(({ id, name, image, price }, index) => (
+          <TouchableWithoutFeedback key={id} onPress={() => navigation.push('Product', { id })}>
+            <View style={[styles.item, isLastItem(index, items.length) ? styles.lastItem : undefined]}>
+              <Image style={styles.image} source={{ uri: image }} resizeMode="contain" />
+              <View>
+                <Typography.Text style={styles.name} size="small" numberOfLines={1}>{name}</Typography.Text>
+                <Typography.Price style={styles.amount}>{price}</Typography.Price>
+              </View>
             </View>
-          </View>
+          </TouchableWithoutFeedback>
         ))}
       </ScrollView>
     </View>
@@ -46,7 +52,7 @@ const styles = StyleSheet.create({
     lineHeight: 18,
   },
   amount: {
-    lineHeight: 20
+    paddingVertical: 4
   },
   lastItem: {
     marginRight: 0

@@ -12,6 +12,7 @@ interface ItemProps {
 
 interface GoodsCardProps {
   info?: API.ProductGoods;
+  count: number;
   services?: Record<'title' | 'desc', string>[];
   onClickNorm: () => void;
 }
@@ -29,21 +30,21 @@ const Item = ({ style, label, onPress, children }: PropsWithChildren<ItemProps>)
   )
 }
 
-const GoodsCard: FC<GoodsCardProps> = ({ info, services, onClickNorm }) => {
+const GoodsCard: FC<GoodsCardProps> = ({ info, count, services, onClickNorm }) => {
   const [visible, setVisible] = useBoolean();
-  const normName = useMemo(() => {
+  const normContent = useMemo(() => {
+    let name = '默认';
     if (info?.normName) {
       const normList = info?.normName.split(';');
-
-      return normList.map(normName => normName.split(',')[1]).join(',')
+      name = normList.map(normName => normName.split(',')[1]).join(',')
     }
-    return '默认';
-  }, [info?.normName]);
+    return `${name}，${count}件`;
+  }, [info?.normName, count]);
   
   return  (
     <View style={styles.container}>
       <Item style={styles.itemLine} label="规格" onPress={onClickNorm}>
-        <Typography.Text>{normName}</Typography.Text>
+        <Typography.Text>{normContent}</Typography.Text>
       </Item>
       <Item label="服务" style={{ paddingBottom: 0 }} onPress={() => setVisible(true)}>
         {services?.map(({ title }) => (

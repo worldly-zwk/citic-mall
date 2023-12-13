@@ -20,7 +20,7 @@ const SuggestCard: FC<SuggestCardProps> = ({ data }) => {
   return (
     <View style={styles.container}>
       <Typography.Title level={4} style={styles.title}>同类推荐</Typography.Title>
-      <ScrollProductList items={items} />
+      <ScrollProductList style={styles.list} items={items} />
     </View>
   );
 }
@@ -34,6 +34,9 @@ const styles = StyleSheet.create({
   title: {
     paddingLeft: 12,
     paddingVertical: 18,
+  },
+  list: {
+    paddingHorizontal: 12
   }
 })
 

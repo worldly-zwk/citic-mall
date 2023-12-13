@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { StyleSheet, Text, View, SafeAreaView, ScrollView, TouchableNativeFeedback } from "react-native";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, Link } from '@react-navigation/native';
 import SearchBar from "@/components/SearchBar";
 import { convertProduct } from "@/utils/convert";
 import { CACHE_KEY_HOME } from "@/constants";
@@ -12,8 +12,6 @@ import Recommend from "./components/Recommend";
 import Floor from "./components/Floor";
 
 const Home = () => {
-  const navigation = useNavigation();
-
   const [state] = useRequest<API.Home>(HOME.index, {
     cacheKey: CACHE_KEY_HOME
   });
@@ -30,9 +28,7 @@ const Home = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <TouchableNativeFeedback onPress={() => navigation.navigate('Product', { id: '97654' })}>
-        <Text>123123</Text>
-      </TouchableNativeFeedback>
+      <Link to={{ screen: 'Product', params: { id: '51784' } }}>51784</Link>
       <SearchBar />
       <ScrollView style={styles.main}>
         <Carousel banners={data?.banners} />

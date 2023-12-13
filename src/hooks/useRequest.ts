@@ -15,7 +15,7 @@ interface RequestState<T> {
   loading: boolean;
 }
 
-const useRequest = <T = any, P = any>(service: Service<T, P>, options?: Options) => {
+const useRequest = <T = any, P extends RecordAny = RecordAny>(service: Service<T, P>, options?: Options) => {
   const [state, setState] = useSetState<RequestState<T>>({
     loading: false,
   });

@@ -1,7 +1,10 @@
 import { baseUrl } from "@/services";
 
-interface requsetOptions extends RequestInit {
+interface RequsetOptions<P> extends RequestInit {
   url: string;
+  data?: P;
+  params?: P;
+  requestType?: 'json' | 'formdata'
 }
 
 interface RequsetResponse<T = any> {
@@ -11,8 +14,45 @@ interface RequsetResponse<T = any> {
   data: T;
 }
 
-async function request<T, P>(options: requsetOptions){
-  const response = await fetch(`${baseUrl}${options.url}`, options);
+function fetchWithParams<P>(options: RequsetOptions<P>): string {
+  const { url, method, params } = options;
+  const [pathname] = url.split('?');
+
+  if (method === 'GET' && params) {
+    const searchParams = new URLSearchParams(url);
+    Object.entries<string>(params).forEach(([key, value]) => {
+      searchParams.append(key, value);
+    });
+    return `${pathname}?${searchParams}`;
+  }
+
+  return url;
+}
+
+function makeFetchBody<P>(options: RequsetOptions<P>): RequestInit['body'] {
+  const { method, requestType = 'json' } = options;
+
+  if (requestType === 'json') {
+
+  }
+
+  return;
+}
+
+function makeFetchOptions<P>(options: RequsetOptions<P>): RequestInit {
+  const { requestType = 'json', ...restOptions } = options;
+  const fetchInit: RequestInit = { ...restOptions };
+
+  fetchInit.body = makeFetchBody(options);
+
+  return fetchInit;
+}
+
+async function request<T, P extends RecordAny = any>(options: RequsetOptions<P>){
+  const url = fetchWithParams(options);
+  const init = makeFetchOptions(options);
+  console.log(url);
+  const response = await fetch(`${baseUrl}${url}`, init);
 
   const result: RequsetResponse<T> = await response.json();
 
@@ -23,8 +63,8 @@ async function request<T, P>(options: requsetOptions){
   return Promise.reject(result);
 }
 
-request.get = function(url: string, options?: Omit<requsetOptions, 'url'>) {
-  return request({ ...options, url, method: 'GET' });
+request.get = function<T, P = any>(url: string, options?: Omit<RequsetOptions<P>, 'url'>) {
+  return request<T>({ ...options, url, method: 'GET' });
 }
 
 export default request;

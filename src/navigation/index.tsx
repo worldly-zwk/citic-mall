@@ -1,10 +1,10 @@
 import { useCallback } from 'react';
 import { createNativeStackNavigator, NativeStackNavigationOptions } from '@react-navigation/native-stack';
+import ProductTitle from '@/components/ProductTitle';
 import { RootStackParamList } from '@/typings/screen';
 import Product from '@/views/Product';
 import TabNavigator from './TabNavigator';
-import ProductTitle from '@/components/ProductTitle';
-import { Text } from 'react-native';
+import CategoryTabs from '@/views/CategoryTabs';
 
 const { Navigator, Screen } = createNativeStackNavigator<RootStackParamList>();
 
@@ -27,6 +27,7 @@ const NavigatorScreen = () => {
     <Navigator screenOptions={screenOptions}>
       <Screen name="Index" component={TabNavigator} options={{ headerShown: false }} />
       <Screen name="Product" component={Product} options={screenProductOptions} />
+      <Screen name="CategoryTabs" component={CategoryTabs} options={screenProductOptions} />
     </Navigator>
   )
 }

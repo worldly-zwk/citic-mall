@@ -18,7 +18,7 @@ const Introduce: FC<IntroduceProps> = ({ data, richText = '' }) => {
   const { width } = useWindowDimensions();
   const [activeKey, setActiveKey] = useState(KeyEnum.INTRO);
 
-  const [basisItems, specItems] = useMemo(() => {
+  const [basis, attrs] = useMemo(() => {
     const basis = [
       {
         label: '商品编号',
@@ -30,13 +30,11 @@ const Introduce: FC<IntroduceProps> = ({ data, richText = '' }) => {
       }
     ];
 
-    const spec = [
-      {
-        label: 'test',
-        content: '',
-      }
-    ];
-    return [basis, spec];
+    const attrs = data?.productAttrList.map(({ name, value }) => ({
+      label: name,
+      value,
+    }));
+    return [basis, attrs];
   }, [data]);
 
 
@@ -58,8 +56,10 @@ const Introduce: FC<IntroduceProps> = ({ data, richText = '' }) => {
       <RenderHTML contentWidth={width} source={{ html: richText }} ignoredDomTags={['input']} />
      </View>
      <View style={[styles.table ,{ display: activeKey === KeyEnum.SPEC ? 'flex' : 'none' }]}>
-      <Descriptions items={basisItems} />
-      <Descriptions style={{ borderTopWidth: 0 }} title="规格" items={specItems} />
+      <Descriptions items={basis} />
+      {attrs && (
+        <Descriptions style={{ borderTopWidth: 0 }} title="规格" items={attrs} />
+      )}
      </View>
     </View>
   )

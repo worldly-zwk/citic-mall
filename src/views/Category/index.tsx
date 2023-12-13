@@ -1,15 +1,16 @@
-import { StyleSheet, SafeAreaView, ScrollView, View, Image } from 'react-native';
+import { StyleSheet, SafeAreaView, ScrollView, View, Image, TouchableWithoutFeedback } from 'react-native';
+import Typography from '@/components/Typography';
 import SearchBar from '@/components/SearchBar';
 import SideBar from '@/components/SideBar';
 import { useRequest } from '@/hooks';
 import { PRODUCT } from '@/services';
 import { CACHE_KEY_CATEGORY } from '@/constants';
-import Typography from '@/components/Typography';
 import { isLastItem } from '@/utils/array';
+import { CategoryScreenProps } from '@/typings/screen';
 
 const SideBarItem = SideBar.Item;
 
-const Category = () => {
+const Category = ({ navigation }: CategoryScreenProps) => {
   const [state] = useRequest<API.Catalog[]>(PRODUCT.category, {
     cacheKey: CACHE_KEY_CATEGORY
   });
@@ -28,10 +29,12 @@ const Category = () => {
                     <Typography.Text size="small" strong style={styles.title}>{name}</Typography.Text>
                     <View style={[styles.content, lastItem ? styles.lastContent : null]}>
                       {items.map(({ id, name, image }) => (
-                        <View style={styles.item} key={id}>
-                          <Image style={styles.image} source={{ uri: image }} />
-                          <Typography.Text size="small">{name}</Typography.Text>
-                        </View>
+                        <TouchableWithoutFeedback key={id} onPress={() => navigation.navigate('CategoryTabs', { id })}>
+                          <View style={styles.item}>
+                            <Image style={styles.image} source={{ uri: image }} />
+                            <Typography.Text size="small">{name}</Typography.Text>
+                          </View>
+                        </TouchableWithoutFeedback>
                       ))}
                     </View>
                   </View>

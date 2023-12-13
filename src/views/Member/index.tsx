@@ -45,10 +45,14 @@ const Member = () => {
           <Icon label="浏览记录" image={require('@/assets/images/icons/history.png')} />
           <Icon label="在线客服" image={require('@/assets/images/icons/customer-service.png')} />
         </Card>
-        <Divider>{state.data?.heardTitle}</Divider>
-        <View style={styles.list}>
-          <GridProductList items={items} />
-        </View>
+        {state.data && (
+          <>
+            <Divider>{state.data?.heardTitle}</Divider>
+            <View style={styles.list}>
+              <GridProductList items={items} />
+            </View>
+          </>
+        )}
       </View>
     </ScrollView>
   )
