@@ -6,4 +6,7 @@ export default {
   description: '/product/product/description',
   sametype: '/product/productcatalogs/sametype',
   catalog: '/product/productlist/catalog',
+  keyword: '/product/search/keyword',
+  logs: '/product/search/logs',
+  suggests: '/product/search/suggests',
 }

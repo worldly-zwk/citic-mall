@@ -1,39 +1,76 @@
-import { FC } from "react";
-import { Image, StyleSheet, View } from "react-native";
+import { ReactNode, useCallback } from 'react';
+import { Image, StyleSheet, TextInput, TouchableWithoutFeedback, View } from 'react-native';
 
 interface SearchBarProps {
-  
+  extra?: ReactNode;
+  editable?: boolean;
+  onPress?: () => void;
+  onChangeText?: (text: string) => void;
 }
 
-const SearchBar: FC<SearchBarProps> = () => {
+const SearchBar = (props: SearchBarProps) => {
+  const { extra, editable = false, onPress, onChangeText } = props;
+
+  const renderExtra = useCallback(() => {
+    if (!extra) {
+      return (
+        <TouchableWithoutFeedback>
+          <Image style={styles.news} source={require('@/assets/images/icons/message.png')} />
+        </TouchableWithoutFeedback>
+      );
+    }
+    return extra;
+  }, [extra]);
 
   return (
     <View style={styles.searchBar}>
-      <View style={styles.searchBar_text}></View>
-      <Image style={styles.searchBar_icon} source={require('@/assets/images/icons/message.png')} />
+      <TouchableWithoutFeedback onPress={onPress}>
+        <View style={styles.search}>
+          <Image style={styles.searchIcon} source={require('@/assets/images/icons/search.png')} />
+          <TextInput onChangeText={onChangeText} onPressIn={onPress} editable={editable} style={styles.searchInput} placeholder="搜索商品，了解更多" autoFocus />
+        </View>
+      </TouchableWithoutFeedback>
+      <View style={styles.extra}>
+        {renderExtra()}
+      </View>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
   searchBar: {
-    height: 46,
+    height: 45,
     alignItems: 'center',
     flexDirection: 'row',
     backgroundColor: '#fff',
-    paddingLeft: 10,
-    paddingRight: 16
+    paddingHorizontal: 10,
   },
-  searchBar_text: {
+  search: {
     flex: 1,
-    height: 32,
-    backgroundColor: '#f5f6fa',
-    borderRadius: 32,
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 30,
+    borderRadius: 30,
+    backgroundColor: '#f5f6fa'
   },
-  searchBar_icon: {
+  searchIcon: {
+    width: 18,
+    height: 18,
+    marginHorizontal: 12
+  },
+  searchInput: {
+    flex: 1,
+    height: '100%',
+    color: '#e65321',
+    fontSize: 14,
+  },
+  extra: {
+    marginLeft: 15,
+    marginRight: 5,
+  },
+  news: {
     width: 24,
     height: 24,
-    marginLeft: 16,
   }
 })
 

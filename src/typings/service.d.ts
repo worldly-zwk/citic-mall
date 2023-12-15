@@ -140,4 +140,11 @@ declare namespace API {
     heardTitle: string;
     productList: Product[];
   }
+
+  interface SearchKeyword {
+    id: number;
+    keyword: string;
+    linkType: number;
+    linkUrl: string;
+  }
 }

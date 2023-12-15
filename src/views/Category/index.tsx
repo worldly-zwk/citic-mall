@@ -17,7 +17,7 @@ const Category = ({ navigation }: CategoryScreenProps) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <SearchBar />
+      <SearchBar onPress={() => navigation.navigate('Search')}  />
       <SideBar>
         {state.data?.map(({ id, name, productCatalogVOList }) => (
           <SideBarItem title={name} key={id}>

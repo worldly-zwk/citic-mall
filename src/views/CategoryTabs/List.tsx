@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { StyleSheet, View, Image, TouchableWithoutFeedback, FlatList, ListRenderItemInfo } from 'react-native';
 import { useInfiniteScroll } from '@/hooks';
 import { PRODUCT } from '@/services';
@@ -9,10 +9,11 @@ interface ProductListProps {
   id: string;
   isActive: boolean;
   onPress?: (id: string) => void;
+  setTitle?: (title: string) => void;
 }
 
 
-const ProductList = ({ id, isActive, onPress }: ProductListProps) => {
+const ProductList = ({ id, isActive, onPress, setTitle }: ProductListProps) => {
   const isActivatedRef = useRef(false);
   const [state, actions] = useInfiniteScroll(async (index: number) => {
     const result = await request.get<API.CatalogProductList>(`${PRODUCT.catalog}/${id}`, {
@@ -22,6 +23,7 @@ const ProductList = ({ id, isActive, onPress }: ProductListProps) => {
         pageIndex: index
       }
     });
+    setTitle?.(result.heardTitle);
     return {
       data: result.productList,
       count: result.count,
@@ -49,7 +51,6 @@ const ProductList = ({ id, isActive, onPress }: ProductListProps) => {
 
   useEffect(() => {
     if (isActive && !isActivatedRef.current) {
-      console.log(id, '12121')
       actions.run();
       isActivatedRef.current = true;
     }
@@ -63,7 +64,7 @@ const ProductList = ({ id, isActive, onPress }: ProductListProps) => {
       renderItem={renderItem}
       keyExtractor={(item) => item.id}
       onEndReached={actions.loadMore}
-      onEndReachedThreshold={0.04}
+      onEndReachedThreshold={0.1}
     />
   )
 }
@@ -78,7 +79,6 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     paddingHorizontal: 12,
     backgroundColor: '#fff',
-    // marginBottom: 48
   },
   item: {
     paddingVertical: 12,

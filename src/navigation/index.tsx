@@ -5,6 +5,7 @@ import { RootStackParamList } from '@/typings/screen';
 import Product from '@/views/Product';
 import TabNavigator from './TabNavigator';
 import CategoryTabs from '@/views/CategoryTabs';
+import Search from '@/views/Search';
 
 const { Navigator, Screen } = createNativeStackNavigator<RootStackParamList>();
 
@@ -27,7 +28,8 @@ const NavigatorScreen = () => {
     <Navigator screenOptions={screenOptions}>
       <Screen name="Index" component={TabNavigator} options={{ headerShown: false }} />
       <Screen name="Product" component={Product} options={screenProductOptions} />
-      <Screen name="CategoryTabs" component={CategoryTabs} options={screenProductOptions} />
+      <Screen name="CategoryTabs" component={CategoryTabs} options={{ title: '' }} />
+      <Screen name="Search" component={Search} options={{ headerShown: false }} />
     </Navigator>
   )
 }

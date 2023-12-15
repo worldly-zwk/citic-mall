@@ -1,22 +1,38 @@
 import { useCallback, useEffect, useMemo } from "react";
 import request from "@/utils/request";
 import storage from "@/utils/storage";
+import { throttle, debounce } from "@/utils/function";
 import useSetState from "./useSetState";
 
 type Service<T, P> = string | ((params?: P) => Promise<T>);
 
-interface Options {
+interface Options<P> {
   manual?: boolean;
   cacheKey?: string;
+  defaultParams?: P;
+  throttleWait?: number;
+  debounceWait?: number;
 }
+
+type OptionsWithFormat<T, P, U> = {
+  formatResult: (data: T) => U;
+} & Options<P>;
+
+interface Action<T, P> {
+  run(params?: P): Promise<T>
+}
+
+type Result<T, P> = [RequestState<T>, Action<T, P>];
 
 interface RequestState<T> {
   data?: T;
   loading: boolean;
 }
 
-const useRequest = <T = any, P extends RecordAny = RecordAny>(service: Service<T, P>, options?: Options) => {
-  const [state, setState] = useSetState<RequestState<T>>({
+function useRequest<T = any, P extends RecordAny = RecordAny, U = any>(service: Service<T, P>, options?: OptionsWithFormat<T, P, U>): Result<U,P>;
+function useRequest<T = any, P extends RecordAny = RecordAny>(service: Service<T, P>, options?: Options<P>): Result<T,P>;
+function useRequest(service: any, options: any = {}) {
+  const [state, setState] = useSetState<RequestState<any>>({
     loading: false,
   });
 
@@ -35,47 +51,65 @@ const useRequest = <T = any, P extends RecordAny = RecordAny>(service: Service<T
     }
   }, []);
 
-  const fetch = useCallback((params?: P) => {
+  const fetch = useCallback((params?: any) => {
     fetchBefore();
     if (typeof service === 'string') {
-      return request<T, P>({
+      return request({
         url: service,
         method: 'GET',
+        params
       })
     }
 
     return service(params);
   }, []);
 
-  const fetchAfter = useCallback((data: T) => {
-    setState({
-      data,
-      loading: false,
-    });
+  const fetchAfter = useCallback((data: any) => {
+    let result = data;
 
     if (options?.cacheKey) {
       storage.setItem(options?.cacheKey, data);
     }
 
+    if (options?.formatResult) {
+      result = options.formatResult(data);
+    }
+
+    setState({
+      data: result,
+      loading: false,
+    });
+
     return data;
   }, []);
 
-  const run = useCallback((params?: P) => {
-    return fetch(params).then(fetchAfter).finally(() => {
-      setState({
-        loading: false
-      });
-    });
+  const run = useMemo(() => {
+    const func = (params: any) => {
+      return fetch(params).then(fetchAfter).finally(() => {
+        setState({
+          loading: false
+        });
+      })
+    };
+
+    if (options.throttleWait) {
+      return throttle(func, options.throttleWait);
+    }
+
+    if (options.debounceWait) {
+      return debounce(func, options.debounceWait);
+    }
+
+    return func;
   }, []);
 
   useEffect(() => {
     if (!options?.manual) {
-      run()
+      run(options?.defaultParams);
     }
   }, []);
 
   const actions = useMemo(() => {
-
     return {
       run,
     }

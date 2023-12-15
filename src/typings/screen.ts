@@ -8,7 +8,8 @@ export type RootStackParamList = {
   },
   CategoryTabs: {
     id: string;
-  }
+  },
+  Search: undefined;
 }
 
 export  type TabParamList = {
@@ -17,8 +18,9 @@ export  type TabParamList = {
   Cart: NavigatorScreenParams<RootStackParamList>;
   Member: NavigatorScreenParams<RootStackParamList>;
 };
-
+export type HomeScreenProps = NativeStackScreenProps<RootStackParamList>;
 export type CategoryScreenProps = NativeStackScreenProps<RootStackParamList>;
+export type SearchScreenProps = NativeStackScreenProps<RootStackParamList, 'Search'>;
 export type ProductScreenProps = NativeStackScreenProps<RootStackParamList, 'Product'>;
 export type CategoryTabsScreenProps = NativeStackScreenProps<RootStackParamList, 'CategoryTabs'>;
 
