@@ -8,6 +8,12 @@ const fontSizeEnum: RecordAny<number> = {
   large: 22,
 };
 
+const unitGapEnum: RecordAny<number> = {
+  small: 1,
+  middle: 2,
+  large: 4,
+};
+
 interface TypographyPriceProps extends TextProps {
   size?: 'small' | 'middle' | 'large' | number;
   style?: StyleProp<TextStyle>;
@@ -16,10 +22,19 @@ interface TypographyPriceProps extends TextProps {
 
 const TypographyPrice = (props: TypographyPriceProps) => {
   const { size = 'middle', children } = props;
-  const unitStyles = size === 'large' ? styles.largeUnit : styles.unit;
+
+  const unitStyles = useMemo(() => {
+    return {
+      fontSize: size === 'large' ? 12 : 10,
+      marginBottom: unitGapEnum[size] || 1,
+    }
+  }, []);
+
   const textStyles = useMemo<TextStyle>(() => {
+    const height = fontSizeEnum[size] || (size as number);
     return { 
-      fontSize: fontSizeEnum[size] || (size as number)
+      fontSize: height,
+      lineHeight: height,
     }
   }, [size]);
 
@@ -36,15 +51,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-end',
   },
-  unit: {
-    marginBottom: 2
-  },
-  largeUnit: {
-    fontSize: 12,
-    marginBottom: 3,
-  }
 });
-
-
 
 export default TypographyPrice;

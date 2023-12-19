@@ -49,6 +49,7 @@ const RadioButton = (props: RadioButtonProps) => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
   },
   radioButton: {
     backgroundColor: '#f5f6fa',

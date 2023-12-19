@@ -9,4 +9,9 @@ export default {
   keyword: '/product/search/keyword',
   logs: '/product/search/logs',
   suggests: '/product/search/suggests',
+  list: '/product/search/productlist',
+  sellerlist: '/product/search/sellerlist',
+  activity: '/product/product/activity',
+  ticket: '/product/product/ticket',
+  // /product/product/activity/114595?productGoodsId=175999
 }

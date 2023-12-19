@@ -6,6 +6,8 @@ import Product from '@/views/Product';
 import TabNavigator from './TabNavigator';
 import CategoryTabs from '@/views/CategoryTabs';
 import Search from '@/views/Search';
+import SearchList from '@/views/SearchList';
+import GlobalBack from '@/components/GlobalBack';
 
 const { Navigator, Screen } = createNativeStackNavigator<RootStackParamList>();
 
@@ -13,7 +15,8 @@ const NavigatorScreen = () => {
   const screenOptions = useCallback(({ route }: ScreenChildrenProps): NativeStackNavigationOptions => {
 
     return {
-      // headerShown: false,
+      headerLeft: () => <GlobalBack />,
+      headerBackTitleVisible: false,
     }
   }, []);
 
@@ -30,6 +33,7 @@ const NavigatorScreen = () => {
       <Screen name="Product" component={Product} options={screenProductOptions} />
       <Screen name="CategoryTabs" component={CategoryTabs} options={{ title: '' }} />
       <Screen name="Search" component={Search} options={{ headerShown: false }} />
+      <Screen name="SearchList" component={SearchList} options={{ headerShown: false }} />
     </Navigator>
   )
 }

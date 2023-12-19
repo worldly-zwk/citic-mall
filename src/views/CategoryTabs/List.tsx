@@ -1,19 +1,18 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { StyleSheet, View, Image, TouchableWithoutFeedback, FlatList, ListRenderItemInfo } from 'react-native';
+import { useEffect, useRef } from 'react';
+import { StyleSheet } from 'react-native';
 import { useInfiniteScroll } from '@/hooks';
 import { PRODUCT } from '@/services';
-import Typography from '@/components/Typography';
 import request from '@/utils/request';
+import FlatProductList from '@/components/FlatProductList';
 
 interface ProductListProps {
   id: string;
   isActive: boolean;
-  onPress?: (id: string) => void;
   setTitle?: (title: string) => void;
 }
 
 
-const ProductList = ({ id, isActive, onPress, setTitle }: ProductListProps) => {
+const ProductList = ({ id, isActive, setTitle }: ProductListProps) => {
   const isActivatedRef = useRef(false);
   const [state, actions] = useInfiniteScroll(async (index: number) => {
     const result = await request.get<API.CatalogProductList>(`${PRODUCT.catalog}/${id}`, {
@@ -32,23 +31,6 @@ const ProductList = ({ id, isActive, onPress, setTitle }: ProductListProps) => {
     manual: true
   });
 
-  const renderItem = useCallback(({ item }: ListRenderItemInfo<API.Product>) => {
-    return (
-      <TouchableWithoutFeedback key={item.id} onPress={() => onPress?.(item.id)}>
-        <View style={styles.item}>
-          <Image style={styles.image} source={{ uri: item.masterImg }} />
-          <View style={styles.content}>
-            <Typography.Text style={styles.name} numberOfLines={2}>{item.name1}</Typography.Text>
-            <Typography style={styles.price}>
-              <Typography.Price>{item.mallPcPrice}</Typography.Price>
-              <Typography.Text delete type="disabled" size="small">¥{item.marketPrice}</Typography.Text>
-            </Typography>
-          </View>
-        </View>
-      </TouchableWithoutFeedback>
-    )
-  }, []);
-
   useEffect(() => {
     if (isActive && !isActivatedRef.current) {
       actions.run();
@@ -57,14 +39,9 @@ const ProductList = ({ id, isActive, onPress, setTitle }: ProductListProps) => {
   }, [isActive]);
 
   return (
-    <FlatList
-      style={styles.container}
-      contentContainerStyle={styles.list}
+    <FlatProductList
       data={state.data}
-      renderItem={renderItem}
-      keyExtractor={(item) => item.id}
       onEndReached={actions.loadMore}
-      onEndReachedThreshold={0.1}
     />
   )
 }

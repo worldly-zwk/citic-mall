@@ -23,7 +23,7 @@ const ScrollProductList: FC<ScrollProductListProps> = ({ items, style, container
               <Image style={styles.image} source={{ uri: image }} resizeMode="contain" />
               <View>
                 <Typography.Text style={styles.name} size="small" numberOfLines={1}>{name}</Typography.Text>
-                <Typography.Price style={styles.amount}>{price}</Typography.Price>
+                <Typography.Price size="small">{price}</Typography.Price>
               </View>
             </View>
           </TouchableWithoutFeedback>
@@ -50,9 +50,6 @@ const styles = StyleSheet.create({
   name: {
     marginTop: 5,
     lineHeight: 18,
-  },
-  amount: {
-    paddingVertical: 4
   },
   lastItem: {
     marginRight: 0

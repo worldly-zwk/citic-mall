@@ -55,6 +55,16 @@ declare namespace API {
     mIndexFloorAdvList: AdvInfo[];
   }
 
+  interface Store {
+    id: number;
+    sellerName: string;
+    sellerLogo: string;
+    productNumber: number;
+    isSelf: string;
+    isOverseas: string;
+    productList: Product[];
+  }
+
   interface Product {
     id: string;
     name1: string;
@@ -70,6 +80,7 @@ declare namespace API {
     productGoodsList: ProductGoods[];
     productServe: Record<string, string>;
     productAttrList: ProductAttr[];
+    promotionLabelList?: string[];
     nationalFlag?: string;
     normMap: Record<string, string[]>;
     countryId?: string;
@@ -90,6 +101,15 @@ declare namespace API {
     orderLimitMin: number;
     productStock: number;
     skuCode: string;
+  }
+
+  interface ProductPromotion {
+    id: number;
+    type: number;
+    title: string;
+    slogan: string;
+    newMemberLabel: string;
+    detailedInformation: string;
   }
 
   interface ProductAttr {

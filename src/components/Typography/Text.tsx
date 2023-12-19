@@ -42,6 +42,7 @@ const styles = StyleSheet.create({
   text: {
     color: '#333',
     fontSize: 14,
+    lineHeight: 20,
   },
   primary: {
     color: '#e65321'
@@ -54,7 +55,8 @@ const styles = StyleSheet.create({
     lineHeight: 16,
   },
   mini: {
-    fontSize: 10
+    fontSize: 10,
+    lineHeight: 10,
   },
   strong: {
     fontWeight: '600'

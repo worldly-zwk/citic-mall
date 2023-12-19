@@ -1,12 +1,14 @@
 import { useCallback, useEffect, useMemo, useRef } from "react";
 import storage from "@/utils/storage";
 import useSetState from "./useSetState";
+import useMemoizedFn from "./useMemoizedFn";
 
 type Service<T> = ((index: number) => Promise<API.BasePageResponse<T>>);
 
 interface Options {
   manual?: boolean;
   cacheKey?: string;
+  refreshDeps?: any[];
 }
 
 interface RequestState<T> {
@@ -16,7 +18,8 @@ interface RequestState<T> {
   loadingMore: boolean;
 }
 
-const useInfiniteScroll = <T>(service: Service<T>, options?: Options) => {
+const useInfiniteScroll = <T>(service: Service<T>, options: Options = {}) => {
+  const { refreshDeps = [] } = options;
   const indexRef = useRef<number>(1);
   const isLastPage = useRef(false);
   const [state, setState] = useSetState<RequestState<T>>({
@@ -36,10 +39,10 @@ const useInfiniteScroll = <T>(service: Service<T>, options?: Options) => {
     }
   }, []);
 
-  const fetch = useCallback(() => {
+  const fetch = useMemoizedFn(() => {
     fetchBefore();
     return service(indexRef.current).then(fetchAfter);
-  }, []);
+  });
 
   const fetchAfter = useCallback((data: API.BasePageResponse<T>) => {
     if (options?.cacheKey) {
@@ -100,7 +103,7 @@ const useInfiniteScroll = <T>(service: Service<T>, options?: Options) => {
     if (!options?.manual) {
       run();
     }
-  }, []);
+  }, [...refreshDeps]);
 
   const actions = useMemo(() => {
     return {

@@ -1,19 +1,28 @@
-import { Children, PropsWithChildren, isValidElement, useEffect, useMemo, useRef } from 'react';
-import { StyleSheet, View, ScrollView, TouchableWithoutFeedback, ViewStyle, StyleProp } from 'react-native';
-import { useControllableValue } from '@/hooks';
-import TabItem, { TabItemProps } from './Item';
-import Typography from '../Typography';
+import { Children, Key, PropsWithChildren, isValidElement, useEffect, useMemo, useRef } from 'react';
+import { StyleSheet, View, ScrollView, TouchableWithoutFeedback, ViewStyle, StyleProp, Text, Animated, LayoutRectangle } from 'react-native';
+import { useControllableValue, useUpdate } from '@/hooks';
 import { isTrue } from '@/utils/type';
+import Typography from '../Typography';
+import TabItem, { TabItemProps } from './Item';
+import { useLinePosition, useScrollTabToCenter } from './hooks';
 
 interface TabsProps {
+  style?: StyleProp<ViewStyle>;
   bodyStyle?: StyleProp<ViewStyle>;
   activeKey?: number | string;
+  activeLine?: boolean;
+  defaultActiveKey?: number | string;
+  scrollable?: boolean;
   onChange?: (activeKey: any) => void;
 }
 
 const Tabs = (props: PropsWithChildren<TabsProps>) => {
-  const { bodyStyle, children } = props;
+  const { style, bodyStyle, children, scrollable = true, activeLine = true } = props;
+  const update = useUpdate();
+  const scrollRef = useRef<ScrollView>(null);
+  const tabSizesRef = useRef(new Map<Key, LayoutRectangle>());
   const activeIndexRef = useRef(0);
+  
   const tabs = useMemo<SideBar[]>(() => {
     const childrens = Children.toArray(children);
     if (childrens.length) {
@@ -34,38 +43,83 @@ const Tabs = (props: PropsWithChildren<TabsProps>) => {
   }, [children]);
 
   const [activeKey, setActiveKey] = useControllableValue(props, {
-    defaultValue: tabs[0]?.key,
-    valuePropName: 'activeKey'
+    valuePropName: 'activeKey',
+    defaultValuePropName: 'defaultActiveKey',
   });
 
-  useEffect(() => {
-    let newActiveIndex = tabs.findIndex(({ key }) => key === activeKey);
-    if (newActiveIndex === -1) {
-      newActiveIndex = Math.max(0, Math.min(activeIndexRef.current, tabs.length - 1));
-      setActiveKey(tabs[newActiveIndex]?.key);
+  const allKey = tabs.map(({ key }) => key).join('-');
+
+  const lineStyle = useLinePosition({
+    activeKey,
+    tabSizes: tabSizesRef.current,
+  });
+
+  const handleScroll = useScrollTabToCenter({
+    activeKey,
+    scrollable,
+    tabSizes: tabSizesRef.current,
+    scrollView: scrollRef,
+  })
+
+  const renderTabs = () => {
+    const children = tabs.map(({ key, title }) => {
+      const isCurrent = activeKey === key;
+      return (
+        <TouchableWithoutFeedback onPress={() => setActiveKey(key)} key={key}>
+          <View
+            style={styles.tab}
+            onLayout={(e) => {
+              tabSizesRef.current.set(key, e.nativeEvent.layout);
+              update();
+            }}
+          >
+            <Typography.Text size="small" primary={isCurrent} strong={isCurrent}>{title}</Typography.Text>
+          </View>
+        </TouchableWithoutFeedback>
+      )
+    });
+
+    if (scrollable) {
+      return (
+        <ScrollView
+          horizontal
+          ref={scrollRef}
+          onScroll={handleScroll}
+          scrollEventThrottle={300}
+          contentContainerStyle={{ paddingHorizontal: 10 }}
+        >
+          {children}
+        </ScrollView>
+      )
     }
-    activeIndexRef.current = newActiveIndex;
-  }, [tabs.map(({ key }) => key).join('-'), activeKey]);
+
+    return (
+      <View style={styles.wrapper}>
+        {children}
+        {activeLine && <Animated.View style={[styles.line, lineStyle]}></Animated.View>}
+      </View>
+    );
+  };
+
+  useEffect(() => {
+    if (!props.hasOwnProperty('activeKey')) {
+      let newActiveIndex = tabs.findIndex(({ key }) => key === activeKey);
+      if (newActiveIndex === -1) {
+        newActiveIndex = Math.max(0, Math.min(activeIndexRef.current, tabs.length - 1));
+        setActiveKey(tabs[newActiveIndex]?.key);
+      }
+      activeIndexRef.current = newActiveIndex;
+    }
+  }, [allKey, activeKey]);
 
   return (
-    <View style={styles.container}>
+    <View style={style}>
       <View style={styles.tabs}>
-        <ScrollView horizontal>
-          {tabs.map(({ key, title }) => {
-            const isCurrent = activeKey === key;
-            return (
-              <TouchableWithoutFeedback onPress={() => setActiveKey(key)} key={key}>
-                <View style={styles.tab}>
-                  <Typography.Text size="small" primary={isCurrent} strong={isCurrent}>{title}</Typography.Text>
-                </View>
-              </TouchableWithoutFeedback>
-            )
-          })}
-        </ScrollView>
+        {renderTabs()}
       </View>
       <View style={[styles.main, bodyStyle]}>
         {tabs.map(({ key, children }) => (
-          <View style={[styles.content, isTrue(key === activeKey, styles.show)]} key={key}>{children}</View>
+          <View style={[styles.content, isTrue(key === activeKey, styles.show)]} key={key}>{children}<Text>12</Text></View>
         ))}
       </View>
     </View>
@@ -73,16 +127,28 @@ const Tabs = (props: PropsWithChildren<TabsProps>) => {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
   tabs: {
-    paddingLeft: 20,
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+    elevation: 4,
+    zIndex: 1,
+  },
+  wrapper: {
+    flexDirection: 'row',
   },
   tab: {
-    marginRight: 20,
-    paddingVertical: 14,
+    flex: 1,
+    alignItems: 'center',
+    paddingHorizontal: 10,
+    paddingVertical: 12,
+  },
+  line: {
+    position: 'absolute',
+    width: 14,
+    height: 2,
+    backgroundColor: '#e65321',
+    borderRadius: 2,
+    bottom: 0,
+    left: 0,
   },
   main: {
     flex: 1,

@@ -1,7 +1,9 @@
 import { ReactNode, useCallback } from 'react';
-import { Image, StyleSheet, TextInput, TouchableWithoutFeedback, View } from 'react-native';
+import { Image, StyleSheet, TextInput, TextInputProps, TouchableWithoutFeedback, View } from 'react-native';
+import GlobalBack from '../GlobalBack';
 
-interface SearchBarProps {
+interface SearchBarProps extends TextInputProps {
+  back?: boolean;
   extra?: ReactNode;
   editable?: boolean;
   onPress?: () => void;
@@ -9,10 +11,10 @@ interface SearchBarProps {
 }
 
 const SearchBar = (props: SearchBarProps) => {
-  const { extra, editable = false, onPress, onChangeText } = props;
+  const { back, extra, editable = false, onPress, ...restProps } = props;
 
   const renderExtra = useCallback(() => {
-    if (!extra) {
+    if (typeof extra === 'undefined') {
       return (
         <TouchableWithoutFeedback>
           <Image style={styles.news} source={require('@/assets/images/icons/message.png')} />
@@ -24,15 +26,27 @@ const SearchBar = (props: SearchBarProps) => {
 
   return (
     <View style={styles.searchBar}>
+      {back && (
+        <GlobalBack style={styles.back} />
+      )}
       <TouchableWithoutFeedback onPress={onPress}>
         <View style={styles.search}>
           <Image style={styles.searchIcon} source={require('@/assets/images/icons/search.png')} />
-          <TextInput onChangeText={onChangeText} onPressIn={onPress} editable={editable} style={styles.searchInput} placeholder="搜索商品，了解更多" autoFocus />
+          <TextInput
+            autoFocus
+            onPressIn={onPress}
+            editable={editable}
+            style={styles.searchInput}
+            placeholder="搜索商品，了解更多"
+            {...restProps}
+          />
         </View>
       </TouchableWithoutFeedback>
-      <View style={styles.extra}>
-        {renderExtra()}
-      </View>
+      {extra !== null && (
+        <View style={styles.extra}>
+          {renderExtra()}
+        </View>
+      )}
     </View>
   )
 }
@@ -44,6 +58,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#fff',
     paddingHorizontal: 10,
+  },
+  back: {
+    marginLeft: 10,
+    marginRight: 4
   },
   search: {
     flex: 1,

@@ -1,37 +1,24 @@
-import { FC, PropsWithChildren, useMemo } from "react";
-import { Image, StyleProp, StyleSheet, TouchableWithoutFeedback, View, ViewStyle } from "react-native";
-import Typography from "@/components/Typography";
-import Popup from "@/components/Popup";
-import { useBoolean } from "@/hooks";
-
-interface ItemProps {
-  label: string;
-  style?: StyleProp<ViewStyle>;
-  onPress?: () => void;
-}
+import { FC, useMemo } from 'react';
+import { StyleSheet, View } from 'react-native';
+import Typography from '@/components/Typography';
+import Popup from '@/components/Popup';
+import { useBoolean } from '@/hooks';
+import Item from './Item'
+import Tag from '@/components/Tag';
+import Space from '@/components/Space';
 
 interface GoodsCardProps {
   info?: API.ProductGoods;
+  coupons?: any[];
+  promotions?: API.ProductPromotion[];
   count: number;
   services?: Record<'title' | 'desc', string>[];
   onClickNorm: () => void;
 }
 
-const Item = ({ style, label, onPress, children }: PropsWithChildren<ItemProps>) => {
-  return (
-    <TouchableWithoutFeedback onPress={onPress}>
-      <View style={[styles.item, style]}>
-        <Typography.Text size="small" type="disabled">{label}</Typography.Text>
-        <View style={styles.content}>{children}</View>
-        <Image style={styles.arrow} source={require('@/assets/images/icons/arrow.png')} />
-      </View>
-    </TouchableWithoutFeedback>
-    
-  )
-}
-
-const GoodsCard: FC<GoodsCardProps> = ({ info, count, services, onClickNorm }) => {
+const GoodsCard: FC<GoodsCardProps> = ({ info, count, services, coupons, promotions, onClickNorm }) => {
   const [visible, setVisible] = useBoolean();
+  const [visiblePromotion, setVisiblePromotion] = useBoolean();
   const normContent = useMemo(() => {
     let name = '默认';
     if (info?.normName) {
@@ -40,26 +27,65 @@ const GoodsCard: FC<GoodsCardProps> = ({ info, count, services, onClickNorm }) =
     }
     return `${name}，${count}件`;
   }, [info?.normName, count]);
+
+  const isVisibleVoucher = useMemo(() => !!coupons?.length || !!promotions?.length, [promotions, coupons]);
   
   return  (
-    <View style={styles.container}>
-      <Item style={styles.itemLine} label="规格" onPress={onClickNorm}>
-        <Typography.Text>{normContent}</Typography.Text>
-      </Item>
-      <Item label="服务" style={{ paddingBottom: 0 }} onPress={() => setVisible(true)}>
-        {services?.map(({ title }) => (
-          <View style={styles.serviceLabel} key={title}>
-            <View style={styles.dot} />
-            <Typography.Text>{title}</Typography.Text>
+    <View>
+      {isVisibleVoucher && (
+        <View style={styles.list}>
+          {!!coupons?.length && (
+            <Item style={styles.itemLine} label="领券">
+              {coupons.map(({ title, detailedInformation }) => (
+                <View>
+                  <Tag>{title}</Tag>
+                  <Typography.Text>{detailedInformation}</Typography.Text>
+                </View>
+              ))}
+            </Item>
+          )}
+          {!!promotions?.length && (
+            <Item style={styles.itemLine} contentStyle={styles.promotionContent} label="促销" onPress={() => setVisiblePromotion(true)}>
+              {promotions.map(({ id, title, detailedInformation }) => (
+                <Space size={4} align="center" key={id}>
+                  <Tag>{title}</Tag>
+                  <Typography.Text numberOfLines={1} style={{ flex: 1 }}>{detailedInformation}</Typography.Text>
+                </Space>
+              ))}
+            </Item>
+          )}
+        </View>
+      )}
+      <View style={styles.list}>
+        <Item style={styles.itemLine} label="规格" onPress={onClickNorm}>
+          <Typography.Text numberOfLines={1}>{normContent}</Typography.Text>
+        </Item>
+        <Item label="服务" contentStyle={styles.serviceContent} onPress={() => setVisible(true)}>
+          {services?.map(({ title }) => (
+            <View style={styles.serviceLabel} key={title}>
+              <View style={styles.dot} />
+              <Typography.Text style={{ lineHeight: 16 }}>{title}</Typography.Text>
+            </View>
+          ))}
+        </Item>
+      </View>
+      <Popup title="促销" visible={visiblePromotion} onClose={setVisiblePromotion}>
+        {promotions?.map(({ title, detailedInformation }) => (
+          <View style={styles.item} key={title}>
+            <View style={styles.title}>
+              <View style={styles.itemDot} />
+              <Typography.Text style={styles.name}>{title}</Typography.Text>
+            </View>
+            <Typography.Text size="small" type="secondary" style={{ lineHeight: 18 }}>{detailedInformation}</Typography.Text>
           </View>
         ))}
-      </Item>
+      </Popup>
       <Popup title="服务" visible={visible} onClose={setVisible}>
         {services?.map(({ title, desc }) => (
-          <View style={styles.serviceItem} key={title}>
-            <View style={styles.serviceName}>
-              <View style={styles.serviceDot} />
-              <Typography.Text style={styles.serviceNameText}>{title}</Typography.Text>
+          <View style={styles.item} key={title}>
+            <View style={styles.title}>
+              <View style={styles.itemDot} />
+              <Typography.Text style={styles.name}>{title}</Typography.Text>
             </View>
             <Typography.Text size="small" type="secondary" style={{ lineHeight: 18 }}>{desc}</Typography.Text>
           </View>
@@ -70,29 +96,13 @@ const GoodsCard: FC<GoodsCardProps> = ({ info, count, services, onClickNorm }) =
 }
 
 const styles = StyleSheet.create({
-  container: {
+  list: {
     backgroundColor: '#fff',
     marginTop: 10,
-  },
-  item: {
-    flexDirection: 'row',
-    paddingVertical: 16,
-    paddingHorizontal: 12,
-    minHeight: 44,
   },
   itemLine: {
     borderBottomColor: '#eee',
     borderBottomWidth: StyleSheet.hairlineWidth
-  },
-  content: {
-    flex: 1,
-    paddingLeft: 12,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-  },
-  arrow: {
-    width: 12,
-    height: 12,
   },
   dot: {
     width: 3,
@@ -100,35 +110,42 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5a623',
     borderRadius: 3,
   },
+  serviceContent: {
+    rowGap: 8,
+    columnGap: 12,
+  },
   serviceLabel: {
     flexDirection: 'row',
     alignItems: 'center',
     columnGap: 4,
-    marginRight: 12,
-    marginBottom: 12,
   },
-  serviceItem: {
+  item: {
     padding: 12,
     borderRadius: 2,
     backgroundColor: '#f5f6fa',
     marginBottom: 10
   },
-  serviceName: {
+  title: {
     flexDirection: 'row',
     alignItems: 'center',
     columnGap: 8,
     marginBottom: 8,
   },
-  serviceNameText: {
+  name: {
     color: '#000',
     lineHeight: 16,
   },
-  serviceDot: {
+  itemDot: {
     width: 5,
     height: 5,
     backgroundColor: '#e65321',
     borderRadius: 5,
   },
+  promotionContent: {
+    flexDirection: 'column',
+    flexWrap: 'nowrap',
+    gap: 6,
+  }
 })
 
 export default GoodsCard;

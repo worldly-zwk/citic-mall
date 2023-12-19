@@ -29,8 +29,8 @@ const Home = ({ navigation }: HomeScreenProps) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Link to={{ screen: 'Product', params: { id: '51784' } }}>51784</Link>
       <SearchBar onPress={() => navigation.navigate('Search')} />
+      <Link to={{ screen: 'Product', params: { id: '98400' } }}>98400</Link>
       <ScrollView style={styles.main}>
         <Carousel banners={data?.banners} />
         <View style={styles.section}>

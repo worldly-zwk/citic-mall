@@ -1,5 +1,10 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { StyleSheet, ScrollView, View, Image, SafeAreaView } from 'react-native';
+import Popup from '@/components/Popup';
+import FormItem from '@/components/FormItem';
+import RadioButton from '@/components/RadioButton';
+import InputNumber from '@/components/InputNumber';
+import Button from '@/components/Button';
 import { useBoolean, useRequest } from '@/hooks';
 import { PRODUCT } from '@/services';
 import Typography from '@/components/Typography';
@@ -12,11 +17,7 @@ import StoreCard from './components/StoreCard';
 import SuggestCard from './components/SuggestCard';
 import Introduce from './components/Introduce';
 import ToolBar from './components/Toolbar';
-import Popup from '@/components/Popup';
-import FormItem from '@/components/FormItem';
-import RadioButton from '@/components/RadioButton';
-import InputNumber from '@/components/InputNumber';
-import Button from '@/components/Button';
+
 
 const Product = ({ route }: ProductScreenProps) => {
   const { id } = route.params;
@@ -25,6 +26,12 @@ const Product = ({ route }: ProductScreenProps) => {
 
   const [state] = useRequest<API.ProductInfo>(`${PRODUCT.details}/${id}`);
   const [descState] = useRequest<string>(`${PRODUCT.description}/${id}`);
+  const [activityState, { run: activityRun }] = useRequest<API.ProductPromotion[]>(`${PRODUCT.activity}/${id}`, {
+    manual: true,
+  });
+  const [ticketState, { run: ticketRun }] = useRequest<API.ProductPromotion[]>(`${PRODUCT.ticket}/${id}`, {
+    manual: true,
+  });
 
   const services = useMemo(() => {
     if (state.data?.productServe) {
@@ -44,12 +51,27 @@ const Product = ({ route }: ProductScreenProps) => {
     return state.data?.productGoodsList?.find(({ isDefault }) => isDefault === 1);
   }, [state.data?.productGoodsList]);
 
+  useEffect(() => {
+    const productGoodsId = curGoodsInfo?.id;
+    if (productGoodsId) {
+      ticketRun({ productGoodsId });
+      activityRun({ productGoodsId });
+    }
+  }, [curGoodsInfo?.id]);
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.main}>
         <Carousel items={state.data?.productLeadPicList} />
         <BasisCard data={state.data} />
-        <GoodsCard info={curGoodsInfo} count={count} services={services} onClickNorm={() => setVisible(true)} />
+        <GoodsCard
+          info={curGoodsInfo}
+          coupons={ticketState.data}
+          promotions={activityState.data}
+          count={count}
+          services={services}
+          onClickNorm={() => setVisible(true)}
+        />
         <FeedbackCard />
         <StoreCard data={state.data} />
         <SuggestCard data={state.data?.catalogRandomProList} />
@@ -111,7 +133,8 @@ const styles = StyleSheet.create({
     borderWidth: 5,
     borderColor: '#fff',
     borderRadius: 6,
-    marginTop: -50
+    marginTop: -50,
+    backgroundColor: '#fff'
   },
   normPrice: {
     flexDirection: 'row',

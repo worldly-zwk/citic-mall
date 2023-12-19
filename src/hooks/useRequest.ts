@@ -29,7 +29,7 @@ interface RequestState<T> {
   loading: boolean;
 }
 
-function useRequest<T = any, P extends RecordAny = RecordAny, U = any>(service: Service<T, P>, options?: OptionsWithFormat<T, P, U>): Result<U,P>;
+function useRequest<T = any, P extends RecordAny = RecordAny, U = any>(service: Service<T, P>, options: OptionsWithFormat<T, P, U>): Result<U,P>;
 function useRequest<T = any, P extends RecordAny = RecordAny>(service: Service<T, P>, options?: Options<P>): Result<T,P>;
 function useRequest(service: any, options: any = {}) {
   const [state, setState] = useSetState<RequestState<any>>({

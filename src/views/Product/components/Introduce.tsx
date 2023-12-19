@@ -30,7 +30,7 @@ const Introduce: FC<IntroduceProps> = ({ data, richText = '' }) => {
       }
     ];
 
-    const attrs = data?.productAttrList.map(({ name, value }) => ({
+    const attrs = data?.productAttrList?.map(({ name, value }) => ({
       label: name,
       value,
     }));

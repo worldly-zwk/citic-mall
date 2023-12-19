@@ -14,7 +14,7 @@ const StoreCard: FC<StoreCardProps> = ({ data }) => {
      <View style={styles.content}>
         <Typography.Text style={styles.name} strong>{data?.sellerName}</Typography.Text>
         <Typography.Text style={styles.desc} size="small" type="disabled" numberOfLines={2}>{data?.sellerNotice}</Typography.Text>
-        <Image style={styles.tag} source={require('@/assets/images/icons/shop-tag.png')} />
+        <Image style={styles.tag} source={require('@/assets/images/tag/store.png')} />
      </View>
     </View>
   )

@@ -1,10 +1,10 @@
-import { useState } from 'react';
-import { SafeAreaView, StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
+import { useCallback, useState } from 'react';
+import { NativeSyntheticEvent, SafeAreaView, StyleSheet, TextInputSubmitEditingEventData, TouchableWithoutFeedback, View } from 'react-native';
 import { useRequest } from '@/hooks';
 import { PRODUCT } from '@/services';
 import SearchBar from '@/components/SearchBar';
 import Typography from '@/components/Typography';
-import { SearchScreenProps } from '@/typings/screen';
+import { SearchScreenProps, SearchTypeEnum } from '@/typings/screen';
 import Section from './Section';
 import SuggestPanel from './SuggestPanel';
 
@@ -32,6 +32,24 @@ const Search = ({ navigation }: SearchScreenProps) => {
     debounceWait: 600,
   });
 
+  const handleSearch = useCallback((keyword: string) => {
+    navigation.navigate('SearchList', {
+      keyword,
+      type: SearchTypeEnum.PRODUCT
+    });
+  }, []);
+
+  const handleSearchStore = useCallback((keyword: string) => {
+    navigation.navigate('SearchList', {
+      keyword,
+      type: SearchTypeEnum.SELLER
+    });
+  }, []);
+
+  const handleSubmitEditing = useCallback((e: NativeSyntheticEvent<TextInputSubmitEditingEventData>) => {
+    handleSearch(e.nativeEvent.text);
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <SearchBar
@@ -45,11 +63,12 @@ const Search = ({ navigation }: SearchScreenProps) => {
           setValue(text);
           actions.run({ keyword: text });
         }}
+        onSubmitEditing={handleSubmitEditing}
       />
       <View style={styles.main}>
-        <Section title="热门推荐" items={state.data} />
-        <Section title="搜索历史" items={logState.data} />
-        <SuggestPanel open={!!value} value={value} items={suggestState.data} onPressStore={console.log} onPress={console.log} />
+        <Section title="热门推荐" items={state.data} onPressCapsule={handleSearch} />
+        <Section title="搜索历史" items={logState.data} onPressCapsule={handleSearch}  />
+        <SuggestPanel open={!!value} value={value} items={suggestState.data} onPressStore={handleSearchStore} onPress={handleSearch} />
       </View>
     </SafeAreaView>
   )

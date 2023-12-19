@@ -52,7 +52,10 @@ async function request<T, P extends RecordAny = any>(options: RequsetOptions<P>)
   const url = fetchWithParams(options);
   const init = makeFetchOptions(options);
   console.log(url);
-  const response = await fetch(`${baseUrl}${url}`, init);
+  const response = await fetch(`${baseUrl}${url}`, init).catch((err) => {
+    console.log(err, 'err');
+    return err;
+  });
 
   const result: RequsetResponse<T> = await response.json();
 

@@ -1,15 +1,23 @@
 import { PropsWithChildren } from 'react';
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
+import { FlexAlignType, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 
 interface SpaceProps extends PropsWithChildren {
+  size?: number;
+  wrap?: boolean;
+  align?: FlexAlignType;
   style?: StyleProp<ViewStyle>;
 }
 
 const Space = (props: SpaceProps) => {
-  const { style, children } = props;
+  const { size, wrap, align, style, children } = props;
+  const flexStyle: ViewStyle = {
+    gap: size,
+    alignItems: align,
+    flexWrap: wrap ? 'wrap' : 'nowrap'
+  }
 
   return (
-    <View style={[styles.container, style]}>
+    <View style={[styles.container, flexStyle, style]}>
       {children}
     </View>
   )
