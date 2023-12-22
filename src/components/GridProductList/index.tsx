@@ -1,4 +1,5 @@
 import { Image, StyleSheet, View, ViewProps } from 'react-native';
+import { ProductItem } from '@/typings';
 import Typography from '../Typography';
 
 interface GridProductListProps extends ViewProps {
@@ -14,7 +15,7 @@ const GridProductList = ({ items, style, ...restProps }: GridProductListProps) =
           <Image style={styles.image} source={{ uri: image }} />
           <Typography style={styles.content}>
             <Typography.Text style={styles.name} numberOfLines={2} lineBreakMode="tail">{name}</Typography.Text>
-            <Typography.Text style={styles.price} size="large" primary>¥{price}</Typography.Text>
+            <Typography.Text size="large" primary>¥{price}</Typography.Text>
           </Typography>
         </View>
       ))}
@@ -47,9 +48,6 @@ const styles = StyleSheet.create({
     height: 48,
     lineHeight: 24,
     marginBottom: 4,
-  },
-  price: {
-    lineHeight: 22,
   }
 });
 

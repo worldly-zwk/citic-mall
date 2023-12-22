@@ -167,4 +167,13 @@ declare namespace API {
     linkType: number;
     linkUrl: string;
   }
+
+  interface Member {
+    authStaff: number;
+    gender: number;
+    headPortrait: string;
+    name: string;
+    nickname: string;
+    trueName: string;
+  }
 }

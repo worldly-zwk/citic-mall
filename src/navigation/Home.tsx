@@ -5,12 +5,12 @@ import Home from '@/views/Home';
 import Category from '@/views/Category';
 import Cart from '@/views/Cart';
 import Member from '@/views/Member';
+import { RootTabParamList } from '@/typings/screen';
 
-const { Navigator, Screen } = createBottomTabNavigator();
+const { Navigator, Screen } = createBottomTabNavigator<RootTabParamList>();
 
-const TabNavigator = () => {
+const HomeScreen = () => {
   const screenOptions = useCallback(({ route }: ScreenChildrenProps): BottomTabNavigationOptions => {
-
     return {
       headerShown: false,
       tabBarInactiveTintColor: '#666',
@@ -29,4 +29,4 @@ const TabNavigator = () => {
   )
 }
 
-export default TabNavigator;
+export default HomeScreen;

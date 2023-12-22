@@ -6,17 +6,19 @@ import useSetState from "./useSetState";
 
 type Service<T, P> = string | ((params?: P) => Promise<T>);
 
-interface Options<P> {
+interface Options<T, P> {
   manual?: boolean;
   cacheKey?: string;
   defaultParams?: P;
   throttleWait?: number;
   debounceWait?: number;
+  onSuccess?: (result: T) => void;
+  onFail?: () => void;
 }
 
 type OptionsWithFormat<T, P, U> = {
   formatResult: (data: T) => U;
-} & Options<P>;
+} & Options<U, P>;
 
 interface Action<T, P> {
   run(params?: P): Promise<T>
@@ -30,8 +32,9 @@ interface RequestState<T> {
 }
 
 function useRequest<T = any, P extends RecordAny = RecordAny, U = any>(service: Service<T, P>, options: OptionsWithFormat<T, P, U>): Result<U,P>;
-function useRequest<T = any, P extends RecordAny = RecordAny>(service: Service<T, P>, options?: Options<P>): Result<T,P>;
+function useRequest<T = any, P extends RecordAny = RecordAny>(service: Service<T, P>, options?: Options<T, P>): Result<T,P>;
 function useRequest(service: any, options: any = {}) {
+  const { onSuccess } = options;
   const [state, setState] = useSetState<RequestState<any>>({
     loading: false,
   });
@@ -75,6 +78,7 @@ function useRequest(service: any, options: any = {}) {
       result = options.formatResult(data);
     }
 
+    onSuccess?.(result);
     setState({
       data: result,
       loading: false,

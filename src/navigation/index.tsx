@@ -3,16 +3,17 @@ import { createNativeStackNavigator, NativeStackNavigationOptions } from '@react
 import ProductTitle from '@/components/ProductTitle';
 import { RootStackParamList } from '@/typings/screen';
 import Product from '@/views/Product';
-import TabNavigator from './TabNavigator';
 import CategoryTabs from '@/views/CategoryTabs';
 import Search from '@/views/Search';
 import SearchList from '@/views/SearchList';
 import GlobalBack from '@/components/GlobalBack';
+import HomeScreen from './Home';
+import LoginScreen from './Login';
 
 const { Navigator, Screen } = createNativeStackNavigator<RootStackParamList>();
 
 const NavigatorScreen = () => {
-  const screenOptions = useCallback(({ route }: ScreenChildrenProps): NativeStackNavigationOptions => {
+  const screenOptions = useCallback((): NativeStackNavigationOptions => {
 
     return {
       headerLeft: () => <GlobalBack />,
@@ -29,11 +30,12 @@ const NavigatorScreen = () => {
 
   return (
     <Navigator screenOptions={screenOptions}>
-      <Screen name="Index" component={TabNavigator} options={{ headerShown: false }} />
+      <Screen name="Index" component={HomeScreen} options={{ headerShown: false }} />
       <Screen name="Product" component={Product} options={screenProductOptions} />
       <Screen name="CategoryTabs" component={CategoryTabs} options={{ title: '' }} />
       <Screen name="Search" component={Search} options={{ headerShown: false }} />
       <Screen name="SearchList" component={SearchList} options={{ headerShown: false }} />
+      <Screen name="Login" component={LoginScreen} options={{ presentation: 'transparentModal', headerShown: false }} />
     </Navigator>
   )
 }

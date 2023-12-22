@@ -6,11 +6,11 @@ import { convertProduct } from "@/utils/convert";
 import { CACHE_KEY_HOME } from "@/constants";
 import { useRequest } from "@/hooks";
 import { HOME, PRODUCT } from "@/services";
+import { HomeScreenProps } from "@/typings/screen";
 import Carousel from "./components/Carousel";
 import Nav from './components/Nav';
 import Recommend from "./components/Recommend";
 import Floor from "./components/Floor";
-import { HomeScreenProps } from "@/typings/screen";
 
 const Home = ({ navigation }: HomeScreenProps) => {
   const [state] = useRequest<API.Home>(HOME.index, {
@@ -30,7 +30,7 @@ const Home = ({ navigation }: HomeScreenProps) => {
   return (
     <SafeAreaView style={styles.container}>
       <SearchBar onPress={() => navigation.navigate('Search')} />
-      <Link to={{ screen: 'Product', params: { id: '98400' } }}>98400</Link>
+      {/* <Link to={{ screen: 'Login', params: { id: '98400' } }}>98400</Link> */}
       <ScrollView style={styles.main}>
         <Carousel banners={data?.banners} />
         <View style={styles.section}>

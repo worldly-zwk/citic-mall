@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://castatic.fengkongcloud.com/pr/v1.0.4/smcp.min.js"></script>
+  <style>
+    .shumei_captcha_mask{
+      background: transparent!important;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script>
+    initSMCaptcha({
+      organization: 'RlokQwRlVjUrTUlkIqOg',
+      product: 'popup',
+      maskBindClose: false,
+      width: 300,
+      https: true,
+      appendTo:'#root'
+    }, function(SMCaptcha) {
+      SMCaptcha.onSuccess(function(data){
+        window.ReactNativeWebView.postMessage(JSON.stringify({ type: 'success', payload: data }));
+      });
+
+      SMCaptcha.onReady(function(ele, param) {
+        window.ReactNativeWebView.postMessage(JSON.stringify({ type: 'ready', payload: param }));
+        if (param.type === 'init') {
+          SMCaptcha.verify();
+        }
+      });
+
+      SMCaptcha.onClose(function() {
+        window.ReactNativeWebView.postMessage(JSON.stringify({ type: 'close' }));
+      });
+    })
+  </script>
+</body>
+</html>

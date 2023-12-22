@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   label: {
-    marginBottom: 8,
+    marginBottom: 6,
   },
   horizontalLabel: {
     marginBottom: 0,

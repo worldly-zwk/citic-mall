@@ -1,3 +1,4 @@
+import { CHANNEL } from "@/constants";
 import { baseUrl } from "@/services";
 
 interface RequsetOptions<P> extends RequestInit {
@@ -29,11 +30,22 @@ function fetchWithParams<P>(options: RequsetOptions<P>): string {
   return url;
 }
 
+function fetchWithGlobalHeader<P>(options: RequsetOptions<P>) {
+  const headers = new Headers(options.headers);
+  headers.set('X-Cmall-Channel', CHANNEL);
+  headers.set('Content-Type', 'application/json;charset=UTF-8');
+  if (options.requestType === 'formdata') {
+    headers.set('Content-Type', 'application/x-www-form-urlencoded');
+  }
+  return headers;
+}
+
 function makeFetchBody<P>(options: RequsetOptions<P>): RequestInit['body'] {
   const { method, requestType = 'json' } = options;
-
-  if (requestType === 'json') {
-
+  if (options.data && method?.toLocaleUpperCase() === 'POST') {
+    if (requestType === 'json') {
+      return JSON.stringify(options.data);
+    }
   }
 
   return;
@@ -42,7 +54,8 @@ function makeFetchBody<P>(options: RequsetOptions<P>): RequestInit['body'] {
 function makeFetchOptions<P>(options: RequsetOptions<P>): RequestInit {
   const { requestType = 'json', ...restOptions } = options;
   const fetchInit: RequestInit = { ...restOptions };
-
+  
+  fetchInit.headers = fetchWithGlobalHeader(options);
   fetchInit.body = makeFetchBody(options);
 
   return fetchInit;

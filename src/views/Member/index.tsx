@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
 import { StyleSheet, ScrollView, View } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import GridProductList from '@/components/GridProductList';
 import { useRequest } from '@/hooks';
 import { PRODUCT } from '@/services';
@@ -9,10 +8,14 @@ import Header from './Header';
 import Card from './Card';
 import Icon from './Icon';
 import Divider from './Divider';
+import { useMember } from '@/store';
 
 const Member = () => {
-  const navigation = useNavigation();
   const [state] = useRequest(PRODUCT.top);
+  const login = useMember(state => state.login);
+  const member = useMember(state => state.member);
+
+  // console.log(memberStore);
 
   const items = useMemo(() => {
     if (Array.isArray(state.data?.productList)) {
@@ -24,7 +27,7 @@ const Member = () => {
 
   return (
     <ScrollView style={styles.container}>
-      <Header />
+      <Header member={member} login={login} />
       <View style={styles.main}>
         <Card title="我的订单">
           <Icon label="待付款" image={require('@/assets/images/icons/folder.png')} />

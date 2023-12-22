@@ -1,22 +1,27 @@
+import { useMemo } from 'react';
 import { Image, ImageBackground, ImageSourcePropType, StyleSheet, View, ViewProps } from 'react-native';
 import Typography from '@/components/Typography';
-import { useMemo } from 'react';
+import Link from '@/components/Link';
 
 interface CardProps extends ViewProps {
-  userInfo?: any;
+  login?: boolean;
+  member?: API.Member | null;
 }
 
-const Header = ({ userInfo }: CardProps) => {
-  const avatar = useMemo(() => {
+const Header = ({ login, member }: CardProps) => {
+  const avatar = useMemo<ImageSourcePropType>(() => {
+    if (member?.headPortrait) {
+      return { uri: member?.headPortrait }
+    }
     return require('@/assets/images/view/default_avatar.png');
-  }, []);
+  }, [member?.headPortrait]);
 
   return (
     <ImageBackground style={styles.container} source={require('@/assets/images/view/user_mask.png')} resizeMode="stretch">
-      <View style={styles.info}>
+      <Link style={styles.info} disabled={login} to={{ screen: 'Login', params: { screen: 'Index' } }}>
         <Image style={styles.avatar} source={avatar} />
-        <Typography.Text style={styles.name} size="large">登录/注册</Typography.Text>
-      </View>
+        <Typography.Text style={styles.name} size="large">{member?.nickname || '登录/注册'}</Typography.Text>
+      </Link>
       <View style={styles.actions}>
         <Image style={styles.icon} source={require('@/assets/images/icons/setting.png')} />
         <Image style={styles.icon} source={require('@/assets/images/icons/message-white.png')} />

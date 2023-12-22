@@ -2,16 +2,18 @@ import { useNavigation } from '@react-navigation/native';
 import { Image, ImageStyle, StyleProp, StyleSheet, TouchableOpacity } from 'react-native';
 
 interface GlobalBackProps {
+  icon?: 'arrow' | 'closed';
   style?: StyleProp<ImageStyle>;
-  onPressBack?: () => void;
+  onPress?: () => void;
 }
 
-const GlobalBack = ({ style, onPressBack }: GlobalBackProps) => {
+const GlobalBack = ({ icon = 'arrow', style, onPress }: GlobalBackProps) => {
   const navigation = useNavigation();
+  const source = icon === 'arrow' ? require('@/assets/images/icons/back.png') : require('@/assets/images/icons/closed.png');
 
   return (
-    <TouchableOpacity onPress={onPressBack || navigation.goBack}>
-      <Image style={[styles.icon, style]} source={require('@/assets/images/icons/back.png')} />
+    <TouchableOpacity onPress={onPress || navigation.goBack}>
+      <Image style={[styles.icon, style]} source={source} />
     </TouchableOpacity>
   )
 }
