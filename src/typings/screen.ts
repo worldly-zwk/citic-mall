@@ -1,5 +1,6 @@
-import { NavigatorScreenParams } from '@react-navigation/native';
+import { NavigatorScreenParams, CompositeScreenProps } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 
 export enum SearchTypeEnum {
   PRODUCT,
@@ -20,6 +21,7 @@ export type RootStackParamList = {
     type: SearchTypeEnum;
   };
   Login: NavigatorScreenParams<LoginStackParamList>;
+  Settings: undefined;
 }
 
 export  type RootTabParamList = {
@@ -37,12 +39,16 @@ export  type LoginStackParamList = {
   };
 };
 
-export type HomeScreenProps = NativeStackScreenProps<RootStackParamList>;
-export type CategoryScreenProps = NativeStackScreenProps<RootStackParamList>;
+
+export type IndexScreenProps = NativeStackScreenProps<RootStackParamList, 'Index'>;
+export type HomeScreenProps = CompositeScreenProps<BottomTabScreenProps<RootTabParamList, 'Home'>, IndexScreenProps>;
+export type CategoryScreenProps = CompositeScreenProps<BottomTabScreenProps<RootTabParamList, 'Category'>, IndexScreenProps>;
+export type MemberScreenProps = CompositeScreenProps<BottomTabScreenProps<RootTabParamList, 'Member'>, IndexScreenProps>;
 export type SearchScreenProps = NativeStackScreenProps<RootStackParamList, 'Search'>;
 export type ProductScreenProps = NativeStackScreenProps<RootStackParamList, 'Product'>;
 export type SearchListScreenProps = NativeStackScreenProps<RootStackParamList, 'SearchList'>;
 export type CategoryTabsScreenProps = NativeStackScreenProps<RootStackParamList, 'CategoryTabs'>;
 export type LoginScreenProps = NativeStackScreenProps<LoginStackParamList, 'Index'>;
 export type SMSCodeScreenProps = NativeStackScreenProps<LoginStackParamList, 'SMSCode'>;
+export type SettingsScreenProps = NativeStackScreenProps<RootStackParamList, 'Settings'>;
 

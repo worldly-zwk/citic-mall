@@ -16,8 +16,8 @@ const Section = ({ title, items, onPressCapsule }: SearchSectionProps) => {
           <Typography.Text style={styles.title}>{title}</Typography.Text>
         </View>
         <View style={styles.main}>
-          {items?.map(text => (
-            <TouchableWithoutFeedback key={text} onPress={() => onPressCapsule?.(text)}>
+          {items?.map((text, index) => (
+            <TouchableWithoutFeedback key={`${text}_${index}`} onPress={() => onPressCapsule?.(text)}>
               <View style={styles.capsule}>
                 <Typography.Text size="small">{text}</Typography.Text>
               </View>

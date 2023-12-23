@@ -1,16 +1,11 @@
 import { useCallback } from 'react';
 import { GestureResponderEvent, TouchableWithoutFeedback, View, ViewProps } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { NavigatorScreenParams, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@/typings/screen';
 
-type RootStackParamKeys = keyof RootStackParamList;
-
-interface LinkProps<Screen extends RootStackParamKeys = RootStackParamKeys> extends ViewProps{
-  to?: {
-    readonly screen: Screen;
-    params: RootStackParamList[Screen];
-  },
+interface LinkProps extends ViewProps{
+  to?: NavigatorScreenParams<RootStackParamList>;
   onPress?: (event: GestureResponderEvent) => void;
   disabled?: boolean;
 }
