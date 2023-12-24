@@ -23,17 +23,19 @@ const Header = ({ member }: CardProps) => {
       <Link style={styles.info}>
         <Image style={styles.avatar} source={avatar} />
         <Typography.Text style={styles.name} size="large">{member?.nickname || '登录/注册'}</Typography.Text>
-        <LinearGradient style={styles.tag} colors={['#fff9f0', '#fff2e5']}>
-          <Image style={styles.tagIcon} source={memberIcon} />
-          {member?.authStaff === 1 ? (
-            <View>
-              <Typography.Text size="small" primary>中信员工</Typography.Text>
-              <Typography.Text size="mini" primary>尊享内购权益</Typography.Text>
-            </View>
-          ) : (
-            <Typography.Text size="small" primary>易家员工</Typography.Text>
-          )}
-        </LinearGradient>
+        {member && (
+          <LinearGradient style={styles.tag} colors={['#fff9f0', '#fff2e5']}>
+            <Image style={styles.tagIcon} source={memberIcon} />
+            {member?.authStaff === 1 ? (
+              <View>
+                <Typography.Text size="small" primary>中信员工</Typography.Text>
+                <Typography.Text size="mini" primary>尊享内购权益</Typography.Text>
+              </View>
+            ) : (
+              <Typography.Text size="small" primary>易家员工</Typography.Text>
+            )}
+          </LinearGradient>
+        )}
       </Link>
       <View style={styles.actions}>
         <Link to={{ screen: 'Settings' }}>

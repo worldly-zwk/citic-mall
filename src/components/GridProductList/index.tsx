@@ -1,9 +1,10 @@
 import { Image, StyleSheet, View, ViewProps } from 'react-native';
 import { ProductItem } from '@/typings';
 import Typography from '../Typography';
+import Link from '../Link';
 
 interface GridProductListProps extends ViewProps {
-  items: ProductItem[];
+  items?: ProductItem[];
 }
 
 
@@ -11,13 +12,13 @@ const GridProductList = ({ items, style, ...restProps }: GridProductListProps) =
   return (
     <View {...restProps} style={[styles.container, style]}>
       {items?.map(({ id, name, price, image }) => (
-        <View style={styles.item} key={id}>
+        <Link style={styles.item} key={id} to={{ screen: 'Product', params: { id } }}>
           <Image style={styles.image} source={{ uri: image }} />
           <Typography style={styles.content}>
             <Typography.Text style={styles.name} numberOfLines={2} lineBreakMode="tail">{name}</Typography.Text>
             <Typography.Text size="large" primary>¥{price}</Typography.Text>
           </Typography>
-        </View>
+        </Link>
       ))}
     </View>
   )

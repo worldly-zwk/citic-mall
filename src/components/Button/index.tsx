@@ -1,10 +1,14 @@
-import { PropsWithChildren, useMemo } from 'react';
+import { PropsWithChildren, useCallback, useMemo } from 'react';
 import { GestureResponderEvent, StyleProp, StyleSheet, TouchableWithoutFeedback, ViewStyle } from 'react-native';
+import { NavigatorScreenParams, useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import LinearGradient from 'react-native-linear-gradient';
+import { RootStackParamList } from '@/typings/screen';
 import Typography from '../Typography';
 import ButtonGroup from './Group';
 
 interface ButtonProps extends PropsWithChildren {
+  to?: NavigatorScreenParams<RootStackParamList>;
   size?: 'small' | 'large';
   round?: boolean;
   style?: StyleProp<ViewStyle>;
@@ -14,7 +18,8 @@ interface ButtonProps extends PropsWithChildren {
 }
 
 const Button = (props: ButtonProps) => {
-  const { size = 'large', round, style, disabled, color = ['#ffaf31', '#ff8400'], onPress, children } = props;
+  const { to, size = 'large', round, style, disabled, color = ['#ffaf31', '#ff8400'], onPress, children } = props;
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   const buttonStyle = useMemo(() => {
     const items: StyleProp<ViewStyle> = [styles.button];
@@ -34,9 +39,19 @@ const Button = (props: ButtonProps) => {
     return StyleSheet.compose(items, style);
   }, [size, style, round, disabled]);
 
+  const handlePress = useCallback((e: GestureResponderEvent) => {
+    if (!disabled) {
+      if (to) {
+        const { screen, params } = to;
+        navigation.navigate(screen as any, params);
+      }
+      onPress?.(e);
+    }
+  }, [onPress, disabled, to]);
+
 
   return (
-    <TouchableWithoutFeedback onPress={disabled ? undefined : onPress}>
+    <TouchableWithoutFeedback onPress={handlePress}>
       <LinearGradient colors={color} end={{ x: 1, y: 0 }} style={buttonStyle}>
         <Typography.Text style={styles.text} size={size}>{children}</Typography.Text>
       </LinearGradient>
@@ -48,6 +63,7 @@ const styles = StyleSheet.create({
   button: {
     padding: 9,
     borderRadius: 2,
+    textAlign: 'center',
     alignItems: 'center',
   },
   small: {

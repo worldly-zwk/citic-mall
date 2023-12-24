@@ -27,12 +27,10 @@ const Login = ({ route, navigation }: LoginScreenProps) => {
     if (info.pass) {
       const token = `${LOGIN_APP_KEY}:${Date.now()}:${Math.random()}`;
       request.get(`${SSO.sms}/${state.phone}/${state.type}`, {
-        params: {
-          token,
-          scene: LOGIN_SCENE,
-          session: info.rid,
-          checkChannel: LOGIN_CHECK_CHANNEL,
-        }
+        token,
+        scene: LOGIN_SCENE,
+        session: info.rid,
+        checkChannel: LOGIN_CHECK_CHANNEL,
       }).then(() => {
         navigation.navigate('SMSCode', { phone: state.phone, session: info.rid });
       });

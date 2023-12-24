@@ -10,6 +10,7 @@ import SearchList from '@/views/SearchList';
 import Settings from '@/views/Settings';
 import HomeScreen from './Home';
 import LoginScreen from './Login';
+import Order from '@/views/Order';
 
 const { Navigator, Screen } = createNativeStackNavigator<RootStackParamList>();
 
@@ -38,6 +39,7 @@ const NavigatorScreen = () => {
       <Screen name="SearchList" component={SearchList} options={{ headerShown: false }} />
       <Screen name="Login" component={LoginScreen} options={{ presentation: 'transparentModal', headerShown: false }} />
       <Screen name="Settings" component={Settings} options={{ title: '设置' }} />
+      <Screen name="Order" component={Order} options={{ title: '订单' }} />
     </Navigator>
   )
 }

@@ -16,11 +16,9 @@ const ProductList = ({ id, isActive, setTitle }: ProductListProps) => {
   const isActivatedRef = useRef(false);
   const [state, actions] = useInfiniteScroll(async (index: number) => {
     const result = await request.get<API.CatalogProductList>(`${PRODUCT.catalog}/${id}`, {
-      params: {
-        self: 0,
-        store: 1,
-        pageIndex: index
-      }
+      self: 0,
+      store: 1,
+      pageIndex: index
     });
     setTitle?.(result.heardTitle);
     return {

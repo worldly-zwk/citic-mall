@@ -1,3 +1,5 @@
+export * from './screen';
+
 export interface ProductItem {
   id: string;
   name: string;
@@ -16,4 +18,13 @@ export interface SideBar {
 export enum LoginTypeEnum {
   CODE = 1,
   PASSWORD = 2,
+}
+
+export enum OrderModel {
+  ORDINARY = 'ordinary',
+}
+
+export enum AddCartMode {
+  ADD,
+  BUY,
 }

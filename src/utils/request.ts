@@ -16,10 +16,10 @@ interface RequsetResponse<T = any> {
 }
 
 function fetchWithParams<P>(options: RequsetOptions<P>): string {
-  const { url, method, params } = options;
+  const { url, params } = options;
   const [pathname] = url.split('?');
 
-  if (method === 'GET' && params) {
+  if (params) {
     const searchParams = new URLSearchParams(url);
     Object.entries<string>(params).forEach(([key, value]) => {
       searchParams.append(key, value);
@@ -79,8 +79,20 @@ async function request<T, P extends RecordAny = any>(options: RequsetOptions<P>)
   return Promise.reject(result);
 }
 
-request.get = function<T, P = any>(url: string, options?: Omit<RequsetOptions<P>, 'url'>) {
-  return request<T>({ ...options, url, method: 'GET' });
+request.get = function<T, P = any>(url: string, params?: P, options?: Omit<RequsetOptions<P>, 'url'>) {
+  return request<T>({ url, method: 'GET', params, ...options });
+}
+
+request.post = function<T, P = any>(url: string, data?: P, options?: Omit<RequsetOptions<P>, 'url'>) {
+  return request<T>({ url, method: 'POST', data, ...options });
+}
+
+request.put = function<T, P = any>(url: string, data?: P, options?: Omit<RequsetOptions<P>, 'url'>) {
+  return request<T>({ url, method: 'PUT', data, ...options });
+}
+
+request.delete = function<T, P = any>(url: string, params?: P, options?: Omit<RequsetOptions<P>, 'url'>) {
+  return request<T>({ url, method: 'DELETE', params, ...options });
 }
 
 export default request;

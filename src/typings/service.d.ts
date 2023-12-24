@@ -66,7 +66,7 @@ declare namespace API {
   }
 
   interface Product {
-    id: string;
+    id: number;
     name1: string;
     name2: string;
     masterImg: string;
@@ -175,5 +175,49 @@ declare namespace API {
     name: string;
     nickname: string;
     trueName: string;
+  }
+
+  interface Cart {
+    disMoney: number;
+    moneyPay: number;
+    selected: boolean;
+    selectedCount: boolean;
+    sellerCartList: SellerCart[];
+    totalCheckedNmber: number;
+    abroadSelectedCount: number;
+  }
+
+  interface SellerCart {
+    sellerId: number;
+    sellerName: string;
+    selected: boolean;
+    coupon: boolean;
+    ordinaryCart: {
+      productList: ProductCart[];
+    };
+  }
+
+  interface ProductCart {
+    cartId: number;
+    image: string;
+    money: number;
+    state: number;
+    number: number;
+    minimal: number;
+    maximum: number;
+    abroad: boolean;
+    selected: boolean;
+    specification: string;
+    productId: number;
+    productName: string;
+    productStock: number;
+    productGoodsId: number;
+  }
+
+  interface AddCartParams {
+    count: number;
+    isBuyNow: number;
+    productId: number;
+    productGoodsId: number;
   }
 }

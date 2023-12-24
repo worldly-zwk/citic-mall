@@ -10,7 +10,7 @@ export enum SearchTypeEnum {
 export type RootStackParamList = {
   Index: NavigatorScreenParams<RootTabParamList>,
   Product: {
-    id: string;
+    id: number;
   },
   CategoryTabs: {
     id: string;
@@ -22,6 +22,7 @@ export type RootStackParamList = {
   };
   Login: NavigatorScreenParams<LoginStackParamList>;
   Settings: undefined;
+  Order: undefined;
 }
 
 export  type RootTabParamList = {
@@ -43,6 +44,7 @@ export  type LoginStackParamList = {
 export type IndexScreenProps = NativeStackScreenProps<RootStackParamList, 'Index'>;
 export type HomeScreenProps = CompositeScreenProps<BottomTabScreenProps<RootTabParamList, 'Home'>, IndexScreenProps>;
 export type CategoryScreenProps = CompositeScreenProps<BottomTabScreenProps<RootTabParamList, 'Category'>, IndexScreenProps>;
+export type CartScreenProps = CompositeScreenProps<BottomTabScreenProps<RootTabParamList, 'Cart'>, IndexScreenProps>;
 export type MemberScreenProps = CompositeScreenProps<BottomTabScreenProps<RootTabParamList, 'Member'>, IndexScreenProps>;
 export type SearchScreenProps = NativeStackScreenProps<RootStackParamList, 'Search'>;
 export type ProductScreenProps = NativeStackScreenProps<RootStackParamList, 'Product'>;
@@ -51,4 +53,5 @@ export type CategoryTabsScreenProps = NativeStackScreenProps<RootStackParamList,
 export type LoginScreenProps = NativeStackScreenProps<LoginStackParamList, 'Index'>;
 export type SMSCodeScreenProps = NativeStackScreenProps<LoginStackParamList, 'SMSCode'>;
 export type SettingsScreenProps = NativeStackScreenProps<RootStackParamList, 'Settings'>;
+export type OrderScreenProps = NativeStackScreenProps<RootStackParamList, 'Order'>;
 

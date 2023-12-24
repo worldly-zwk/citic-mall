@@ -1,18 +1,64 @@
+import { useCallback } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import NotFound from './NotFound';
 import Notice from '@/components/Notice';
+import Button from '@/components/Button';
+import { OrderModel, CartScreenProps } from '@/typings';
+import { useRequest } from '@/hooks';
+import { PRODUCT } from '@/services';
+import { convertProduct } from '@/utils/convert';
+import GridProductList from '@/components/GridProductList';
+import { useCart, useMember } from '@/store';
+import { useFocusEffect } from '@react-navigation/native';
+import CartContent from './components/CartContent';
+import ToolBar from './components/ToolBar';
 
-const Cart = () => {
-  const navigation = useNavigation();
+const Cart = ({ navigation }: CartScreenProps) => {
+  const fetch = useCart(state => state.fetch);
+  const check = useCart(state => state.check);
+  const login = useMember(state => state.login);
+  const [suggestState] = useRequest(PRODUCT.recommends, {
+    defaultParams: {
+      position: 3
+    },
+    formatResult: ({ productList }: API.MemberRecommend) => {
+      if (Array.isArray(productList)) {
+        return productList.map(convertProduct);
+      }
+      return [];
+    }
+  });
+
+  const handleFinish = useCallback(() => {
+    check(OrderModel.ORDINARY).then(success => {
+      if (success) {
+        navigation.navigate('Order');
+      }
+    });
+  }, [check]);
+
+  useFocusEffect(useCallback(() => {
+    fetch();
+  }, []));
 
   return (
     <View style={styles.container}>
-      <Notice>登录后可同步电脑和手机购物车中的商品</Notice>
+      {!login && (
+        <Notice
+          extra={(
+            <Button
+              round
+              size="small"
+              style={{ width: 50 }}
+              to={{ screen: 'Login', params: { screen: 'Index' } }}
+            >登录</Button>
+          )}
+        >登录后可同步电脑和手机购物车中的商品</Notice>
+      )}
       <ScrollView style={styles.main}>
-        <NotFound />
+        <CartContent />
+        <GridProductList style={styles.card} items={suggestState.data} />
       </ScrollView>
-      <View style={styles.toolBar}></View>
+      <ToolBar onFinish={handleFinish} />
     </View>
   )
 }
@@ -30,17 +76,6 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     backgroundColor: '#fff'
   },
-  empty: {
-    paddingTop: 30,
-    paddingBottom: 30,
-  },
-  stroll: {
-    width: 105,
-  },
-  toolBar: {
-    height: 49,
-    backgroundColor: '#fff',
-  }
 })
 
 export default Cart;

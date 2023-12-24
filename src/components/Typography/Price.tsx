@@ -21,7 +21,7 @@ interface TypographyPriceProps extends TextProps {
 }
 
 const TypographyPrice = (props: TypographyPriceProps) => {
-  const { size = 'middle', children } = props;
+  const { size = 'middle', style, children } = props;
 
   const unitStyles = useMemo(() => {
     return {
@@ -39,7 +39,7 @@ const TypographyPrice = (props: TypographyPriceProps) => {
   }, [size]);
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, style]}>
       <TypographyText style={unitStyles} size="mini" strong primary>¥</TypographyText>
       <TypographyText style={textStyles} strong primary>{children}</TypographyText>
     </View>

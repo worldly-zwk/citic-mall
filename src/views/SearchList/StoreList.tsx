@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import { FlatList, Image, ListRenderItemInfo, StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import Space from '@/components/Space';
 import Typography from '@/components/Typography';
@@ -7,6 +7,7 @@ import { PRODUCT } from '@/services';
 import request from '@/utils/request';
 import { useNavigation } from '@react-navigation/native';
 import { SearchListScreenProps } from '@/typings/screen';
+import Link from '@/components/Link';
 
 interface StoreListProps {
   sort?: number;
@@ -18,11 +19,9 @@ const StoreList = (props: StoreListProps) => {
   const navigation = useNavigation<SearchListScreenProps['navigation']>();
   const [state, actions] = useInfiniteScroll(async (index: number) => {
     const result = await request.get<API.Store[]>(PRODUCT.sellerlist, {
-      params: {
-        sort,
-        keyword,
-        pageIndex: index
-      }
+      sort,
+      keyword,
+      pageIndex: index
     });
     return {
       data: result || [],
@@ -34,32 +33,28 @@ const StoreList = (props: StoreListProps) => {
 
   const renderItem = useCallback(({ item }: ListRenderItemInfo<API.Store>) => {
     return (
-      <TouchableWithoutFeedback key={item.id}>
-        <View style={styles.item}>
-          <Space size={12}>
-            <Image style={styles.logo} source={{ uri: item.sellerLogo }} />
-            <View style={styles.content}>
-              <Image style={styles.tag} source={require('@/assets/images/tag/store.png')} />
-              <Typography.Text>{item.sellerName}</Typography.Text>
-              <Typography.Text size="small" type="disabled">共{item.productNumber}件商品</Typography.Text>
-            </View>
+      <Link style={styles.item} key={item.id}>
+        <Space size={12}>
+          <Image style={styles.logo} source={{ uri: item.sellerLogo }} />
+          <View style={styles.content}>
+            <Image style={styles.tag} source={require('@/assets/images/tag/store.png')} />
+            <Typography.Text>{item.sellerName}</Typography.Text>
+            <Typography.Text size="small" type="disabled">共{item.productNumber}件商品</Typography.Text>
+          </View>
+        </Space>
+        {!!item.productList.length && (
+          <Space size={10} style={{ marginTop: 12 }}>
+            {item.productList?.map(info => (
+              <Link style={styles.wares} to={{ screen: 'Product', params: { id: info.id } }}>
+                <Image style={styles.waresImage} source={{ uri: info.masterImg }} />
+                <View style={styles.waresPrice}>
+                  <Typography.Text primary>¥{info.mallPcPrice}</Typography.Text>
+                </View>
+              </Link>
+            ))}
           </Space>
-          {!!item.productList.length && (
-            <Space size={10} style={{ marginTop: 12 }}>
-              {item.productList?.map(info => (
-                <TouchableWithoutFeedback key={info.id} onPress={() => navigation.navigate('Product', { id: info.id })}>
-                  <View style={styles.wares}>
-                    <Image style={styles.waresImage} source={{ uri: info.masterImg }} />
-                    <View style={styles.waresPrice}>
-                      <Typography.Text primary>¥{info.mallPcPrice}</Typography.Text>
-                    </View>
-                  </View>
-                </TouchableWithoutFeedback>
-              ))}
-            </Space>
-          )}
-        </View>
-      </TouchableWithoutFeedback>
+        )}
+      </Link>
     )
   }, []);
 

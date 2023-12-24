@@ -12,11 +12,9 @@ const List = (props: ListProps) => {
   const { sort, keyword } = props;
   const [state, actions] = useInfiniteScroll(async (index: number) => {
     const result = await request.get<API.CatalogProductList>(PRODUCT.list, {
-      params: {
-        sort,
-        keyword,
-        pageIndex: index
-      }
+      sort,
+      keyword,
+      pageIndex: index
     });
     return {
       data: result.productList || [],

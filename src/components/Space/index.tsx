@@ -9,7 +9,7 @@ interface SpaceProps extends PropsWithChildren {
 }
 
 const Space = (props: SpaceProps) => {
-  const { size, wrap, align, style, children } = props;
+  const { size, wrap, align, style, children, ...restProps } = props;
   const flexStyle: ViewStyle = {
     gap: size,
     alignItems: align,
@@ -17,7 +17,7 @@ const Space = (props: SpaceProps) => {
   }
 
   return (
-    <View style={[styles.container, flexStyle, style]}>
+    <View style={[styles.container, flexStyle, style]} {...restProps}>
       {children}
     </View>
   )

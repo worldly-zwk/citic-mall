@@ -37,7 +37,7 @@ function useControllableValue<T = any>(props: Props, options: Options<T> = {}) {
   }, []);
 
   const update = useUpdate();
-  const stateRef = useRef(initialValue);
+  const stateRef = useRef<T>(initialValue);
   
   if (isControlled) {
     stateRef.current = value;

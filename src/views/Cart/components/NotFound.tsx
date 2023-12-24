@@ -1,23 +1,8 @@
-import { useMemo } from "react";
 import { StyleSheet, View } from "react-native";
 import Button from "@/components/Button";
 import Empty from "@/components/Empty";
-import GridProductList from "@/components/GridProductList";
-import { useRequest } from "@/hooks";
-import { PRODUCT } from "@/services";
-import { convertProduct } from "@/utils/convert";
 
 const CartNotFound = () => {
-  const [state] = useRequest(`${PRODUCT.recommends}?position=1`);
-
-  const recommends = useMemo(() => {
-    if (Array.isArray(state.data?.productList)) {
-      return state.data?.productList.map(convertProduct);
-    }
-
-    return [];
-  }, [state.data]);
-
   return (
     <>
       <View style={styles.card}>
@@ -30,7 +15,6 @@ const CartNotFound = () => {
           <Button style={styles.stroll}>去逛逛</Button>
         </Empty>
       </View>
-      <GridProductList style={styles.card} items={recommends} />
     </>
   )
 }
@@ -48,10 +32,6 @@ const styles = StyleSheet.create({
   stroll: {
     width: 105,
   },
-  toolBar: {
-    height: 49,
-    backgroundColor: '#fff',
-  }
 })
 
 export default CartNotFound;
