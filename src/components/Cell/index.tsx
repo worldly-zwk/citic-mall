@@ -1,35 +1,38 @@
-import { Image, ImageSourcePropType, StyleSheet, View, ViewProps } from 'react-native';
+import { ImageSourcePropType, StyleSheet, TextStyle, View, ViewProps, ViewStyle } from 'react-native';
 import { NavigatorScreenParams } from '@react-navigation/native';
 import { RootStackParamList } from '@/typings/screen';
 import Typography from '../Typography';
 import CellGroup from './CellGroup';
 import Link from '../Link';
+import Icon from '../Icon';
 
 interface CellProps extends ViewProps {
   label: string;
+  labelStyle?: TextStyle;
   prefix?: ImageSourcePropType;
   isLink?: boolean;
-  to?: NavigatorScreenParams<RootStackParamList>
+  to?: NavigatorScreenParams<RootStackParamList>;
+  contentStyle?: ViewStyle;
 }
 
 const Cell = (props: CellProps) => {
-  const { to, label, style, prefix, isLink, children, ...restProps } = props;
+  const { to, label, labelStyle, style, prefix, isLink, children, contentStyle, ...restProps } = props;
 
   return (
     <Link style={[styles.container, style]} to={to}>
       {prefix && (
-        <Image style={styles.icon} source={prefix} />
+        <Icon icon={prefix} />
       )}
       <View style={styles.cell} {...restProps}>
         <View style={styles.label}>
-          <Typography.Text>{label}</Typography.Text>
+          <Typography.Text style={labelStyle}>{label}</Typography.Text>
         </View>
-        <View style={styles.content}>
+        <View style={[styles.content, contentStyle]}>
           {children}
         </View>
       </View>
       {isLink && (
-        <Image style={styles.icon} source={require('@/assets/images/icons/arrow.png')} />
+        <Icon icon="arrow" />
       )}
     </Link>
   )
@@ -48,15 +51,13 @@ const styles = StyleSheet.create({
     rowGap: 12,
     flexDirection: 'row',
   },
-  icon: {
-    width: 16,
-    height: 16,
-  },
   label: {
     paddingVertical: 2,
   },
   content: {
     flex: 1,
+    alignContent: 'flex-end',
+    justifyContent: 'center',
   },
 });
 

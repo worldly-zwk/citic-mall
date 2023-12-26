@@ -220,4 +220,64 @@ declare namespace API {
     productId: number;
     productGoodsId: number;
   }
+
+  interface Address {
+    id: number;
+    state: number;
+    addAll: string;
+    addressInfo: string;
+    memberName: string;
+    mobile: string;
+    regionsVersion: string;
+  }
+
+  interface Order {
+    addressVO?: Address;
+    couponPlatformVOS: any[];
+    crossBorderModel: number;
+    einvoice: number;
+    flashDis: number;
+    fullDis: number;
+    invoice: number;
+    message: string;
+    mgmIntegral: number;
+    moneyLogistics: number;
+    moneyPay: number;
+    moneyProduct: number;
+    orderModel: string;
+    performerList: any[];
+    productVOList: OrderSeller[];
+    singleDis: number;
+    staffDis: number;
+    status: number;
+    vatInvoice: number;
+    virutalOrderModel: number;
+  }
+
+  interface OrderSeller {
+    sellerId: number;
+    sellerName: string;
+    productList: OrderProduct[];
+  }
+
+  interface OrderProduct {
+    isGift: number;
+    isSevenBack: number;
+    message: string;
+    moneyPrice: number;
+    number: number;
+    pid: number;
+    priceId: string;
+    productGoodsId: number;
+    productId: number;
+    productMasterImage: string;
+    productName: string;
+    specInfo: string;
+    status: number;
+  }
+
+  interface OrderCheck {
+    code: number;
+    message: string;
+  }
 }

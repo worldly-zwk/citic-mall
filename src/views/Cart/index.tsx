@@ -1,14 +1,12 @@
 import { useCallback } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import Notice from '@/components/Notice';
-import Button from '@/components/Button';
+import { useFocusEffect } from '@react-navigation/native';
+import { Notice, Button, GridProductList } from '@/components';
 import { OrderModel, CartScreenProps } from '@/typings';
 import { useRequest } from '@/hooks';
 import { PRODUCT } from '@/services';
 import { convertProduct } from '@/utils/convert';
-import GridProductList from '@/components/GridProductList';
 import { useCart, useMember } from '@/store';
-import { useFocusEffect } from '@react-navigation/native';
 import CartContent from './components/CartContent';
 import ToolBar from './components/ToolBar';
 
@@ -29,9 +27,9 @@ const Cart = ({ navigation }: CartScreenProps) => {
   });
 
   const handleFinish = useCallback(() => {
-    check(OrderModel.ORDINARY).then(success => {
-      if (success) {
-        navigation.navigate('Order');
+    check(OrderModel.ORDINARY).then(({ code }) => {
+      if (code === 1) {
+        navigation.navigate('Order', { model: OrderModel.ORDINARY });
       }
     });
   }, [check]);
@@ -44,6 +42,7 @@ const Cart = ({ navigation }: CartScreenProps) => {
     <View style={styles.container}>
       {!login && (
         <Notice
+          showIcon
           extra={(
             <Button
               round

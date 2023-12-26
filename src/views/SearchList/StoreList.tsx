@@ -39,7 +39,7 @@ const StoreList = (props: StoreListProps) => {
           <View style={styles.content}>
             <Image style={styles.tag} source={require('@/assets/images/tag/store.png')} />
             <Typography.Text>{item.sellerName}</Typography.Text>
-            <Typography.Text size="small" type="disabled">共{item.productNumber}件商品</Typography.Text>
+            <Typography.Text size="small" color="disabled">共{item.productNumber}件商品</Typography.Text>
           </View>
         </Space>
         {!!item.productList.length && (

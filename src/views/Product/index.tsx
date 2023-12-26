@@ -92,9 +92,9 @@ const Product = ({ route, navigation }: ProductScreenProps) => {
     if (success) {
       const check = await actions.check(OrderModel.ORDINARY);
 
-      if (check) {
+      if (check.code === 1) {
         setVisible(false);
-        navigation.navigate('Order');
+        navigation.navigate('Order', { model: OrderModel.ORDINARY });
       }
     }
   }, [curGoodsInfo, count]);
@@ -132,7 +132,7 @@ const Product = ({ route, navigation }: ProductScreenProps) => {
         <SuggestCard data={state.data?.catalogRandomProList} />
         <Introduce data={state.data} richText={descState.data} />
         <View style={styles.bottomLine}>
-          <Typography.Text size="small" type="disabled">已经到底了</Typography.Text>
+          <Typography.Text size="small" color="disabled">已经到底了</Typography.Text>
         </View>
       </ScrollView>
       <ToolBar onSubmit={handleOpenPopup} />
@@ -144,7 +144,7 @@ const Product = ({ route, navigation }: ProductScreenProps) => {
               <Typography.Text primary size="small" strong>¥</Typography.Text>
               <Typography.Title primary>{curGoodsInfo?.mallPcPrice}</Typography.Title>
             </View>
-            <Typography.Text size="small" type="disabled">库存{curGoodsInfo?.productStock}件</Typography.Text>
+            <Typography.Text size="small" color="disabled">库存{curGoodsInfo?.productStock}件</Typography.Text>
           </View>
         </View>
         <ScrollView style={styles.form}>

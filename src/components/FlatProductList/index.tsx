@@ -26,7 +26,7 @@ const FlatProductList = (props: Omit<FlatListProps<API.Product>, 'renderItem'>) 
             )}
             <Typography style={styles.price}>
               <Typography.Price>{item.mallPcPrice}</Typography.Price>
-              <Typography.Text delete type="disabled" size="small">¥{item.marketPrice}</Typography.Text>
+              <Typography.Text delete color="disabled" size="small">¥{item.marketPrice}</Typography.Text>
             </Typography>
           </View>
         </View>
@@ -40,7 +40,7 @@ const FlatProductList = (props: Omit<FlatListProps<API.Product>, 'renderItem'>) 
       style={[styles.container, style]}
       contentContainerStyle={styles.list}
       renderItem={renderItem}
-      keyExtractor={(item) => item.id}
+      keyExtractor={(item) => `${item.id}`}
       onEndReachedThreshold={0.1}
     />
   )

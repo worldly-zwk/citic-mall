@@ -14,7 +14,7 @@ const IconButton = (props: IconButtonProps) => {
     <TouchableWithoutFeedback>
       <View style={[styles.container, style]}>
         <Image style={styles.icon} source={icon} />
-        <Typography.Text size="mini" type="secondary">{children}</Typography.Text>
+        <Typography.Text size="mini" color="secondary">{children}</Typography.Text>
       </View>
     </TouchableWithoutFeedback>
   )

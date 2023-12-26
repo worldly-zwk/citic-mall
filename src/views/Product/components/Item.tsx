@@ -13,7 +13,7 @@ const Item = ({ style, label, contentStyle, onPress, children }: PropsWithChildr
   return (
     <TouchableWithoutFeedback onPress={onPress}>
       <View style={[styles.item, style]}>
-        <Typography.Text style={styles.label} size="small" type="disabled">{label}</Typography.Text>
+        <Typography.Text style={styles.label} size="small" color="disabled">{label}</Typography.Text>
         <View style={[styles.content, contentStyle]}>{children}</View>
         <Image style={styles.arrow} source={require('@/assets/images/icons/arrow.png')} />
       </View>

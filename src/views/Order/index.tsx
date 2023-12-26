@@ -1,10 +1,62 @@
-import { StyleSheet, SafeAreaView, ScrollView } from 'react-native';
+import { useEffect } from 'react';
+import { StyleSheet, SafeAreaView, ScrollView, View, TextInput } from 'react-native';
+import { Cell, Notice, Space, Typography, Button } from '@/components';
+import { useOrder } from '@/store';
 import { OrderScreenProps } from '@/typings/screen';
+import AddressCard from './components/AddressCard';
+import ProductCard from './components/ProductCard';
+import SummaryCard from './components/SummaryCard';
+
+const CellGroup = Cell.Group;
 
 const Order = ({ route, navigation }: OrderScreenProps) => {
+  const { model } = route.params;
+  const orderStore = useOrder();
+
+  useEffect(() => {
+    orderStore.init(model);
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
-      
+      {orderStore.tips && (
+        <Notice closeIcon>订单中含有不支持7天无理由退货的商品，请确认相关商品信息后提交订单</Notice>
+      )}
+      <ScrollView style={styles.main} contentContainerStyle={{ rowGap: 12 }}>
+        <AddressCard />
+        <ProductCard />
+        <View style={styles.form}>
+          <CellGroup>
+            <Cell label="支付方式" labelStyle={styles.label}>
+              <Typography.Text align="right">在线支付</Typography.Text>
+            </Cell>
+            <Cell label="发票信息" labelStyle={styles.label} isLink>
+              <Typography.Text align="right">不开发票</Typography.Text>
+            </Cell>
+          </CellGroup>
+          <CellGroup>
+            <Cell label="优惠券" labelStyle={styles.label} isLink>
+              <Typography.Text align="right">无可用</Typography.Text>
+            </Cell>
+            <Cell label="红包" labelStyle={styles.label} isLink>
+              <Typography.Text align="right">无可用</Typography.Text>
+            </Cell>
+          </CellGroup>
+          <CellGroup>
+            <Cell label="备注" labelStyle={styles.label}>
+              <TextInput style={styles.remark} placeholder="可以对该订单进行备注哦～" placeholderTextColor="#999" />
+            </Cell>
+          </CellGroup>
+          <SummaryCard />
+        </View>
+      </ScrollView>
+      <View style={styles.toolbar}>
+        <Space align="flex-end">
+          <Typography.Text size="large">实付款：</Typography.Text>
+          <Typography.Price style={{ marginBottom: 2 }}>{orderStore.order?.moneyPay.toFixed(2)}</Typography.Price>
+        </Space>
+        <Button style={styles.submit}>提交订单</Button>
+      </View>
     </SafeAreaView>
   )
 }
@@ -12,15 +64,41 @@ const Order = ({ route, navigation }: OrderScreenProps) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
   },
   main: {
-    rowGap: 12,
+    flex: 1,
     padding: 12,
+    backgroundColor: '#f5f6fa',
   },
-  logout: {
+  label: {
+    color: '#666'
+  },
+  form: {
+    rowGap: 12,
+  },
+  cellContent: {
+    flex: 1,
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+  },
+  remark: {
+    color: '#333',
+    fontSize: 14,
+    lineHeight: 16,
+    paddingLeft: 12,
+  },
+  toolbar: {
+    height: 49,
+    paddingLeft: 12,
     alignItems: 'center',
-    paddingVertical: 13.5
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    backgroundColor: '#fff',
+  },
+  submit: {
+    width: 105,
+    margin: 4,
   }
 })
 

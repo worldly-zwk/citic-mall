@@ -1,5 +1,6 @@
-import { CHANNEL } from "@/constants";
-import { baseUrl } from "@/services";
+import Toast from 'react-native-root-toast';
+import { CHANNEL } from '@/constants';
+import { baseUrl } from '@/services';
 
 interface RequsetOptions<P> extends RequestInit {
   url: string;
@@ -10,6 +11,7 @@ interface RequsetOptions<P> extends RequestInit {
 
 interface RequsetResponse<T = any> {
   code: string;
+  message: string;
   success: boolean;
   total: number;
   data: T;
@@ -74,6 +76,8 @@ async function request<T, P extends RecordAny = any>(options: RequsetOptions<P>)
 
   if (result.code === '200' && result.success) {
     return result.data;
+  } else {
+    Toast.show(result.message)
   }
 
   return Promise.reject(result);

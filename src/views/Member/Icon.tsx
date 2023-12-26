@@ -10,7 +10,7 @@ const Icon = ({ label, image, ...restProps }: CardProps) => {
   return (
     <View style={styles.icon}>
       <Image style={styles.image} source={image} />
-      <Typography.Text style={styles.label} type="secondary">{label}</Typography.Text>
+      <Typography.Text style={styles.label} color="secondary">{label}</Typography.Text>
     </View>
   )
 }

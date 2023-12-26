@@ -56,7 +56,7 @@ const Search = ({ navigation }: SearchScreenProps) => {
         editable
         extra={(
           <TouchableWithoutFeedback onPress={navigation.goBack}>
-            <Typography.Text type="secondary">取消</Typography.Text>
+            <Typography.Text color="secondary">取消</Typography.Text>
           </TouchableWithoutFeedback>
         )}
         onChangeText={(text) => {

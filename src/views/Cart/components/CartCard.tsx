@@ -48,7 +48,7 @@ const CartCard = (props: CartCardProps) => {
               <Image style={styles.image} source={{ uri: item.image }} />
               <View style={{ flex: 1 }}>
                 <Typography.Text numberOfLines={2}>{item.productName}</Typography.Text>
-                <Typography.Text size="small" type="secondary" style={styles.norm}>{item.specification}</Typography.Text>
+                <Typography.Text size="small" color="secondary" style={styles.norm}>{item.specification}</Typography.Text>
                 <Typography.Price style={styles.price}>{item.money}</Typography.Price>
                 <InputNumber style={styles.numeric} value={item.number} />
               </View>

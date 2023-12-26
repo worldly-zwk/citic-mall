@@ -1,7 +1,7 @@
 export * from './screen';
 
 export interface ProductItem {
-  id: string;
+  id: number;
   name: string;
   price: number;
   image: string;

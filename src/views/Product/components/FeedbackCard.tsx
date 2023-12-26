@@ -11,7 +11,7 @@ const FeedbackCard: FC<FeedbackCardProps> = ({ data }) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <Typography.Title level={4}>评价</Typography.Title>
-        <Typography.Text size="small" type="secondary">暂无评价</Typography.Text>
+        <Typography.Text size="small" color="secondary">暂无评价</Typography.Text>
       </View>
     </View>
   );

@@ -58,7 +58,7 @@ const LoginForm = ({ onSubmit }: LoginFormProps) => {
     return (
       <View style={styles.inner}>
         <Input placeholder="请输入手机号" keyboardType="numeric" maxLength={11} onChangeText={setLoginPhone} />
-        <Typography.Text style={styles.help} size="small" type="disabled">未注册的手机号码验证后将自动创建账户</Typography.Text>
+        <Typography.Text style={styles.help} size="small" color="disabled">未注册的手机号码验证后将自动创建账户</Typography.Text>
       </View>
     )
   }, [state]);
@@ -73,7 +73,7 @@ const LoginForm = ({ onSubmit }: LoginFormProps) => {
         </Link>
         {state.type === LoginTypeEnum.PASSWORD && (
           <Link>
-            <Typography.Text type="secondary">忘记密码</Typography.Text>
+            <Typography.Text color="secondary">忘记密码</Typography.Text>
           </Link>
         )}
       </Space>

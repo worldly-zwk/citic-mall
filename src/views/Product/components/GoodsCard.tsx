@@ -76,7 +76,7 @@ const GoodsCard: FC<GoodsCardProps> = ({ info, count, services, coupons, promoti
               <View style={styles.itemDot} />
               <Typography.Text style={styles.name}>{title}</Typography.Text>
             </View>
-            <Typography.Text size="small" type="secondary" style={{ lineHeight: 18 }}>{detailedInformation}</Typography.Text>
+            <Typography.Text size="small" color="secondary" style={{ lineHeight: 18 }}>{detailedInformation}</Typography.Text>
           </View>
         ))}
       </Popup>
@@ -87,7 +87,7 @@ const GoodsCard: FC<GoodsCardProps> = ({ info, count, services, coupons, promoti
               <View style={styles.itemDot} />
               <Typography.Text style={styles.name}>{title}</Typography.Text>
             </View>
-            <Typography.Text size="small" type="secondary" style={{ lineHeight: 18 }}>{desc}</Typography.Text>
+            <Typography.Text size="small" color="secondary" style={{ lineHeight: 18 }}>{desc}</Typography.Text>
           </View>
         ))}
       </Popup>

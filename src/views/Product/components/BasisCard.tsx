@@ -14,7 +14,7 @@ const GoodsInfo: FC<GoodsInfoProps> = ({ data }) => {
         <Typography.Text size="small" primary>{data.name2}</Typography.Text>
         <Typography style={styles.mallPrice}>
           <Typography.Price size="large">{data.mallPcPrice}</Typography.Price>
-          <Typography.Text size="small" type="disabled" style={styles.marketPrice} delete>¥{data.marketPrice}</Typography.Text>
+          <Typography.Text size="small" color="disabled" style={styles.marketPrice} delete>¥{data.marketPrice}</Typography.Text>
         </Typography>
         {data.countryId && (
           <View style={styles.brand}>

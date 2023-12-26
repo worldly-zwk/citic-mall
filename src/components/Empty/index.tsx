@@ -19,7 +19,7 @@ const Empty = ({ style, title, image, imageStyle, description, children }: Empty
         <Typography.Title>{title}</Typography.Title>
       )}
       {description && (
-        <Typography.Text size="small" type="secondary">{description}</Typography.Text>
+        <Typography.Text size="small" color="secondary">{description}</Typography.Text>
       )}
       {children}
     </View>

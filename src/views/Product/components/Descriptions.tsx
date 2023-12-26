@@ -24,10 +24,10 @@ const Descriptions = ({ title, items = [], style }: DescriptionsProps) => {
       {items?.map(({ label, content }, index) => (
         <View key={index} style={[styles.row, isLastItem(index, items.length) ? styles.hideBorder : null]}>
           <View style={[styles.cell, styles.label]}>
-            <Typography.Text type="secondary" size="small">{label}</Typography.Text>
+            <Typography.Text color="secondary" size="small">{label}</Typography.Text>
           </View>
           <View style={[styles.cell, styles.content]}>
-            <Typography.Text type="secondary" size="small">{content}</Typography.Text>
+            <Typography.Text color="secondary" size="small">{content}</Typography.Text>
           </View>
         </View>
       ))}

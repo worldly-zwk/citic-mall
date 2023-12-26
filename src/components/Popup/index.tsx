@@ -1,14 +1,22 @@
-import { Modal, ModalProps, SafeAreaView, StyleProp, StyleSheet, TouchableWithoutFeedback, View, ViewStyle } from "react-native";
-import Typography from "../Typography";
+import { ReactNode } from 'react';
+import { Modal, ModalProps, SafeAreaView, StyleProp, StyleSheet, TouchableWithoutFeedback, View, ViewStyle } from 'react-native';
+import Typography from '../Typography';
 
 interface PopupProps extends ModalProps {
   title?: string;
+  header?: ReactNode;
   bodyStyle?: StyleProp<ViewStyle>;
   onClose?: () => void;
 }
 
 const Popup = (props: PopupProps) => {
-  const { title, bodyStyle, children, onClose, ...restProps } = props
+  const { title, header, bodyStyle, children, onClose, ...restProps } = props;
+
+  const renderHeader = () => {
+    if (header) {
+      return header;
+    }
+  }
 
   return (
     <Modal animationType="fade" transparent onRequestClose={onClose} onDismiss={onClose} {...restProps}>
@@ -16,7 +24,8 @@ const Popup = (props: PopupProps) => {
         <View style={styles.mask}></View>
       </TouchableWithoutFeedback>
       <SafeAreaView style={styles.popup}>
-        {title && (
+        {header}
+        {(!header && title) && (
           <View style={styles.header}>
             <Typography.Text style={styles.title} size="large">{title}</Typography.Text>
           </View>

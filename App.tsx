@@ -1,7 +1,8 @@
-import { NavigationContainer } from '@react-navigation/native';
-import NavigatorScreen from './src/navigation';
-import { useMember } from '@/store';
 import { useEffect } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { RootSiblingParent } from 'react-native-root-siblings';
+import NavigatorScreen from '@/navigation';
+import { useMember } from '@/store';
 
 function App(): JSX.Element {
   const init = useMember(state => state.init);
@@ -11,9 +12,11 @@ function App(): JSX.Element {
   }, []);
 
   return (
-    <NavigationContainer>
-      <NavigatorScreen />
-    </NavigationContainer>
+    <RootSiblingParent>
+      <NavigationContainer>
+        <NavigatorScreen />
+      </NavigationContainer>
+    </RootSiblingParent>
   );
 }
 

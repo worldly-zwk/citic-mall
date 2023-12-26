@@ -20,14 +20,14 @@ const ToolBar = ({ onFinish }: ToolBarProps) => {
   return (
     <View style={styles.container}>
       <Checkbox checked={cart.selected}>
-        <Typography.Text type="secondary">全选</Typography.Text>
+        <Typography.Text color="secondary">全选</Typography.Text>
       </Checkbox>
       <View style={styles.amount}>
         <Typography.Text style={styles.money}>
           实付款：
           <Typography.Text style={{ lineHeight: 16 }} size="large" primary>¥{cart.moneyPay}</Typography.Text>
         </Typography.Text>
-        <Typography.Text size="small" type="secondary">优惠：¥{cart.disMoney}</Typography.Text>
+        <Typography.Text size="small" color="secondary">优惠：¥{cart.disMoney}</Typography.Text>
       </View>
       <Button style={styles.checkout} onPress={onFinish}>结算（{cart.selectedCount}）</Button>
     </View>

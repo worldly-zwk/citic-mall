@@ -47,7 +47,7 @@ const SMSCode = ({ route, navigation }: SMSCodeScreenProps) => {
       <View style={styles.main}>
         <View style={styles.header}>
           <Typography.Title level={1} style={{ fontWeight: 'normal' }}>验证码登录</Typography.Title>
-          <Typography.Text style={styles.subtitle} type="secondary">验证码已发送至 {phone}</Typography.Text>
+          <Typography.Text style={styles.subtitle} color="secondary">验证码已发送至 {phone}</Typography.Text>
         </View>
         <View style={styles.section}>
           <Input

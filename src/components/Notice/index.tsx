@@ -1,28 +1,42 @@
 import { ReactNode } from 'react';
 import { Image, StyleSheet, View, ViewProps } from 'react-native';
 import Typography from '../Typography';
+import Icon from '../Icon';
+import Link from '../Link';
+import { useBoolean } from '@/hooks';
 
 interface NoticeProps extends ViewProps {
   extra?: ReactNode;
+  showIcon?: boolean;
+  closeIcon?: boolean;
 }
 
-const Notice = ({ extra, children, ...restProps }: NoticeProps) => {
+const Notice = (props: NoticeProps) => {
+  const { extra, children, showIcon, closeIcon, ...restProps } = props;
+  const [visible, setVisible] = useBoolean(true);
+
+  if (!visible) {
+    return null;
+  }
+
   return (
     <View style={styles.notice} {...restProps}>
-      <Image style={styles.icon} source={require('@/assets/images/icons/warning.png')} />
+      {showIcon && (
+        <Image style={styles.icon} source={require('@/assets/images/icons/warning.png')} />
+      )}
       <Typography.Text style={styles.text} size="small" primary>{children}</Typography.Text>
-      <View style={styles.extra}>
-        {extra}
-      </View>
+      {(extra || closeIcon) && (
+        <View style={styles.extra}>
+          {closeIcon ? <Link onPress={setVisible}><Icon icon="closedNotice" /></Link> : extra}
+        </View>
+      )}
     </View>
   )
 }
 
 const styles = StyleSheet.create({
   notice: {
-    height: 40,
-    paddingLeft: 12,
-    paddingRight: 12,
+    padding: 12,
     flexDirection: 'row',
     backgroundColor: '#fef5e6',
     alignItems: 'center',
@@ -37,7 +51,9 @@ const styles = StyleSheet.create({
     lineHeight: 16,
   },
   extra: {
-    marginLeft: 6
+    // height: '100%',
+    marginLeft: 6,
+    // backgroundColor: 'red'
   }
 });
 

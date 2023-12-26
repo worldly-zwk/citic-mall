@@ -1,6 +1,7 @@
 import { NavigatorScreenParams, CompositeScreenProps } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import { OrderModel } from '.';
 
 export enum SearchTypeEnum {
   PRODUCT,
@@ -22,7 +23,9 @@ export type RootStackParamList = {
   };
   Login: NavigatorScreenParams<LoginStackParamList>;
   Settings: undefined;
-  Order: undefined;
+  Order: {
+    model: OrderModel;
+  };
 }
 
 export  type RootTabParamList = {

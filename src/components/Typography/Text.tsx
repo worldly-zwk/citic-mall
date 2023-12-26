@@ -1,41 +1,72 @@
 import { useMemo } from 'react';
-import { StyleProp, StyleSheet, Text, TextProps, TextStyle } from 'react-native';
+import { StyleSheet, Text, TextProps, TextStyle } from 'react-native';
+
+const colorPresets: RecordAny<string> = {
+  primary: '#e65321',
+  secondary: '#666',
+  disabled: '#999',
+}
 
 interface TypographyTextProps extends TextProps {
   primary?: boolean;
   strong?: boolean;
-  size?: 'large' | 'small' | 'mini';
-  type?: 'secondary' | 'disabled';
+  size?: 'large' | 'small' | 'mini' | number;
+  color?: 'primary' | 'secondary' | 'disabled' | string;
   delete?: boolean;
+  indent?: number;
+  align?: TextStyle['textAlign'];
 }
 
-const TypographyText = ({ style, primary, size, strong, type, lineBreakMode = 'tail', delete: deleteLine, ...restProps }: TypographyTextProps) => {
+const TypographyText = (props: TypographyTextProps) => {
+  const {
+    color,
+    style,
+    indent,
+    primary,
+    size,
+    align,
+    strong,
+    lineBreakMode = 'tail',
+    delete: deleteLine,
+    children,
+    ...restProps
+  } = props;
   const textStyles = useMemo(() => {
-    const items: StyleProp<TextStyle>[]  = [styles.text];
+    const textStyle: TextStyle = {
+      textAlign: align,
+    };
+    const items: TextStyle[]  = [styles.text, textStyle];
     if (primary) {
       items.push(styles.primary);
     }
 
     if (deleteLine) {
-      items.push(styles.delete);
+      textStyle.textDecorationLine ='line-through';
     }
 
     if (strong) {
-      items.push(styles.strong);
+      textStyle.fontWeight ='600';
     }
 
-    if (size) {
+    if (typeof size === 'string') {
       items.push(styles[size]);
+    } else if (typeof size === 'number') {
+      textStyle.fontSize = size;
     }
 
-    if (type) {
-      items.push(styles[type]);
+    if (color) {
+      textStyle.color = colorPresets[color] || color;
     }
 
-    return StyleSheet.compose(items, style);
-  }, [style, primary, size, type, strong, deleteLine]);
+    return StyleSheet.compose(items,  style);
+  }, [style, primary, size, strong, deleteLine, color, align]);
 
-  return <Text {...restProps} lineBreakMode={lineBreakMode} style={textStyles} />
+  return (
+    <Text {...restProps} lineBreakMode={lineBreakMode} style={textStyles}>
+      {indent && '\u00A0\u00A0'.repeat(indent)}
+      {children}
+    </Text>
+  )
 }
 
 const styles = StyleSheet.create({

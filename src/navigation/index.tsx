@@ -39,7 +39,7 @@ const NavigatorScreen = () => {
       <Screen name="SearchList" component={SearchList} options={{ headerShown: false }} />
       <Screen name="Login" component={LoginScreen} options={{ presentation: 'transparentModal', headerShown: false }} />
       <Screen name="Settings" component={Settings} options={{ title: '设置' }} />
-      <Screen name="Order" component={Order} options={{ title: '订单' }} />
+      <Screen name="Order" component={Order} options={{ title: '提交订单' }} />
     </Navigator>
   )
 }

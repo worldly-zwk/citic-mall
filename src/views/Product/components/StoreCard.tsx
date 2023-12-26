@@ -13,7 +13,7 @@ const StoreCard: FC<StoreCardProps> = ({ data }) => {
      <Image style={styles.avatar} source={{ uri: data?.sellerLogo }} />
      <View style={styles.content}>
         <Typography.Text style={styles.name} strong>{data?.sellerName}</Typography.Text>
-        <Typography.Text style={styles.desc} size="small" type="disabled" numberOfLines={2}>{data?.sellerNotice}</Typography.Text>
+        <Typography.Text style={styles.desc} size="small" color="disabled" numberOfLines={2}>{data?.sellerNotice}</Typography.Text>
         <Image style={styles.tag} source={require('@/assets/images/tag/store.png')} />
      </View>
     </View>
