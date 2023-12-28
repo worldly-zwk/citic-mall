@@ -29,7 +29,7 @@ const Cart = ({ navigation }: CartScreenProps) => {
   const handleFinish = useCallback(() => {
     check(OrderModel.ORDINARY).then(({ code }) => {
       if (code === 1) {
-        navigation.navigate('Order', { model: OrderModel.ORDINARY });
+        navigation.navigate('Order');
       }
     });
   }, [check]);

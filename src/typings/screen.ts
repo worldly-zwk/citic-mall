@@ -23,9 +23,15 @@ export type RootStackParamList = {
   };
   Login: NavigatorScreenParams<LoginStackParamList>;
   Settings: undefined;
-  Order: {
-    model: OrderModel;
+  Order: undefined;
+  Address?: {
+    source: 'Order';
   };
+  AddressForm?: {
+    id?: number;
+    source?: 'Order';
+    address?: API.Address;
+  }
 }
 
 export  type RootTabParamList = {
@@ -57,4 +63,6 @@ export type LoginScreenProps = NativeStackScreenProps<LoginStackParamList, 'Inde
 export type SMSCodeScreenProps = NativeStackScreenProps<LoginStackParamList, 'SMSCode'>;
 export type SettingsScreenProps = NativeStackScreenProps<RootStackParamList, 'Settings'>;
 export type OrderScreenProps = NativeStackScreenProps<RootStackParamList, 'Order'>;
+export type AddressScreenProps = NativeStackScreenProps<RootStackParamList, 'Address'>;
+export type AddressFormScreenProps = NativeStackScreenProps<RootStackParamList, 'AddressForm'>;
 

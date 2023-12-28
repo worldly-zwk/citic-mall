@@ -6,8 +6,9 @@ import { OrderModel } from '@/typings';
 interface OrderStore {
   tips: boolean;
   order: null | API.Order;
-  init: (model: OrderModel) => Promise<API.Order>;
-  setAddress: (address: API.Address) => void;
+  orderModel: OrderModel;
+  init: (model: OrderModel, data?: Omit<API.OrderInitParams, 'orderModel'>) => Promise<API.Order>;
+  update: (data: Omit<API.OrderInitParams, 'orderModel'>) => void;
 }
 
 function hasNotSupportSevenBack(sellers: API.OrderSeller[]) {
@@ -21,17 +22,16 @@ function hasNotSupportSevenBack(sellers: API.OrderSeller[]) {
   return false;
 }
 
-const useOrder = create<OrderStore>((set) => ({
+const useOrder = create<OrderStore>((set, get) => ({
   tips: false,
   order: null,
-  init: async (orderModel: OrderModel) => {
-    const order = await request.post<API.Order>(ORDER.init, { orderModel });
-    set({ order, tips: hasNotSupportSevenBack(order.productVOList) });
+  orderModel: OrderModel.ORDINARY,
+  init: async (orderModel, data = {}) => {
+    const order = await request.post<API.Order>(ORDER.init, { orderModel, ...data });
+    set({ order, tips: hasNotSupportSevenBack(order.productVOList), orderModel });
     return order;
   },
-  setAddress: (address: API.Address) => {
-
-  }
+  update: data => get().init(get().orderModel, data)
 }));
 
 export default useOrder;

@@ -8,9 +8,12 @@ import CategoryTabs from '@/views/CategoryTabs';
 import Search from '@/views/Search';
 import SearchList from '@/views/SearchList';
 import Settings from '@/views/Settings';
+import Order from '@/views/Order';
+import Address from '@/views/Address';
+import AddressForm from '@/views/AddressForm';
 import HomeScreen from './Home';
 import LoginScreen from './Login';
-import Order from '@/views/Order';
+
 
 const { Navigator, Screen } = createNativeStackNavigator<RootStackParamList>();
 
@@ -20,6 +23,9 @@ const NavigatorScreen = () => {
     return {
       headerLeft: () => <GlobalBack />,
       headerBackTitleVisible: false,
+      contentStyle: {
+        backgroundColor: '#f5f6fa'
+      }
     }
   }, []);
 
@@ -40,6 +46,8 @@ const NavigatorScreen = () => {
       <Screen name="Login" component={LoginScreen} options={{ presentation: 'transparentModal', headerShown: false }} />
       <Screen name="Settings" component={Settings} options={{ title: '设置' }} />
       <Screen name="Order" component={Order} options={{ title: '提交订单' }} />
+      <Screen name="Address" component={Address} options={{ title: '地址管理' }} />
+      <Screen name="AddressForm" component={AddressForm} options={{ title: '新增收获地址' }} />
     </Navigator>
   )
 }

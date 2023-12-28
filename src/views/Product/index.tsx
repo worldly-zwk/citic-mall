@@ -94,7 +94,7 @@ const Product = ({ route, navigation }: ProductScreenProps) => {
 
       if (check.code === 1) {
         setVisible(false);
-        navigation.navigate('Order', { model: OrderModel.ORDINARY });
+        navigation.navigate('Order');
       }
     }
   }, [curGoodsInfo, count]);

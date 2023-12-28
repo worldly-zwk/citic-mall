@@ -1,5 +1,7 @@
 import { StyleSheet, View, Image, ViewProps } from 'react-native';
-import { Icon, Space, Typography } from '@/components';
+import Space from '../Space';
+import Typography from '../Typography';
+import Icon from '../Icon';
 
 const { Text } = Typography;
 

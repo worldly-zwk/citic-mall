@@ -1,4 +1,6 @@
 
 export default {
-  member: '/member'
+  member: '/member',
+  address: '/member/memberaddress',
+  defaultAddress: '/member/memberaddress/default'
 }

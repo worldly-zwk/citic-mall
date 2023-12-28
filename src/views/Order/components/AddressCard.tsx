@@ -7,16 +7,18 @@ const AddressCard = () => {
   const address = useOrder(state => state.order?.addressVO);
 
   if (address) {
+    const isDefault = address.state === 1;
+
     return (
-      <Link style={styles.container}>
+      <Link style={styles.container} to={{ screen: 'Address', params: { source: 'Order' } }}>
         <Space size={12} align="center">
           <View style={styles.address}>
             <Space size={12} align="center">
               <Typography.Text size="large">{address.memberName}</Typography.Text>
               <Typography.Text size="large">{address.mobile}</Typography.Text>
             </Space>
-            <Typography tag={<Tag color="#e65321">默认</Tag>}>
-              <Typography.Text color="secondary" indent={5}>{address.addAll} {address.addressInfo}</Typography.Text>
+            <Typography tag={isDefault ? <Tag color="#e65321">默认</Tag> : null}>
+              <Typography.Text color="secondary" indent={isDefault ? 5 : 0}>{address.addAll} {address.addressInfo}</Typography.Text>
             </Typography>
           </View>
           <Icon icon="arrow" />
@@ -27,7 +29,7 @@ const AddressCard = () => {
   }
 
   return (
-    <Link style={styles.container}>
+    <Link style={styles.container} to={{ screen: 'Address', params: { source: 'Order' } }}>
       <Space style={styles.empty} align="center">
         <Typography.Text size="large">新增收货地址</Typography.Text>
         <Icon icon="arrow" />

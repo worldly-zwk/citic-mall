@@ -1,9 +1,7 @@
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import { StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import { SettingsScreenProps } from '@/typings/screen';
-import Cell from '@/components/Cell';
-import Link from '@/components/Link';
-import Typography from '@/components/Typography';
+import { Cell, Link, Typography } from '@/components';
 
 const CellGroup = Cell.Group;
 
@@ -15,7 +13,7 @@ const Settings = ({ route, navigation }: SettingsScreenProps) => {
           <Cell prefix={require('@/assets/images/icons/user.png')} label="个人信息" isLink></Cell>
         </CellGroup>
         <CellGroup>
-          <Cell prefix={require('@/assets/images/icons/map.png')} label="地址管理" isLink></Cell>
+          <Cell prefix={require('@/assets/images/icons/map.png')} label="地址管理" isLink to={{ screen: 'Address' }}></Cell>
           <Cell prefix={require('@/assets/images/icons/shield.png')} label="实名认证" isLink></Cell>
           <Cell prefix={require('@/assets/images/icons/lock.png')}  label="账号安全" isLink></Cell>
         </CellGroup>

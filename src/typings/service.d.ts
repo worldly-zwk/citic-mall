@@ -280,4 +280,9 @@ declare namespace API {
     code: number;
     message: string;
   }
+
+  interface OrderInitParams {
+    orderModel: string;
+    addressId?: number;
+  }
 }

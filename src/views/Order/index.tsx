@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { StyleSheet, SafeAreaView, ScrollView, View, TextInput } from 'react-native';
 import { Cell, Notice, Space, Typography, Button } from '@/components';
 import { useOrder } from '@/store';
@@ -10,12 +9,7 @@ import SummaryCard from './components/SummaryCard';
 const CellGroup = Cell.Group;
 
 const Order = ({ route, navigation }: OrderScreenProps) => {
-  const { model } = route.params;
   const orderStore = useOrder();
-
-  useEffect(() => {
-    orderStore.init(model);
-  }, []);
 
   return (
     <SafeAreaView style={styles.container}>

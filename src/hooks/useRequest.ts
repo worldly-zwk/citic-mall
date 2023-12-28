@@ -3,6 +3,7 @@ import request from "@/utils/request";
 import storage from "@/utils/storage";
 import { throttle, debounce } from "@/utils/function";
 import useSetState from "./useSetState";
+import { useFocusEffect } from "@react-navigation/native";
 
 type Service<T, P> = string | ((params?: P) => Promise<T>);
 
@@ -107,11 +108,11 @@ function useRequest(service: any, options: any = {}) {
     return func;
   }, []);
 
-  useEffect(() => {
+  useFocusEffect(useCallback(() => {
     if (!options?.manual) {
       run(options?.defaultParams);
     }
-  }, []);
+  }, []));
 
   const actions = useMemo(() => {
     return {

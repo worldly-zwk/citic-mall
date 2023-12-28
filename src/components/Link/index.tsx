@@ -4,7 +4,7 @@ import { NavigatorScreenParams, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@/typings/screen';
 
-interface LinkProps extends ViewProps{
+export interface LinkProps extends ViewProps{
   to?: NavigatorScreenParams<RootStackParamList>;
   onPress?: (event: GestureResponderEvent) => void;
   disabled?: boolean;

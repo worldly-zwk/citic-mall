@@ -44,7 +44,7 @@ function fetchWithGlobalHeader<P>(options: RequsetOptions<P>) {
 
 function makeFetchBody<P>(options: RequsetOptions<P>): RequestInit['body'] {
   const { method, requestType = 'json' } = options;
-  if (options.data && method?.toLocaleUpperCase() === 'POST') {
+  if (options.data && ['POST', 'PUT'].includes(method?.toLocaleUpperCase() || '')) {
     if (requestType === 'json') {
       return JSON.stringify(options.data);
     }

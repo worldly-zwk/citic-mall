@@ -63,7 +63,7 @@ const TypographyText = (props: TypographyTextProps) => {
 
   return (
     <Text {...restProps} lineBreakMode={lineBreakMode} style={textStyles}>
-      {indent && '\u00A0\u00A0'.repeat(indent)}
+      {!!indent && '\u00A0\u00A0'.repeat(indent)}
       {children}
     </Text>
   )
