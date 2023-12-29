@@ -2,17 +2,21 @@ import { useCallback } from 'react';
 import { createNativeStackNavigator, NativeStackNavigationOptions } from '@react-navigation/native-stack';
 import GlobalBack from '@/components/GlobalBack';
 import ProductTitle from '@/components/ProductTitle';
-import { RootStackParamList } from '@/typings/screen';
+import { ProductScreenProps, RootStackParamList } from '@/typings/screen';
 import Product from '@/views/Product';
 import CategoryTabs from '@/views/CategoryTabs';
 import Search from '@/views/Search';
 import SearchList from '@/views/SearchList';
 import Settings from '@/views/Settings';
 import Order from '@/views/Order';
+import ProfileInfo from '@/views/ProfileInfo';
+import Staff from '@/views/Staff';
 import Address from '@/views/Address';
 import AddressForm from '@/views/AddressForm';
+import Agreement from '@/views/Agreement';
 import HomeScreen from './Home';
 import LoginScreen from './Login';
+import StaffAuth from '@/views/StaffAuth';
 
 
 const { Navigator, Screen } = createNativeStackNavigator<RootStackParamList>();
@@ -29,7 +33,7 @@ const NavigatorScreen = () => {
     }
   }, []);
 
-  const screenProductOptions = useCallback((props: ScreenChildrenProps): NativeStackNavigationOptions => {
+  const screenProductOptions = useCallback((props: ProductScreenProps): NativeStackNavigationOptions => {
   
       return {
         headerTitle: () => <ProductTitle {...props} />,
@@ -46,8 +50,14 @@ const NavigatorScreen = () => {
       <Screen name="Login" component={LoginScreen} options={{ presentation: 'transparentModal', headerShown: false }} />
       <Screen name="Settings" component={Settings} options={{ title: '设置' }} />
       <Screen name="Order" component={Order} options={{ title: '提交订单' }} />
+      <Screen name="ProfileInfo" component={ProfileInfo} options={{ title: '个人信息' }} />
+      <Screen name="Staff" component={Staff} options={{ title: '' }} />
+      <Screen name="StaffAuth" component={StaffAuth} options={{ title: '员工认证' }} />
+      <Screen name="StaffAuthMail" component={StaffAuth.Mail} options={{ title: '企业邮箱认证' }} />
+      <Screen name="StaffAuthPhone" component={StaffAuth.Phone} options={{ title: '客服认证' }} />
       <Screen name="Address" component={Address} options={{ title: '地址管理' }} />
       <Screen name="AddressForm" component={AddressForm} options={{ title: '新增收获地址' }} />
+      <Screen name="Agreement" component={Agreement} options={{ title: '加载中...' }} />
     </Navigator>
   )
 }

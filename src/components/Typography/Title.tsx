@@ -35,6 +35,7 @@ const styles = StyleSheet.create({
     color: '#333',
     fontSize: 16,
     fontWeight: '600',
+    lineHeight: 20,
   },
   h4: {
     fontSize: 18

@@ -59,7 +59,7 @@ const Address = ({ route, navigation }: AddressScreenProps) => {
 
   return (
     <View style={styles.container}>
-      <ScrollView style={styles.main} contentContainerStyle={{ rowGap: 12 }}>
+      <ScrollView contentContainerStyle={styles.main}>
         {state.data?.map(address => (
           <AddressCard
             data={address}
@@ -82,11 +82,10 @@ const Address = ({ route, navigation }: AddressScreenProps) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 12,
   },
   main: {
-    flex: 1,
-    paddingHorizontal: 12,
+    rowGap: 12,
+    padding: 12,
   },
   buttonContainer: {
     backgroundColor: 'white',

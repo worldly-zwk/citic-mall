@@ -22,18 +22,18 @@ const Order = ({ route, navigation }: OrderScreenProps) => {
         <View style={styles.form}>
           <CellGroup>
             <Cell label="支付方式" labelStyle={styles.label}>
-              <Typography.Text align="right">在线支付</Typography.Text>
+              <Typography.Text>在线支付</Typography.Text>
             </Cell>
             <Cell label="发票信息" labelStyle={styles.label} isLink>
-              <Typography.Text align="right">不开发票</Typography.Text>
+              <Typography.Text>不开发票</Typography.Text>
             </Cell>
           </CellGroup>
           <CellGroup>
             <Cell label="优惠券" labelStyle={styles.label} isLink>
-              <Typography.Text align="right">无可用</Typography.Text>
+              <Typography.Text>无可用</Typography.Text>
             </Cell>
             <Cell label="红包" labelStyle={styles.label} isLink>
-              <Typography.Text align="right">无可用</Typography.Text>
+              <Typography.Text>无可用</Typography.Text>
             </Cell>
           </CellGroup>
           <CellGroup>

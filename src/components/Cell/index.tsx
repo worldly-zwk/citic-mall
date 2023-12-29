@@ -1,4 +1,4 @@
-import { ImageSourcePropType, StyleSheet, TextStyle, View, ViewProps, ViewStyle } from 'react-native';
+import { GestureResponderEvent, ImageSourcePropType, StyleSheet, TextStyle, View, ViewProps, ViewStyle } from 'react-native';
 import { NavigatorScreenParams } from '@react-navigation/native';
 import { RootStackParamList } from '@/typings/screen';
 import Typography from '../Typography';
@@ -12,14 +12,15 @@ interface CellProps extends ViewProps {
   prefix?: ImageSourcePropType;
   isLink?: boolean;
   to?: NavigatorScreenParams<RootStackParamList>;
+  onPress?: (event: GestureResponderEvent) => void;
   contentStyle?: ViewStyle;
 }
 
 const Cell = (props: CellProps) => {
-  const { to, label, labelStyle, style, prefix, isLink, children, contentStyle, ...restProps } = props;
+  const { to, label, labelStyle, style, prefix, isLink = !!to, children, contentStyle, onPress, ...restProps } = props;
 
   return (
-    <Link style={[styles.container, style]} to={to}>
+    <Link style={[styles.container, style]} to={to} onPress={onPress}>
       {prefix && (
         <Icon icon={prefix} />
       )}
@@ -40,10 +41,9 @@ const Cell = (props: CellProps) => {
 
 const styles = StyleSheet.create({
   container: {
+    padding: 12,
     columnGap: 8,
     flexDirection: 'row',
-    paddingVertical: 10,
-    paddingHorizontal: 12,
     alignItems: 'center',
   },
   cell: {
@@ -56,8 +56,9 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    alignContent: 'flex-end',
-    justifyContent: 'center',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
   },
 });
 

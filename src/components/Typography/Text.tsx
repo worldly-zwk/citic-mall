@@ -1,17 +1,19 @@
 import { useMemo } from 'react';
 import { StyleSheet, Text, TextProps, TextStyle } from 'react-native';
 
-const colorPresets: RecordAny<string> = {
+const colorPresets = {
   primary: '#e65321',
   secondary: '#666',
   disabled: '#999',
 }
 
-interface TypographyTextProps extends TextProps {
+type ColorPresetsKeys = keyof typeof colorPresets;
+
+export interface TypographyTextProps extends TextProps {
   primary?: boolean;
   strong?: boolean;
   size?: 'large' | 'small' | 'mini' | number;
-  color?: 'primary' | 'secondary' | 'disabled' | string;
+  color?: LiteralUnion<ColorPresetsKeys>;
   delete?: boolean;
   indent?: number;
   align?: TextStyle['textAlign'];
@@ -55,7 +57,7 @@ const TypographyText = (props: TypographyTextProps) => {
     }
 
     if (color) {
-      textStyle.color = colorPresets[color] || color;
+      textStyle.color = colorPresets[color as ColorPresetsKeys] || color;
     }
 
     return StyleSheet.compose(items,  style);

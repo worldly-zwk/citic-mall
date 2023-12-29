@@ -1,6 +1,3 @@
 type RecordAny<T = any> = Record<string, T>;
 
-interface ScreenChildrenProps {
-  route: RouteProp;
-  navigation: NavigationProp;
-}
+type LiteralUnion<T extends string> = T | (string & {});

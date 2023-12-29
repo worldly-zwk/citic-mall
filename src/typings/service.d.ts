@@ -285,4 +285,15 @@ declare namespace API {
     orderModel: string;
     addressId?: number;
   }
+
+  interface Agreement {
+    id: number;
+    typeId: number;
+    typePath: string;
+    title: string;
+    content: string;
+    author: string;
+    isRecommend: number;
+    createTime: string;
+  }
 }

@@ -1,16 +1,16 @@
 import { useCallback } from 'react';
-import { BottomTabNavigationOptions, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { BottomTabNavigationOptions, BottomTabScreenProps, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import BottomTabBarIcon from '@/components/BottomTabBarIcon';
+import { RootTabParamList } from '@/typings/screen';
 import Home from '@/views/Home';
 import Category from '@/views/Category';
 import Cart from '@/views/Cart';
 import Member from '@/views/Member';
-import { RootTabParamList } from '@/typings/screen';
 
 const { Navigator, Screen } = createBottomTabNavigator<RootTabParamList>();
 
 const HomeScreen = () => {
-  const screenOptions = useCallback(({ route }: ScreenChildrenProps): BottomTabNavigationOptions => {
+  const screenOptions = useCallback(({ route }: BottomTabScreenProps<RootTabParamList>): BottomTabNavigationOptions => {
     return {
       headerShown: false,
       tabBarInactiveTintColor: '#666',

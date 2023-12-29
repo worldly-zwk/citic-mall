@@ -24,6 +24,11 @@ export type RootStackParamList = {
   Login: NavigatorScreenParams<LoginStackParamList>;
   Settings: undefined;
   Order: undefined;
+  ProfileInfo: undefined;
+  Staff: undefined;
+  StaffAuth: undefined;
+  StaffAuthMail: undefined;
+  StaffAuthPhone: undefined;
   Address?: {
     source: 'Order';
   };
@@ -31,7 +36,10 @@ export type RootStackParamList = {
     id?: number;
     source?: 'Order';
     address?: API.Address;
-  }
+  },
+  Agreement: {
+    id: number;
+  };
 }
 
 export  type RootTabParamList = {
@@ -63,6 +71,10 @@ export type LoginScreenProps = NativeStackScreenProps<LoginStackParamList, 'Inde
 export type SMSCodeScreenProps = NativeStackScreenProps<LoginStackParamList, 'SMSCode'>;
 export type SettingsScreenProps = NativeStackScreenProps<RootStackParamList, 'Settings'>;
 export type OrderScreenProps = NativeStackScreenProps<RootStackParamList, 'Order'>;
+export type ProfileInfoScreenProps = NativeStackScreenProps<RootStackParamList, 'ProfileInfo'>;
+export type StaffScreenProps = NativeStackScreenProps<RootStackParamList, 'Staff'>;
+export type StaffAuthScreenProps = NativeStackScreenProps<RootStackParamList, 'StaffAuth'>;
 export type AddressScreenProps = NativeStackScreenProps<RootStackParamList, 'Address'>;
 export type AddressFormScreenProps = NativeStackScreenProps<RootStackParamList, 'AddressForm'>;
+export type AgreementScreenProps = NativeStackScreenProps<RootStackParamList, 'Agreement'>;
 

@@ -1,9 +1,9 @@
 import { ReactNode } from 'react';
 import { Image, StyleSheet, View, ViewProps } from 'react-native';
+import { useBoolean } from '@/hooks';
 import Typography from '../Typography';
 import Icon from '../Icon';
 import Link from '../Link';
-import { useBoolean } from '@/hooks';
 
 interface NoticeProps extends ViewProps {
   extra?: ReactNode;

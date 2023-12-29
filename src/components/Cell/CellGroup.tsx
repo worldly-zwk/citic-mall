@@ -11,8 +11,9 @@ const CellGroup = (props: ViewProps) => {
       {Children.map(children, (children, index) => {
         if (isValidElement<ViewProps>(children)) {
           const isLast = index < count - 1;
+          const cellStyle = children.props.style;
           return cloneElement(children, {
-            style: isTrue(isLast, styles.borderd)
+            style: [isTrue(isLast, styles.borderd), cellStyle]
           });
         }
         return children;

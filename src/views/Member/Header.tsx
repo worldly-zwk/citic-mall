@@ -3,25 +3,19 @@ import { Image, ImageBackground, ImageSourcePropType, StyleSheet, View, ViewProp
 import Typography from '@/components/Typography';
 import Link from '@/components/Link';
 import LinearGradient from 'react-native-linear-gradient';
+import { Avatar } from '@/components';
 
 interface CardProps extends ViewProps {
   member?: API.Member | null;
 }
 
 const Header = ({ member }: CardProps) => {
-  const avatar = useMemo<ImageSourcePropType>(() => {
-    if (member?.headPortrait) {
-      return { uri: member?.headPortrait }
-    }
-    return require('@/assets/images/view/default_avatar.png');
-  }, [member?.headPortrait]);
-
   const memberIcon = member?.authStaff === 1 ? require('@/assets/images/icons/citic.png') : require('@/assets/images/icons/diamond.png');
 
   return (
     <ImageBackground style={styles.container} source={require('@/assets/images/view/user_mask.png')} resizeMode="stretch">
-      <Link style={styles.info}>
-        <Image style={styles.avatar} source={avatar} />
+      <Link style={styles.info} to={{ screen: 'ProfileInfo' }}>
+        <Avatar src={member?.headPortrait} style={styles.avatar} />
         <Typography.Text style={styles.name} size="large">{member?.nickname || '登录/注册'}</Typography.Text>
         {member && (
           <LinearGradient style={styles.tag} colors={['#fff9f0', '#fff2e5']}>
@@ -67,13 +61,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   avatar: {
-    width: 56,
-    height: 56,
     marginLeft: 15,
     marginRight: 8,
-    borderWidth: 1.5,
     borderColor: '#fff',
-    borderRadius: 56,
   },
   name: {
     color: '#fff'

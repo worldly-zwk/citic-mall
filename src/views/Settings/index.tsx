@@ -10,17 +10,17 @@ const Settings = ({ route, navigation }: SettingsScreenProps) => {
     <SafeAreaView style={styles.container}>
       <ScrollView style={{ backgroundColor: '#f5f6fa' }} contentContainerStyle={styles.main}>
         <CellGroup>
-          <Cell prefix={require('@/assets/images/icons/user.png')} label="个人信息" isLink></Cell>
+          <Cell prefix={require('@/assets/images/icons/user.png')} label="个人信息" isLink to={{ screen: 'ProfileInfo' }} />
         </CellGroup>
         <CellGroup>
-          <Cell prefix={require('@/assets/images/icons/map.png')} label="地址管理" isLink to={{ screen: 'Address' }}></Cell>
+          <Cell prefix={require('@/assets/images/icons/map.png')} label="地址管理" isLink to={{ screen: 'Address' }} />
           <Cell prefix={require('@/assets/images/icons/shield.png')} label="实名认证" isLink></Cell>
           <Cell prefix={require('@/assets/images/icons/lock.png')}  label="账号安全" isLink></Cell>
         </CellGroup>
         <CellGroup>
-          <Cell prefix={require('@/assets/images/icons/book.png')}  label="用户协议" isLink></Cell>
-          <Cell prefix={require('@/assets/images/icons/secret.png')} label="隐私政策" isLink></Cell>
-          <Cell prefix={require('@/assets/images/icons/book.png')} label="营业资质" isLink></Cell>
+          <Cell prefix={require('@/assets/images/icons/book.png')}  label="用户协议" isLink to={{ screen: 'Agreement', params: { id: 63 } }} />
+          <Cell prefix={require('@/assets/images/icons/secret.png')} label="隐私政策" isLink to={{ screen: 'Agreement', params: { id: 67 } }} />
+          <Cell prefix={require('@/assets/images/icons/book.png')} label="营业资质" isLink />
         </CellGroup>
       </ScrollView>
       <Link style={styles.logout}>

@@ -8,7 +8,7 @@ import SMSCode from '@/views/SMSCode';
 const { Navigator, Screen } = createNativeStackNavigator<LoginStackParamList>();
 
 const LoginScreen = () => {
-  const screenOptions = useCallback(({ route }: ScreenChildrenProps): NativeStackNavigationOptions => {
+  const screenOptions = useCallback((): NativeStackNavigationOptions => {
     return {
       headerLeft: () => <GlobalBack />,
       headerBackTitleVisible: false,

@@ -2,6 +2,7 @@ import { Children, Key, PropsWithChildren, isValidElement, useEffect, useMemo, u
 import { StyleSheet, View, ScrollView, TouchableWithoutFeedback, ViewStyle, StyleProp, Text, Animated, LayoutRectangle } from 'react-native';
 import { useControllableValue, useUpdate } from '@/hooks';
 import { isTrue } from '@/utils/type';
+import { SideBar } from '@/typings';
 import Typography from '../Typography';
 import TabItem, { TabItemProps } from './Item';
 import { useLinePosition, useScrollTabToCenter } from './hooks';

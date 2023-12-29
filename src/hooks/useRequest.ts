@@ -79,7 +79,7 @@ function useRequest(service: any, options: any = {}) {
       result = options.formatResult(data);
     }
 
-    onSuccess?.(result);
+    onSuccess?.(data);
     setState({
       data: result,
       loading: false,

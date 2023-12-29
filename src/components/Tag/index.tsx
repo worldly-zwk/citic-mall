@@ -1,9 +1,15 @@
+import { useMemo } from 'react';
 import { StyleSheet, View, ViewProps, ViewStyle } from 'react-native';
 import Typography from '../Typography';
-import { useMemo } from 'react';
+
+const colorPresets = {
+  disabled: '#dbdbdb'
+}
+
+type ColorPresetsKeys = keyof typeof colorPresets;
 
 interface TagProps extends ViewProps {
-  color?: string;
+  color?: LiteralUnion<ColorPresetsKeys>;
   children?: string;
 }
 
@@ -13,7 +19,9 @@ const Tag = (props: TagProps) => {
   const tagStyles = useMemo(() => {
     const tagStyle: ViewStyle = {};
     if (color) {
-      tagStyle.backgroundColor = color;
+      tagStyle.backgroundColor = colorPresets[color as ColorPresetsKeys] || color;
+    } else {
+      Object.assign(tagStyle, styles.borderd);
     }
 
     return [styles.tag, tagStyle, style];
@@ -33,7 +41,7 @@ const styles = StyleSheet.create({
   },
   borderd: {
     borderColor: '#e65321',
-    borderWidth: StyleSheet.hairlineWidth,
+    borderWidth: 1,
   }
 })
 
