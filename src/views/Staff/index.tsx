@@ -9,7 +9,7 @@ const Staff = ({ navigation }: StaffScreenProps) => {
   const isStaff = member?.authStaff === 1;
 
   const handleToGOAuth = useCallback(() => {
-    if (isStaff) {
+    if (!isStaff) {
       Alert.alert({
         message: `您已认证中信员工身份\n快去购买专属优惠商品吧`
       });

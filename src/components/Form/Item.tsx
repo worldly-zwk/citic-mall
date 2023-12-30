@@ -61,12 +61,14 @@ const FormItem = (props: FormItemProps) => {
 
   return (
     <View style={itemStyles}>
-      <View style={labelStyles}>
-        <Typography.Text style={labelTextStyle} color="secondary">
-          {label}
-          {(isHorizontal && colon) && ' :'}
-        </Typography.Text>
-      </View>
+      {label && (
+        <View style={labelStyles}>
+          <Typography.Text style={labelTextStyle} color="secondary">
+            {label}
+            {(isHorizontal && colon) && ' :'}
+          </Typography.Text>
+        </View>
+      )}
       <View style={contentStyles}>
         {isValidElement(children) ? cloneElement(children, fieldProps(children.props)) : children}
       </View>

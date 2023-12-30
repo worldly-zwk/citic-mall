@@ -48,7 +48,8 @@ const styles = StyleSheet.create({
     lineHeight: 36,
   },
   h1: {
-    fontSize: 28
+    fontSize: 28,
+    lineHeight: 32
   },
   primary: {
     color: '#e65321'

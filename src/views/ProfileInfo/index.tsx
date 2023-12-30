@@ -24,7 +24,7 @@ const ProfileInfo = () => {
         <Cell label="登录名">
           <Text>{member?.name}</Text>
         </Cell>
-        <Cell label="昵称" isLink>
+        <Cell label="昵称" to={{ screen: 'Nickname', params: { name: member?.nickname } }}>
           <Text>{member?.nickname}</Text>
         </Cell>
         <Cell label="性别" isLink onPress={switchGender}>
