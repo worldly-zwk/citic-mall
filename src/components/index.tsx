@@ -30,3 +30,4 @@ export { default as Typography } from './Typography';
 export { default as ProductSummaryInline } from './ProductSummaryInline';
 
 export * from './Link';
+export * from './Form';

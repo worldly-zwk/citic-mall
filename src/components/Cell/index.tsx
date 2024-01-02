@@ -9,6 +9,7 @@ import Icon from '../Icon';
 interface CellProps extends ViewProps {
   label: string;
   labelStyle?: TextStyle;
+  description?: string;
   prefix?: ImageSourcePropType;
   isLink?: boolean;
   to?: NavigatorScreenParams<RootStackParamList>;
@@ -17,7 +18,7 @@ interface CellProps extends ViewProps {
 }
 
 const Cell = (props: CellProps) => {
-  const { to, label, labelStyle, style, prefix, isLink = !!to, children, contentStyle, onPress, ...restProps } = props;
+  const { to, label, labelStyle, description, style, prefix, isLink = !!to, children, contentStyle, onPress, ...restProps } = props;
 
   return (
     <Link style={[styles.container, style]} to={to} onPress={onPress}>
@@ -27,6 +28,7 @@ const Cell = (props: CellProps) => {
       <View style={styles.cell} {...restProps}>
         <View style={styles.label}>
           <Typography.Text style={labelStyle}>{label}</Typography.Text>
+          {description && <Typography.Text size="small" color="disabled">{description}</Typography.Text>}
         </View>
         <View style={[styles.content, contentStyle]}>
           {children}
@@ -52,6 +54,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   label: {
+    rowGap: 4,
     paddingVertical: 2,
   },
   content: {

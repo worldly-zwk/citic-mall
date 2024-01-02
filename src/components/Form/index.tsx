@@ -1,5 +1,6 @@
 import InternalForm from './Form';
 import Item from './Item';
+export * from './typings';
 
 
 type FormType = typeof InternalForm & {

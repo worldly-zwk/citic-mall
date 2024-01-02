@@ -1,12 +1,13 @@
 import Toast from 'react-native-root-toast';
 import { CHANNEL } from '@/constants';
 import { baseUrl } from '@/services';
+import { stringify } from './query';
 
 interface RequsetOptions<P> extends RequestInit {
   url: string;
   data?: P;
   params?: P;
-  requestType?: 'json' | 'formdata'
+  requestType?: 'json' | 'formdata' | 'urlencoded'
 }
 
 interface RequsetResponse<T = any> {
@@ -39,14 +40,30 @@ function fetchWithGlobalHeader<P>(options: RequsetOptions<P>) {
   if (options.requestType === 'formdata') {
     headers.set('Content-Type', 'application/x-www-form-urlencoded');
   }
+
+  if (options.requestType === 'urlencoded') {
+    headers.set('Content-Type', 'application/x-www-form-urlencoded');
+  }
   return headers;
 }
 
 function makeFetchBody<P>(options: RequsetOptions<P>): RequestInit['body'] {
-  const { method, requestType = 'json' } = options;
-  if (options.data && ['POST', 'PUT'].includes(method?.toLocaleUpperCase() || '')) {
+  const { method, requestType = 'json', data } = options;
+  if (data && ['POST', 'PUT'].includes(method?.toLocaleUpperCase() || '')) {
     if (requestType === 'json') {
-      return JSON.stringify(options.data);
+      return JSON.stringify(data);
+    }
+
+    if (requestType === 'formdata') {
+      const formData = new FormData();
+      Object.entries(data).forEach(([name, value]) => {
+        formData.append(name, value);
+      });
+      return formData;
+    }
+
+    if (requestType === 'urlencoded') {
+      return stringify(data);
     }
   }
 

@@ -40,6 +40,7 @@ export type RootStackParamList = {
     source?: 'Order';
     address?: API.Address;
   },
+  Security: undefined;
   Agreement: {
     id: number;
   };
@@ -75,6 +76,7 @@ export type SMSCodeScreenProps = NativeStackScreenProps<LoginStackParamList, 'SM
 export type SettingsScreenProps = NativeStackScreenProps<RootStackParamList, 'Settings'>;
 export type OrderScreenProps = NativeStackScreenProps<RootStackParamList, 'Order'>;
 export type ProfileInfoScreenProps = NativeStackScreenProps<RootStackParamList, 'ProfileInfo'>;
+export type NicknameScreenProps = NativeStackScreenProps<RootStackParamList, 'Nickname'>;
 export type StaffScreenProps = NativeStackScreenProps<RootStackParamList, 'Staff'>;
 export type StaffAuthScreenProps = NativeStackScreenProps<RootStackParamList, 'StaffAuth'>;
 export type AddressScreenProps = NativeStackScreenProps<RootStackParamList, 'Address'>;

@@ -18,6 +18,7 @@ import HomeScreen from './Home';
 import LoginScreen from './Login';
 import StaffAuth from '@/views/StaffAuth';
 import Nickname from '@/views/Nickname';
+import Security from '@/views/Security';
 
 
 const { Navigator, Screen } = createNativeStackNavigator<RootStackParamList>();
@@ -60,6 +61,7 @@ const NavigatorScreen = () => {
       <Screen name="StaffAuthPhone" component={StaffAuth.Phone} options={{ title: '客服认证' }} />
       <Screen name="Address" component={Address} options={{ title: '地址管理' }} />
       <Screen name="AddressForm" component={AddressForm} options={{ title: '新增收获地址' }} />
+      <Screen name="Security" component={Security} options={{ title: '安全信息' }} />
       <Screen name="Agreement" component={Agreement} options={{ title: '加载中...' }} />
     </Navigator>
   )

@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { Key, useCallback } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Alert, Avatar, Cell, Link, Tag, Typography } from '@/components';
 import { useMember } from '@/store';
@@ -6,12 +6,31 @@ import { useMember } from '@/store';
 const { Text } = Typography;
 const CellGroup = Cell.Group;
 
+const GenderEnum = ['保密', '男', '女'];
+
 const ProfileInfo = () => {
   const member = useMember(state => state.member);
+  const setMember = useMember(state => state.set);
   const isStaff = member?.authStaff === 1;
 
   const switchGender = useCallback(() => {
-    Alert.alert({ message: `您已认证中信员工身份\n快去购买专属优惠商品吧` });
+    Alert.actionSheet({
+      buttons: [
+        {
+          text: '保密',
+        },
+        {
+          text: '男',
+          style: { color: 'rgb(0, 122, 255)' }
+        },
+        {
+          text: '女',
+          style: { color: 'rgb(230, 83, 33)' }
+        },
+      ]
+    }, (value: Key) => {
+      setMember({ gender: value as number });
+    });
   }, []);
 
   return (
@@ -28,9 +47,9 @@ const ProfileInfo = () => {
           <Text>{member?.nickname}</Text>
         </Cell>
         <Cell label="性别" isLink onPress={switchGender}>
-          <Text>{member?.gender === 1 ? '男' : '女'}</Text>
+          <Text>{member && GenderEnum[member.gender]}</Text>
         </Cell>
-        <Cell label="员工认证" isLink to={{ screen: 'Staff' }}>
+        <Cell label="员工认证" to={{ screen: 'Staff' }}>
           <Tag color={isStaff ? undefined : 'disabled'}>{isStaff ? '中信员工' : '非中信员工'}</Tag>
         </Cell>
       </CellGroup>

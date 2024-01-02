@@ -7,6 +7,7 @@ interface MemberStore {
   login: boolean;
   member: null | API.Member;
   init(): void;
+  set(info: Partial<API.Member>): Promise<boolean>;
 }
 
 const useMember = create<MemberStore>((set) => ({
@@ -23,7 +24,17 @@ const useMember = create<MemberStore>((set) => ({
       const member = await request.get<API.Member>(MEMBER.member);
       set({ member });
     }
-  }
+  },
+  set: async (info) => {
+    const success = await request.put<boolean>(MEMBER.member, info, {
+      requestType: 'urlencoded'
+    });
+    if (success) {
+      const member = await request.get<API.Member>(MEMBER.member);
+      set({ member });
+    }
+    return success;
+  },
 }));
 
 export default useMember;

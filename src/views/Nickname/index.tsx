@@ -1,18 +1,31 @@
-import { StyleSheet, View } from 'react-native';
-import { Button, Card, Form, Input, Typography } from '@/components';
+import { StyleSheet } from 'react-native';
+import { Button, Form, Input, Typography, FormInstance } from '@/components';
+import { useCallback, useRef } from 'react';
+import { NicknameScreenProps } from '@/typings';
+import { useMember } from '@/store';
 
-const { Text, Title } = Typography;
+const { Title } = Typography;
 
-const Nickname = () => {
+const Nickname = ({ route, navigation }: NicknameScreenProps) => {
+  const formRef = useRef<FormInstance>(null);
+  const setMember = useMember(state => state.set);
+
+  const handleSubmit = useCallback(() => {
+    setMember(formRef.current?.getValues()).then(success => {
+      if (success) {
+        navigation.goBack();
+      }
+    });
+  }, [setMember]);
+
   return (
-    <Form style={styles.container}>
+    <Form initialValues={{ nickname: route.params.name }} style={styles.container} ref={formRef}>
       <Title level={1} style={styles.title}>昵称</Title>
-      <Form.Item>
+      <Form.Item name="nickname">
         <Input placeholder="请输入昵称" />
       </Form.Item>
-      <Button style={styles.submit}>确定</Button>
+      <Button style={styles.submit} onPress={handleSubmit}>确定</Button>
     </Form>
-    
   )
 }
 

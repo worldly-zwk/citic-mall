@@ -1,27 +1,33 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback } from 'react';
 import { StyleSheet, ScrollView, View } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import GridProductList from '@/components/GridProductList';
 import { useRequest } from '@/hooks';
+import { useMember } from '@/store';
 import { PRODUCT } from '@/services';
 import { convertProduct } from '@/utils/convert';
+import { MemberScreenProps } from '@/typings/screen';
 import Header from './Header';
 import Card from './Card';
 import Icon from './Icon';
 import Divider from './Divider';
-import { useMember } from '@/store';
-import { MemberScreenProps } from '@/typings/screen';
 
 const Member = ({ route, navigation }: MemberScreenProps) => {
-  const [state] = useRequest(PRODUCT.top);
-  const member = useMember(state => state.member);
-
-  const items = useMemo(() => {
-    if (Array.isArray(state.data?.productList)) {
-      return state.data.productList.map(convertProduct);
+  const [state] = useRequest<API.MemberRecommend>(PRODUCT.top, {
+    formatResult: (result) => {
+      if (Array.isArray(result?.productList)) {
+        return result.productList.map(convertProduct);
+      }
+  
+      return [];
     }
+  });
+  const member = useMember(state => state.member);
+  const memberInit = useMember(state => state.init);
 
-    return [];
-  }, [state.data]);
+  useFocusEffect(useCallback(() => {
+    memberInit();
+  }, []));
 
   return (
     <ScrollView style={styles.container}>
@@ -50,7 +56,7 @@ const Member = ({ route, navigation }: MemberScreenProps) => {
           <>
             <Divider>{state.data?.heardTitle}</Divider>
             <View style={styles.list}>
-              <GridProductList items={items} />
+              <GridProductList items={state.data} />
             </View>
           </>
         )}

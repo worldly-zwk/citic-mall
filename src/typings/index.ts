@@ -28,3 +28,9 @@ export enum AddCartMode {
   ADD,
   BUY,
 }
+
+export enum MemberGender {
+  NONE,
+  MALE,
+  FEMALE,
+}

@@ -1,5 +1,6 @@
 import RootSiblingsManager from 'react-native-root-siblings';
 import Alert, { AlertProps } from './Alert';
+import ActionSheet, { ActionSheetProps } from './ActionSheet';
 
 export default {
   alert: (options: AlertProps) => {
@@ -10,6 +11,21 @@ export default {
         onOk={() => {
           setTimeout(() => {
             originOk?.();
+            rootSibling.destroy();
+          }, 200)
+        }}
+      />
+    );
+  },
+  actionSheet: (options: ActionSheetProps, callback?: ActionSheetProps['onOk']) => {
+    const originCancel = options?.onCancel;
+    const rootSibling = new RootSiblingsManager(
+      <ActionSheet
+        {...options}
+        onOk={callback}
+        onCancel={() => {
+          setTimeout(() => {
+            originCancel?.();
             rootSibling.destroy();
           }, 200)
         }}
