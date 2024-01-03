@@ -3,26 +3,23 @@ import { MEMBER, ORDER, SSO } from '@/services';
 import request from '@/utils/request';
 
 interface MemberStore {
-  count: number;
+  auth: boolean;
   login: boolean;
   member: null | API.Member;
   init(): void;
   set(info: Partial<API.Member>): Promise<boolean>;
+  update(): Promise<API.Member>;
 }
 
-const useMember = create<MemberStore>((set) => ({
-  count: 0,
+const useMember = create<MemberStore>()((set, get) => ({
+  auth: false,
   login: false,
   member: null,
   init: async () => {
-    request.get<number>(ORDER.count).then(count => {
-      set({ count });
-    });
     const login = await request.get<boolean>(SSO.loggedOn);
     set({ login });
     if (login) {
-      const member = await request.get<API.Member>(MEMBER.member);
-      set({ member });
+      get().update();
     }
   },
   set: async (info) => {
@@ -30,11 +27,19 @@ const useMember = create<MemberStore>((set) => ({
       requestType: 'urlencoded'
     });
     if (success) {
-      const member = await request.get<API.Member>(MEMBER.member);
-      set({ member });
+      await get().update();
     }
     return success;
   },
+  update: () => {
+    request.get<boolean>(MEMBER.authUsable).then(auth => {
+      set({ auth });
+    });
+    return request.get<API.Member>(MEMBER.member).then(member => {
+      set({ member });
+      return member;
+    });
+  }
 }));
 
 export default useMember;

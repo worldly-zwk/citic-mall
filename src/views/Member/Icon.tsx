@@ -1,17 +1,18 @@
 import { Image, ImageSourcePropType, StyleSheet, View, ViewProps } from 'react-native';
 import Typography from '@/components/Typography';
+import { Link, LinkProps } from '@/components';
 
-interface CardProps extends ViewProps {
+interface CardProps extends LinkProps {
   label: string;
   image: ImageSourcePropType;
 }
 
 const Icon = ({ label, image, ...restProps }: CardProps) => {
   return (
-    <View style={styles.icon}>
+    <Link style={styles.icon} {...restProps}>
       <Image style={styles.image} source={image} />
       <Typography.Text style={styles.label} color="secondary">{label}</Typography.Text>
-    </View>
+    </Link>
   )
 }
 

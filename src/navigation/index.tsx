@@ -19,6 +19,9 @@ import LoginScreen from './Login';
 import StaffAuth from '@/views/StaffAuth';
 import Nickname from '@/views/Nickname';
 import Security from '@/views/Security';
+import RealNameAuth from '@/views/RealNameAuth';
+import RealNameAuthForm from '@/views/RealNameAuthForm';
+import OrderTabs from '@/views/OrderTabs';
 
 
 const { Navigator, Screen } = createNativeStackNavigator<RootStackParamList>();
@@ -52,6 +55,7 @@ const NavigatorScreen = () => {
       <Screen name="Login" component={LoginScreen} options={{ presentation: 'transparentModal', headerShown: false }} />
       <Screen name="Settings" component={Settings} options={{ title: '设置' }} />
       <Screen name="Order" component={Order} options={{ title: '提交订单' }} />
+      <Screen name="OrderTabs" component={OrderTabs} options={{ title: '我的订单' }} />
       <Screen name="ProfileInfo" component={ProfileInfo} options={{ title: '个人信息' }} />
       <Screen name="Nickname" component={Nickname} options={{ title: '' }} />
       <Screen name="Staff" component={Staff} options={{ title: '' }} />
@@ -61,6 +65,8 @@ const NavigatorScreen = () => {
       <Screen name="StaffAuthPhone" component={StaffAuth.Phone} options={{ title: '客服认证' }} />
       <Screen name="Address" component={Address} options={{ title: '地址管理' }} />
       <Screen name="AddressForm" component={AddressForm} options={{ title: '新增收获地址' }} />
+      <Screen name="RealNameAuth" component={RealNameAuth} options={{ title: '实名认证' }} />
+      <Screen name="RealNameAuthForm" component={RealNameAuthForm} options={{ title: '实名认证' }} />
       <Screen name="Security" component={Security} options={{ title: '安全信息' }} />
       <Screen name="Agreement" component={Agreement} options={{ title: '加载中...' }} />
     </Navigator>

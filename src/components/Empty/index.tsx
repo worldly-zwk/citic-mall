@@ -7,7 +7,7 @@ interface EmptyProps extends PropsWithChildren {
   image: ImageSourcePropType;
   style?: StyleProp<ImageStyle>;
   imageStyle?: StyleProp<ImageStyle>;
-  description?: ReactNode;
+  description?: string;
 }
 
 const Empty = ({ style, title, image, imageStyle, description, children }: EmptyProps) => {
@@ -19,7 +19,11 @@ const Empty = ({ style, title, image, imageStyle, description, children }: Empty
         <Typography.Title>{title}</Typography.Title>
       )}
       {description && (
-        <Typography.Text size="small" color="secondary">{description}</Typography.Text>
+        <View>
+          {description.split('\n').map((text, index) => (
+            <Typography.Text size="small" color="secondary" align="center" key={index}>{text}</Typography.Text>
+          ))}
+        </View>
       )}
       {children}
     </View>

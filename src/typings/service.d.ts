@@ -296,4 +296,23 @@ declare namespace API {
     isRecommend: number;
     createTime: string;
   }
+
+  interface MemberAuth {
+    id: number;
+    memberId: number;
+    memberName: string;
+    type: number;
+    idCardName: string;
+    idCardNo: string;
+    authResult: number;
+    isDefault: number;
+    isDelete: number;
+    remark: string;
+    createUserId: number;
+    createUserName: string;
+    createTime: string;
+    updateUserId: number;
+    updateUserName: string;
+    updateTime: string;
+  }
 }

@@ -1,6 +1,6 @@
+import { useCallback } from 'react';
 import { StyleSheet, View, TouchableWithoutFeedback, Animated } from 'react-native';
 import Typography from '../Typography';
-import { useCallback, useEffect, useMemo } from 'react';
 import { useAnimated } from './hooks';
 
  export interface AlertProps {
@@ -12,7 +12,6 @@ import { useAnimated } from './hooks';
 const Alert = (props: AlertProps) => {
   const { message, okText = '我知道了', onOk } = props;
   const [opacity, scale, hide] = useAnimated();
-  // const anim = useMemo(() => new Animated.Value(0), []);
 
   const handleOk = useCallback(() => {
     hide();

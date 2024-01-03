@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   },
   cell: {
     flex: 1,
-    rowGap: 12,
+    gap: 12,
     flexDirection: 'row',
   },
   label: {

@@ -7,6 +7,7 @@ import useOrder from './useOrder';
 
 interface CartStore {
   cart: null | API.Cart;
+  count: number;
   fetch: () => void;
   add: (data: API.AddCartParams) => Promise<boolean>;
   remove: (id: number) => Promise<boolean>;
@@ -16,9 +17,13 @@ interface CartStore {
   check: (type: OrderModel) => Promise<API.OrderCheck>;
 }
 
-const useCart = create<CartStore>((set, get, api) => ({
+const useCart = create<CartStore>((set, get) => ({
   cart: null,
+  count: 0,
   fetch: async () => {
+    request.get<number>(ORDER.count).then(count => {
+      set({ count });
+    });
     const cart = await request.get<API.Cart>(ORDER.cart);
     set({ cart });
     return cart;

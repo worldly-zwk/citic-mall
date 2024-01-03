@@ -120,7 +120,7 @@ const Tabs = (props: PropsWithChildren<TabsProps>) => {
       </View>
       <View style={[styles.main, bodyStyle]}>
         {tabs.map(({ key, children }) => (
-          <View style={[styles.content, isTrue(key === activeKey, styles.show)]} key={key}>{children}<Text>12</Text></View>
+          <View style={[styles.content, isTrue(key === activeKey, styles.show)]} key={key}>{children}</View>
         ))}
       </View>
     </View>

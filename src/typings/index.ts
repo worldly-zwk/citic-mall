@@ -24,6 +24,14 @@ export enum OrderModel {
   ORDINARY = 'ordinary',
 }
 
+export enum OrderStatus {
+  ALL,
+  PAYMENT,
+  SHIPMENT,
+  DELIVERY,
+  REVIEW,
+}
+
 export enum AddCartMode {
   ADD,
   BUY,

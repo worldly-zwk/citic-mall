@@ -9,6 +9,7 @@ interface NoticeProps extends ViewProps {
   extra?: ReactNode;
   showIcon?: boolean;
   closeIcon?: boolean;
+  children?: string;
 }
 
 const Notice = (props: NoticeProps) => {
@@ -24,7 +25,11 @@ const Notice = (props: NoticeProps) => {
       {showIcon && (
         <Image style={styles.icon} source={require('@/assets/images/icons/warning.png')} />
       )}
-      <Typography.Text style={styles.text} size="small" primary>{children}</Typography.Text>
+      <View style={styles.text}>
+        {children?.split('\n').map((text, index) => (
+          <Typography.Text size="small" primary key={index}>{text}</Typography.Text>
+        ))}
+      </View>
       {(extra || closeIcon) && (
         <View style={styles.extra}>
           {closeIcon ? <Link onPress={setVisible}><Icon icon="closedNotice" /></Link> : extra}
@@ -48,12 +53,9 @@ const styles = StyleSheet.create({
   },
   text: {
     flex: 1,
-    lineHeight: 16,
   },
   extra: {
-    // height: '100%',
     marginLeft: 6,
-    // backgroundColor: 'red'
   }
 });
 

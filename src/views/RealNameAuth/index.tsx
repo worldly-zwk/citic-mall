@@ -1,41 +1,34 @@
 import { useCallback, useState } from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
 import { Alert, Button } from '@/components';
-import { AddressScreenProps } from '@/typings';
+import { RealNameAuthScreenProps } from '@/typings';
 import { useRequest } from '@/hooks';
 import { MEMBER } from '@/services';
 import request from '@/utils/request';
-import { useOrder } from '@/store';
-import AddressCard from './Card';
+import RealNameCard from './Card';
+import NotFound from './NotFound';
 
-const Address = ({ route, navigation }: AddressScreenProps) => {
-  const { params } = route;
-  const orderUpdate = useOrder(state => state.update);
+const RealNameAuth = ({ route, navigation }: RealNameAuthScreenProps) => {
   const [checkedKey, setCheckedKey] = useState<number>();
-  const [state, actions] = useRequest<API.Address[]>(MEMBER.address, {
+  const [state, actions] = useRequest<API.MemberAuth[]>(MEMBER.auths, {
     onSuccess: (list) => {
       for(const item of list) {
-        if (item.state === 1) {
+        if (item.isDefault === 1) {
           setCheckedKey(item.id);
         }
       }
     },
   });
 
-  const handleSelected = useCallback((id: number) => {
-    if (params?.source) {
-      orderUpdate({ addressId: id });
-      navigation.navigate(params.source);
-    }
-  }, [params, orderUpdate]);
-
   const handleDelete = useCallback((id: number) => {
     Alert.confirm({
-      message: '您确定删除吗？',
+      width: 340,
+      message: '海关要求购买跨境商品需提供订购人实名信息，若删除所有认证信息，下单时需重新认证信息，确认删除吗？',
+      okText: '确定删除',
+      contentStyle: { textAlign: 'left' },
+      okButtonStyle: { color: '#d7000f' },
       onOk: () => {
-        request.delete(`${MEMBER.address}/${id}`).then(() => {
-          actions.run();
-        });
+
       }
     })
   }, [actions]);
@@ -50,23 +43,26 @@ const Address = ({ route, navigation }: AddressScreenProps) => {
     }
   }, []);
 
+  if (!state.loading && !state.data?.length) {
+    return (
+      <NotFound />
+    )
+  }
+
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.main}>
-        {state.data?.map(address => (
-          <AddressCard
-            data={address}
-            source={params?.source}
-            checked={address.id === checkedKey}
-            onPress={() => handleSelected(address.id)}
-            onDelete={() => handleDelete(address.id)}
-            onCheckedChange={(checked: boolean) => handleChecked(address.id, checked)}
-            key={address.id}
+        {state.data?.map(realName => (
+          <RealNameCard
+            data={realName}
+            checked={realName.id === checkedKey}
+            onDelete={() => handleDelete(realName.id)}
+            onCheckedChange={(checked) => handleChecked(realName.id, checked)}
           />
         ))}
       </ScrollView>
       <SafeAreaView style={styles.buttonContainer}>
-        <Button style={styles.button} to={{ screen: 'AddressForm', params }}>添加收获地址</Button>
+        <Button style={styles.button} to={{ screen: 'RealNameAuthForm' }}>添加实名认证</Button>
       </SafeAreaView>
     </View>
   )
@@ -88,5 +84,5 @@ const styles = StyleSheet.create({
   }
 })
 
-export default Address;
+export default RealNameAuth;
    

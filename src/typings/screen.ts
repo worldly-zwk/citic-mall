@@ -23,6 +23,9 @@ export type RootStackParamList = {
   Login: NavigatorScreenParams<LoginStackParamList>;
   Settings: undefined;
   Order: undefined;
+  OrderTabs: {
+    tab: number;
+  } | undefined,
   ProfileInfo: undefined;
   Nickname: {
     name?: string;
@@ -40,6 +43,8 @@ export type RootStackParamList = {
     source?: 'Order';
     address?: API.Address;
   },
+  RealNameAuth: undefined;
+  RealNameAuthForm: undefined;
   Security: undefined;
   Agreement: {
     id: number;
@@ -75,11 +80,14 @@ export type LoginScreenProps = NativeStackScreenProps<LoginStackParamList, 'Inde
 export type SMSCodeScreenProps = NativeStackScreenProps<LoginStackParamList, 'SMSCode'>;
 export type SettingsScreenProps = NativeStackScreenProps<RootStackParamList, 'Settings'>;
 export type OrderScreenProps = NativeStackScreenProps<RootStackParamList, 'Order'>;
+export type OrderTabsScreenProps = NativeStackScreenProps<RootStackParamList, 'OrderTabs'>;
 export type ProfileInfoScreenProps = NativeStackScreenProps<RootStackParamList, 'ProfileInfo'>;
 export type NicknameScreenProps = NativeStackScreenProps<RootStackParamList, 'Nickname'>;
 export type StaffScreenProps = NativeStackScreenProps<RootStackParamList, 'Staff'>;
 export type StaffAuthScreenProps = NativeStackScreenProps<RootStackParamList, 'StaffAuth'>;
 export type AddressScreenProps = NativeStackScreenProps<RootStackParamList, 'Address'>;
 export type AddressFormScreenProps = NativeStackScreenProps<RootStackParamList, 'AddressForm'>;
+export type RealNameAuthScreenProps = NativeStackScreenProps<RootStackParamList, 'RealNameAuth'>;
+export type RealNameAuthFormScreenProps = NativeStackScreenProps<RootStackParamList, 'RealNameAuthForm'>;
 export type AgreementScreenProps = NativeStackScreenProps<RootStackParamList, 'Agreement'>;
 
