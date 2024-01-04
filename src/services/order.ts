@@ -9,4 +9,5 @@ export default {
   count: '/order/cart/count',
   check: '/order/v2/order/check',
   init: '/order/v2/order/init',
+  list: '/order/list',
 }

@@ -4,6 +4,11 @@ declare namespace API {
     data: T[];
   }
 
+  interface BasePageListResponse<T> {
+    count: number;
+    list: T[];
+  }
+
   interface Home {
     banners: Banner[];
     channels: HomeChannel[];
@@ -230,8 +235,37 @@ declare namespace API {
     mobile: string;
     regionsVersion: string;
   }
-
+  
   interface Order {
+    id: number;
+    orderSn: string;
+    orderStatus: number;
+    orderType: number;
+    orderProperty: number;
+    orderStatusName: string;
+    payMoney: number;
+    moneyOrder: number;
+    sellerName: string;
+    sellerId: number;
+    productList: OrderProduct[];
+    orderProductsNum: number;
+    activityId: number;
+    isPresale: number;
+    isNew: number;
+    presellStatus: number;
+    buyAgain: boolean;
+    displayLogistics: boolean;
+    goToPay: boolean;
+    confirmReceipt: boolean;
+    evaluate: boolean;
+    activityType: number;
+    orderThirdType: number;
+    canCancellationOrder: boolean;
+    isCrossBorder: number;
+    logistics: number;
+  }
+
+  interface OrderInit {
     addressVO?: Address;
     couponPlatformVOS: any[];
     crossBorderModel: number;
@@ -257,10 +291,10 @@ declare namespace API {
   interface OrderSeller {
     sellerId: number;
     sellerName: string;
-    productList: OrderProduct[];
+    productList: OrderInitProduct[];
   }
 
-  interface OrderProduct {
+  interface OrderInitProduct {
     isGift: number;
     isSevenBack: number;
     message: string;
@@ -274,6 +308,18 @@ declare namespace API {
     productName: string;
     specInfo: string;
     status: number;
+  }
+
+  interface OrderProduct {
+    id: number;
+    image: string;
+    productId: number;
+    productGoodsId: number;
+    productName: string;
+    number: number;
+    moneyAmount: number;
+    isGift: number;
+    specInfo: string;
   }
 
   interface OrderCheck {

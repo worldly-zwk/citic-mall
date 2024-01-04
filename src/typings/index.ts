@@ -30,6 +30,7 @@ export enum OrderStatus {
   SHIPMENT,
   DELIVERY,
   REVIEW,
+  DONE
 }
 
 export enum AddCartMode {

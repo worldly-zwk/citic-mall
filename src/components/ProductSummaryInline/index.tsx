@@ -6,7 +6,7 @@ import Icon from '../Icon';
 const { Text } = Typography;
 
 interface ProductSummaryInlineProps extends ViewProps {
-  data?: API.OrderProduct;
+  data?: API.OrderInitProduct;
   showIcon?: boolean; 
 }
 

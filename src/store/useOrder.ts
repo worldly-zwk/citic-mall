@@ -5,9 +5,9 @@ import { OrderModel } from '@/typings';
 
 interface OrderStore {
   tips: boolean;
-  order: null | API.Order;
+  order: null | API.OrderInit;
   orderModel: OrderModel;
-  init: (model: OrderModel, data?: Omit<API.OrderInitParams, 'orderModel'>) => Promise<API.Order>;
+  init: (model: OrderModel, data?: Omit<API.OrderInitParams, 'orderModel'>) => Promise<API.OrderInit>;
   update: (data: Omit<API.OrderInitParams, 'orderModel'>) => void;
 }
 
@@ -27,7 +27,7 @@ const useOrder = create<OrderStore>((set, get) => ({
   order: null,
   orderModel: OrderModel.ORDINARY,
   init: async (orderModel, data = {}) => {
-    const order = await request.post<API.Order>(ORDER.init, { orderModel, ...data });
+    const order = await request.post<API.OrderInit>(ORDER.init, { orderModel, ...data });
     set({ order, tips: hasNotSupportSevenBack(order.productVOList), orderModel });
     return order;
   },

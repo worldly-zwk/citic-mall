@@ -1,24 +1,29 @@
-import { PropsWithChildren, useCallback, useMemo } from 'react';
-import { GestureResponderEvent, StyleProp, StyleSheet, TouchableWithoutFeedback, ViewStyle } from 'react-native';
+import { PropsWithChildren, cloneElement, useCallback, useMemo } from 'react';
+import { GestureResponderEvent, StyleProp, StyleSheet, TouchableWithoutFeedback, View, ViewProps, ViewStyle } from 'react-native';
 import { NavigatorScreenParams, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import LinearGradient from 'react-native-linear-gradient';
+import LinearGradient, { LinearGradientProps } from 'react-native-linear-gradient';
 import { RootStackParamList } from '@/typings/screen';
 import Typography from '../Typography';
 import ButtonGroup from './Group';
 
+type ButtonSize = 'small' | 'large';
+type ButtonType = 'primary' | 'secondary';
+
 interface ButtonProps extends PropsWithChildren {
   to?: NavigatorScreenParams<RootStackParamList>;
-  size?: 'small' | 'large';
+  size?: ButtonSize;
+  type?: ButtonType;
   round?: boolean;
   style?: StyleProp<ViewStyle>;
   color?: string[];
+  linearGradient?: LinearGradientProps;
   disabled?: boolean;
   onPress?: (event: GestureResponderEvent) => void;
 }
 
 const Button = (props: ButtonProps) => {
-  const { to, size = 'large', round, style, disabled, color = ['#ffaf31', '#ff8400'], onPress, children } = props;
+  const { to, size = 'large', type, round, style, disabled, linearGradient, onPress, children } = props;
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   const buttonStyle = useMemo(() => {
@@ -39,6 +44,18 @@ const Button = (props: ButtonProps) => {
     return StyleSheet.compose(items, style);
   }, [size, style, round, disabled]);
 
+  const buttonLinearGradient = useMemo(() => {
+    const linear = {} as LinearGradientProps;
+    if (disabled) return linear;
+    if (!type) {
+      Object.assign(linear, {
+        colors: ['#ffaf31', '#ff8400'],
+        end: { x: 1, y: 0 }
+      });
+    }
+    return Object.assign(linear, linearGradient);
+  }, [linearGradient, type, disabled]);
+
   const handlePress = useCallback((e: GestureResponderEvent) => {
     if (!disabled) {
       if (to) {
@@ -49,22 +66,42 @@ const Button = (props: ButtonProps) => {
     }
   }, [onPress, disabled, to]);
 
+  let buttonChildren = (
+    <View style={[buttonStyle, styles[type as ButtonType]]}>
+      <Typography.Text size={size} color={type}>{children}</Typography.Text>
+    </View>
+  );
+
+  if (buttonLinearGradient.colors) {
+    buttonChildren = (
+      <LinearGradient {...buttonLinearGradient} style={buttonStyle}>
+        <Typography.Text size={size} color="white">{children}</Typography.Text>
+      </LinearGradient>
+    )
+  }
 
   return (
     <TouchableWithoutFeedback onPress={handlePress}>
-      <LinearGradient colors={color} end={{ x: 1, y: 0 }} style={buttonStyle}>
-        <Typography.Text style={styles.text} size={size}>{children}</Typography.Text>
-      </LinearGradient>
+      {buttonChildren}
     </TouchableWithoutFeedback>
   )
 }
 
 const styles = StyleSheet.create({
   button: {
-    padding: 9,
+    paddingVertical: 9,
+    paddingHorizontal: 12,
     borderRadius: 2,
     textAlign: 'center',
     alignItems: 'center',
+  },
+  primary: {
+    borderColor: '#e65321',
+    borderWidth: 1
+  },
+  secondary: {
+    borderColor: '#bbb',
+    borderWidth: 1
   },
   small: {
     paddingVertical: 5,
@@ -75,9 +112,6 @@ const styles = StyleSheet.create({
   disabled: {
     backgroundColor: '#dbdbdb'
   },
-  text: {
-    color: '#fff'
-  }
 });
 
 Button.Group = ButtonGroup;

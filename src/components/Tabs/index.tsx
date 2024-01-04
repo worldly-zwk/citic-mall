@@ -1,11 +1,10 @@
 import { Children, Key, PropsWithChildren, isValidElement, useEffect, useMemo, useRef } from 'react';
-import { StyleSheet, View, ScrollView, TouchableWithoutFeedback, ViewStyle, StyleProp, Text, Animated, LayoutRectangle } from 'react-native';
+import { StyleSheet, View, ScrollView, TouchableWithoutFeedback, ViewStyle, StyleProp, Animated, LayoutRectangle } from 'react-native';
 import { useControllableValue, useUpdate } from '@/hooks';
-import { isTrue } from '@/utils/type';
-import { SideBar } from '@/typings';
 import Typography from '../Typography';
 import TabItem, { TabItemProps } from './Item';
 import { useLinePosition, useScrollTabToCenter } from './hooks';
+import TabPanel from './Panel';
 
 interface TabsProps {
   style?: StyleProp<ViewStyle>;
@@ -24,7 +23,7 @@ const Tabs = (props: PropsWithChildren<TabsProps>) => {
   const tabSizesRef = useRef(new Map<Key, LayoutRectangle>());
   const activeIndexRef = useRef(0);
   
-  const tabs = useMemo<SideBar[]>(() => {
+  const tabs = useMemo<TabItemProps[]>(() => {
     const childrens = Children.toArray(children);
     if (childrens.length) {
       return childrens.map((child, index) => {
@@ -32,12 +31,12 @@ const Tabs = (props: PropsWithChildren<TabsProps>) => {
           const { props, key } = child;
           const { value } = props;
           return {
+            ...props,
             key: value || key || index,
-            ...props
           }
         }
         return null;
-      }).filter((tab): tab is SideBar => !!tab);
+      }).filter((tab): tab is TabItemProps => !!tab);
     }
 
     return [];
@@ -119,8 +118,8 @@ const Tabs = (props: PropsWithChildren<TabsProps>) => {
         {renderTabs()}
       </View>
       <View style={[styles.main, bodyStyle]}>
-        {tabs.map(({ key, children }) => (
-          <View style={[styles.content, isTrue(key === activeKey, styles.show)]} key={key}>{children}</View>
+        {tabs.map(({ key, children, style, forceRender = false }) => (
+          <TabPanel visible={key === activeKey} style={[styles.content, style]} forceRender={forceRender} key={key}>{children}</TabPanel>
         ))}
       </View>
     </View>

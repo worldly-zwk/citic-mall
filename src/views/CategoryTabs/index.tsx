@@ -20,13 +20,12 @@ const CategoryTabs = ({ route, navigation }: CategoryTabsScreenProps) => {
   }, [title]);
 
   return (
-    <Tabs style={styles.container} activeKey={activeKey} onChange={setActiveKey} defaultActiveKey={id}>
+    <Tabs style={styles.container} activeKey={activeKey} onChange={setActiveKey}>
       {state.data?.map(({ id, name }) => {
         return (
           <Tabs.Item title={name} value={id} key={id}>
             <ProductList
               id={id}
-              isActive={activeKey === id}
               setTitle={setTitle}
             />
           </Tabs.Item>

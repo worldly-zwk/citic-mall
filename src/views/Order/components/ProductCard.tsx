@@ -10,9 +10,9 @@ const ProductCard = () => {
   const orderProduct = useOrder(state => state.order?.productVOList);
   const [visible, setVisible] = useBoolean(false);
 
-  const items = useMemo<API.OrderProduct[]>(() =>{
+  const items = useMemo<API.OrderInitProduct[]>(() =>{
     if (orderProduct?.length) {
-      return orderProduct.reduce((total, item) => [...total, ...item.productList], [] as API.OrderProduct[]);
+      return orderProduct.reduce((total, item) => [...total, ...item.productList], [] as API.OrderInitProduct[]);
     }
     return [];
   }, [orderProduct]);
