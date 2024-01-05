@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { FlatList, ListRenderItemInfo, StyleSheet } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useInfiniteScroll } from '@/hooks';
+import { Empty } from '@/components';
 import { ORDER } from '@/services';
 import request from '@/utils/request';
 import { OrderStatus } from '@/typings';
 import OrderCard from './Card';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface ProductListProps {
   status: OrderStatus;
@@ -15,7 +16,8 @@ interface ProductListProps {
 const OrderList = ({ status }: ProductListProps) => {
   const insets = useSafeAreaInsets();
   const [state, actions] = useInfiniteScroll(async (index: number) => {
-    const result = await request.get<API.BasePageListResponse<API.Order>>(ORDER.list, {
+    const service = status === 4 ? ORDER.recharges : ORDER.list;
+    const result = await request.get<API.BasePageListResponse<API.Order>>(service, {
       orderStatus: status,
       pageIndex: index
     });
@@ -31,6 +33,16 @@ const OrderList = ({ status }: ProductListProps) => {
     )
   }, []);
 
+  if (!state.data?.length) {
+    return (
+      <Empty
+        style={styles.empty}
+        image={require('@/assets/images/empty/order.png')}
+        title="没有相关订单"
+      />
+    )
+  }
+
   return (
     <FlatList
       data={state.data}
@@ -45,6 +57,14 @@ const styles = StyleSheet.create({
   container: {
     gap: 10,
     padding: 10,
+  },
+  empty: {
+    flex: 1,
+    margin: 12,
+    marginBottom: 0,
+    borderRadius: 6,
+    paddingVertical: 30,
+    backgroundColor: '#fff'
   }
 })
 

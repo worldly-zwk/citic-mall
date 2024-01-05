@@ -1,3 +1,4 @@
+import { isBoolean } from '@/utils';
 import { useMemo } from 'react';
 import { StyleSheet, Text, TextProps, TextStyle } from 'react-native';
 
@@ -11,7 +12,7 @@ type ColorPresetsKeys = keyof typeof colorPresets;
 
 export interface TypographyTextProps extends TextProps {
   primary?: boolean;
-  strong?: boolean;
+  strong?: boolean | TextStyle['fontWeight'];
   size?: 'large' | 'small' | 'mini' | number;
   color?: LiteralUnion<ColorPresetsKeys>;
   delete?: boolean;
@@ -47,7 +48,7 @@ const TypographyText = (props: TypographyTextProps) => {
     }
 
     if (strong) {
-      textStyle.fontWeight ='600';
+      textStyle.fontWeight = isBoolean(strong) ? '700' : strong;
     }
 
     if (typeof size === 'string') {
@@ -91,9 +92,6 @@ const styles = StyleSheet.create({
   mini: {
     fontSize: 10,
     lineHeight: 10,
-  },
-  strong: {
-    fontWeight: '600'
   },
   secondary: {
     color: '#666'

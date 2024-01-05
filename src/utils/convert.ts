@@ -1,3 +1,5 @@
+import { ProductItem } from '@/typings';
+
 export function convertProduct(info: API.Product): ProductItem {
   return {
     id: info.id,

@@ -3,7 +3,7 @@ import { Image, ImageBackground, ImageSourcePropType, StyleSheet, View, ViewProp
 import Typography from '@/components/Typography';
 import Link from '@/components/Link';
 import LinearGradient from 'react-native-linear-gradient';
-import { Avatar } from '@/components';
+import { Avatar, Icon } from '@/components';
 
 interface CardProps extends ViewProps {
   member?: API.Member | null;
@@ -16,7 +16,7 @@ const Header = ({ member }: CardProps) => {
     <ImageBackground style={styles.container} source={require('@/assets/images/view/user_mask.png')} resizeMode="stretch">
       <Link style={styles.info} to={{ screen: 'ProfileInfo' }}>
         <Avatar src={member?.headPortrait} style={styles.avatar} />
-        <Typography.Text style={styles.name} size="large">{member?.nickname || '登录/注册'}</Typography.Text>
+        <Typography.Text size="large" color="white">{member?.nickname || '登录/注册'}</Typography.Text>
         {member && (
           <LinearGradient style={styles.tag} colors={['#fff9f0', '#fff2e5']}>
             <Image style={styles.tagIcon} source={memberIcon} />
@@ -33,10 +33,10 @@ const Header = ({ member }: CardProps) => {
       </Link>
       <View style={styles.actions}>
         <Link to={{ screen: 'Settings' }}>
-          <Image style={styles.icon} source={require('@/assets/images/icons/setting.png')} />
+          <Icon icon="setting" size={24} />
         </Link>
         <Link to={{ screen: 'Settings' }}>
-          <Image style={styles.icon} source={require('@/assets/images/icons/message-white.png')} />
+          <Icon icon="messageWhite" size={24} />
         </Link>
       </View>
     </ImageBackground>
@@ -64,13 +64,6 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     marginRight: 8,
     borderColor: '#fff',
-  },
-  name: {
-    color: '#fff'
-  },
-  icon: {
-    width: 24,
-    height: 24,
   },
   tag: {
     position: 'absolute',

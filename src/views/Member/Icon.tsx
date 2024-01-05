@@ -5,13 +5,18 @@ import { Link, LinkProps } from '@/components';
 interface CardProps extends LinkProps {
   label: string;
   image: ImageSourcePropType;
+  count?: string | number;
+  showCount?: boolean;
 }
 
-const Icon = ({ label, image, ...restProps }: CardProps) => {
+const GridIcon = ({ label, image, count, showCount = true, ...restProps }: CardProps) => {
   return (
     <Link style={styles.icon} {...restProps}>
       <Image style={styles.image} source={image} />
       <Typography.Text style={styles.label} color="secondary">{label}</Typography.Text>
+      {showCount && (
+        <Typography.Text size="large" strong="500">{count || '--'}</Typography.Text>
+      )}
     </Link>
   )
 }
@@ -32,5 +37,5 @@ const styles = StyleSheet.create({
   }
 })
 
-export default Icon;
+export default GridIcon;
    

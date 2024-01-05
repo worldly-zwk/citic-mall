@@ -15,6 +15,7 @@ interface CartStore {
   checkedSeller: (id: number, checked: boolean) => Promise<boolean>;
   checkedProduct: (id: number, checked: boolean) => Promise<boolean>;
   check: (type: OrderModel) => Promise<API.OrderCheck>;
+  again: (orderSn: string) => Promise<boolean>;
 }
 
 const useCart = create<CartStore>((set, get) => ({
@@ -67,6 +68,9 @@ const useCart = create<CartStore>((set, get) => ({
     Toast.show(check.message);
     return check;
   },
+  again: (orderSn: string) => request.get(ORDER.again, {
+    orderSn
+  }),
 }));
 
 export default useCart;

@@ -16,7 +16,7 @@ const Empty = ({ style, title, image, imageStyle, description, children }: Empty
     <View style={[styles.container, style]}>
       <Image style={[styles.image, imageStyle]} source={image} />
       {title && (
-        <Typography.Title>{title}</Typography.Title>
+        <Typography.Title type="secondary">{title}</Typography.Title>
       )}
       {description && (
         <View>

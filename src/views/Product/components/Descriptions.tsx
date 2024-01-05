@@ -1,10 +1,11 @@
+import { ReactNode } from "react";
 import { StyleProp, StyleSheet, View, ViewStyle } from "react-native";
 import Typography from "@/components/Typography";
 import { isLastItem } from "@/utils/array";
 
 interface Item {
   label: string;
-  content?: string;
+  content?: ReactNode;
 }
 
 interface DescriptionsProps {

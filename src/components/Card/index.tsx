@@ -1,22 +1,34 @@
+import { ReactNode } from 'react';
 import { StyleProp, StyleSheet, TextStyle, View, ViewProps, ViewStyle } from 'react-native';
 import Typography from '../Typography';
 
 interface CardProps extends ViewProps {
   title?: string;
+  header?: ReactNode;
   titleStyle?: TextStyle;
   contentStyle?: StyleProp<ViewStyle>;
 }
 
 const Card = (props: CardProps) => {
-  const { title, titleStyle, contentStyle, children } = props;
+  const { title, header, titleStyle, contentStyle, children } = props;
 
-  return (
-    <View style={styles.container}>
-      {title && (
+  const renderHeader = () => {
+    if (header) {
+      return header;
+    }
+
+    if (title) {
+      return (
         <View style={styles.header}>
           <Typography.Text style={titleStyle}>{title}</Typography.Text>
         </View>
-      )}
+      )
+    }
+  }
+
+  return (
+    <View style={styles.container}>
+      {renderHeader()}
       <View style={[styles.content, contentStyle]}>
         {children}
       </View>

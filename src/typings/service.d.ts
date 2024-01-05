@@ -182,6 +182,23 @@ declare namespace API {
     trueName: string;
   }
 
+  interface MemberState {
+    couponNum: number;
+    couponPlatformNum: number;
+    myPreNum: number;
+    memberCollectionProductNum: number;
+    unEvaluate: number;
+    year: number;
+    productLookLogNum: number;
+    couponThirdNum: number;
+    leyitongIntegral: number;
+    unReceive: number;
+    unDelivery: number;
+    unPayment: number;
+    memberAuthNum: number;
+    memberCollectionSellerNum: number;
+  };
+
   interface Cart {
     disMoney: number;
     moneyPay: number;
@@ -297,6 +314,7 @@ declare namespace API {
   interface OrderInitProduct {
     isGift: number;
     isSevenBack: number;
+    sevenDays: number;
     message: string;
     moneyPrice: number;
     number: number;
@@ -320,6 +338,7 @@ declare namespace API {
     moneyAmount: number;
     isGift: number;
     specInfo: string;
+    sevenDays: number;
   }
 
   interface OrderCheck {
@@ -360,5 +379,55 @@ declare namespace API {
     updateUserId: number;
     updateUserName: string;
     updateTime: string;
+  }
+
+  interface OrderDetails {
+    id: number;
+    addressVo: Address;
+    orderProductList: OrderInitProduct[];
+    orderStatusStep: string;
+    invoiceVo: any;
+    orderSn: string;
+    orderStatus: number;
+    orderStatusName: string;
+    isAutoPickup: number;
+    memberNotes: string;
+    sellerVo: Omit<OrderSeller, 'productList'>;
+    cashPayChannel: string;
+    moneyProduct: number;
+    payMoney: number;
+    moneyOrder: number;
+    staffDis: number;
+    flashDis: number;
+    fullDis: number;
+    singleDis: number;
+    couponDis: number;
+    couponPlatformDis: number;
+    moneyLogistics: number;
+    bonusCode: string;
+    bonusOrderFee: number;
+    bonusOrderAmount: number;
+    createTime: string;
+    orderFinishTime: string;
+    presellStatus: number;
+    canBuyAgain: boolean;
+    canDisplayLogistics: boolean;
+    canGoToPay: boolean;
+    canConfirmReceipt: boolean;
+    canCancellationOrder: boolean;
+    canReturnOrder: boolean;
+    canReturnOrderInfo: boolean;
+    evaluate: boolean;
+    postsaleDetail: number;
+    restTime: number;
+    postSaleId: number;
+    isCrossBorder: number;
+    orderType: number;
+    orderProperty: number;
+    homecredit: boolean;
+    cashTradeSn: string;
+    orderThirdType: number;
+    logistics: number;
+    activityType: string;
   }
 }

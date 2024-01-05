@@ -6,16 +6,18 @@ import { useRequest } from '@/hooks';
 import { useMember } from '@/store';
 import { PRODUCT } from '@/services';
 import { convertProduct } from '@/utils/convert';
-import { OrderStatus, MemberScreenProps } from '@/typings';
+import { OrderStatus, MemberScreenProps, WalletTab } from '@/typings';
 import Header from './Header';
 import Card from './Card';
 import GridIcon from './Icon';
 import Divider from './Divider';
+import Wallet from '../Wallet';
 
 const Member = ({ route, navigation }: MemberScreenProps) => {
   const [state] = useRequest<API.MemberRecommend>(PRODUCT.top);
   const member = useMember(state => state.member);
-  const memberInit = useMember(state => state.init);
+  const memberState = useMember(state => state.state);
+  const memberUpdate = useMember(state => state.update);
 
   const items = useMemo(() => {
     if (Array.isArray(state.data?.productList)) {
@@ -26,7 +28,7 @@ const Member = ({ route, navigation }: MemberScreenProps) => {
   }, [state.data]);
 
   useFocusEffect(useCallback(() => {
-    memberInit();
+    memberUpdate();
   }, []));
 
   return (
@@ -68,16 +70,31 @@ const Member = ({ route, navigation }: MemberScreenProps) => {
           />
         </Card>
         <Card title="我的资产">
-          <GridIcon label="红包" image={require('@/assets/images/icons/bag.png')} />
-          <GridIcon label="优惠券" image={require('@/assets/images/icons/coupon.png')} />
-          <GridIcon label="其他" image={require('@/assets/images/icons/other.png')} />
+          <GridIcon
+            label="红包"
+            image={require('@/assets/images/icons/bag.png')}
+            count={memberState?.couponPlatformNum}
+            to={{ screen: 'Wallet', params: { tab: WalletTab.RED_ENVELOPE } }}
+          />
+          <GridIcon
+            label="优惠券"
+            image={require('@/assets/images/icons/coupon.png')}
+            count={memberState?.couponNum}
+            to={{ screen: 'Wallet', params: { tab: WalletTab.COUPON } }}
+          />
+          <GridIcon
+            label="其他"
+            image={require('@/assets/images/icons/other.png')}
+            count={memberState?.couponThirdNum}
+            to={{ screen: 'Wallet', params: { tab: WalletTab.OTHER } }}
+          />
         </Card>
         <Card title="我的服务">
-          <GridIcon label="商品收藏" image={require('@/assets/images/icons/favorites.png')} />
-          <GridIcon label="常用联系人" image={require('@/assets/images/icons/contacts.png')} />
-          <GridIcon label="店铺收藏" image={require('@/assets/images/icons/shop-favorites.png')} />
-          <GridIcon label="浏览记录" image={require('@/assets/images/icons/history.png')} />
-          <GridIcon label="在线客服" image={require('@/assets/images/icons/customer-service.png')} />
+          <GridIcon label="商品收藏" image={require('@/assets/images/icons/favorites.png')} count={memberState?.memberCollectionProductNum} />
+          <GridIcon label="常用联系人" image={require('@/assets/images/icons/contacts.png')} count={memberState?.memberAuthNum}  />
+          <GridIcon label="店铺收藏" image={require('@/assets/images/icons/shop-favorites.png')} count={memberState?.memberCollectionSellerNum} />
+          <GridIcon label="浏览记录" image={require('@/assets/images/icons/history.png')} count={memberState?.productLookLogNum} />
+          <GridIcon label="在线客服" image={require('@/assets/images/icons/customer-service.png')} showCount={false} />
         </Card>
         {state.data && (
           <>

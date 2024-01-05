@@ -1,6 +1,6 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-function useTimer(second: number) {
+function useTimer(second: number, autoplay = false) {
   const timerRef = useRef<NodeJS.Timeout>();
   const [state, setState] = useState(second);
 
@@ -27,6 +27,12 @@ function useTimer(second: number) {
   }, []);
 
   const actions = useMemo(() => ({ start: startTimer, cancel: cancelTimer }), [startTimer, cancelTimer]);
+
+  useEffect(() => {
+    if (autoplay) {
+      actions.start(second);
+    }
+  }, [])
 
   return [state, actions] as const;
 }

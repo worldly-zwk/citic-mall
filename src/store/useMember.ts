@@ -1,10 +1,11 @@
 import { create } from 'zustand';
-import { MEMBER, ORDER, SSO } from '@/services';
+import { MEMBER, SSO } from '@/services';
 import request from '@/utils/request';
 
 interface MemberStore {
   auth: boolean;
   login: boolean;
+  state: null | API.MemberState;
   member: null | API.Member;
   init(): void;
   set(info: Partial<API.Member>): Promise<boolean>;
@@ -14,6 +15,7 @@ interface MemberStore {
 const useMember = create<MemberStore>()((set, get) => ({
   auth: false,
   login: false,
+  state: null,
   member: null,
   init: async () => {
     const login = await request.get<boolean>(SSO.loggedOn);
@@ -34,6 +36,9 @@ const useMember = create<MemberStore>()((set, get) => ({
   update: () => {
     request.get<boolean>(MEMBER.authUsable).then(auth => {
       set({ auth });
+    });
+    request.get<API.MemberState>(MEMBER.index).then(state => {
+      set({ state });
     });
     return request.get<API.Member>(MEMBER.member).then(member => {
       set({ member });

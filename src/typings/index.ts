@@ -43,3 +43,9 @@ export enum MemberGender {
   MALE,
   FEMALE,
 }
+
+export enum WalletTab {
+  RED_ENVELOPE,
+  COUPON,
+  OTHER
+}

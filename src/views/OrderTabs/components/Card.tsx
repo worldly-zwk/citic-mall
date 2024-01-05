@@ -1,7 +1,6 @@
-import { Image, StyleSheet, View } from 'react-native';
-import { Space, Typography, Checkbox, Tag, Link, Icon, LinkProps, Button } from '@/components';
+import { StyleSheet, View } from 'react-native';
+import { Space, Typography, Link, Icon, LinkProps, OrderActions } from '@/components';
 import ProductInline from './ProductInline';
-import OrderActions from './Actions';
 
 const { Text } = Typography;
 
@@ -11,7 +10,7 @@ interface AddressCardProps extends LinkProps {
 
 const OrderCard = ({ data, ...restProps }: AddressCardProps) => {
   return (
-    <Link style={styles.container} {...restProps}>
+    <Link style={styles.container} to={{ screen: 'OrderDetails', params: { id: data.orderSn } }} {...restProps}>
       <Space style={styles.header} align="center" justify="space-between">
         <Space size={4} align="center">
           <Icon icon="shop" />
@@ -28,7 +27,7 @@ const OrderCard = ({ data, ...restProps }: AddressCardProps) => {
         </Space>
       </View>
       <Space style={styles.footer}>
-        <OrderActions type={data.orderType} status={data.orderStatus} buyAgain={data.buyAgain} />
+        <OrderActions order={{ orderSn: data.orderSn, type: data.orderType, status: data.orderStatus, buyAgain: data.buyAgain  }} />
       </Space>
     </Link>
   )
