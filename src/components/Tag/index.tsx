@@ -3,6 +3,8 @@ import { StyleSheet, View, ViewProps, ViewStyle } from 'react-native';
 import Typography from '../Typography';
 
 const colorPresets = {
+  primary: '#e65321',
+  secondary: '#666',
   disabled: '#dbdbdb'
 }
 
@@ -10,11 +12,12 @@ type ColorPresetsKeys = keyof typeof colorPresets;
 
 interface TagProps extends ViewProps {
   color?: LiteralUnion<ColorPresetsKeys>;
+  textColor?: LiteralUnion<ColorPresetsKeys>;
   children?: string;
 }
 
 const Tag = (props: TagProps) => {
-  const { color, style, children } = props;
+  const { color, style, children, textColor = color ? 'white' : 'primary' } = props;
 
   const tagStyles = useMemo(() => {
     const tagStyle: ViewStyle = {};
@@ -25,11 +28,11 @@ const Tag = (props: TagProps) => {
     }
 
     return [styles.tag, tagStyle, style];
-  }, [color]);
+  }, [color, style]);
 
   return (
     <View style={tagStyles}>
-      <Typography.Text size="small" color={color ? 'white' : 'primary'}>{children}</Typography.Text>
+      <Typography.Text size="small" color={textColor}>{children}</Typography.Text>
     </View>
   )
 }

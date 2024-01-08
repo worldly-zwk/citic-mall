@@ -85,13 +85,16 @@ async function request<T, P extends RecordAny = any>(options: RequsetOptions<P>)
   const init = makeFetchOptions(options);
   console.log(url);
   const response = await fetch(`${baseUrl}${url}`, init).catch((err) => {
-    console.log(err, 'err');
+    console.log('err', err);
     return err;
   });
 
-  const result: RequsetResponse<T> = await response.json();
+  const result: RequsetResponse<T & { total?: number }> = await response.json();
 
   if (result.code === '200' && result.success) {
+    if (result.total) {
+      result.total = result.total;
+    }
     return result.data;
   } else {
     Toast.show(result.message)

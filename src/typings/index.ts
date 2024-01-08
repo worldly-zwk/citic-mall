@@ -49,3 +49,8 @@ export enum WalletTab {
   COUPON,
   OTHER
 }
+
+export enum CollectionTab {
+  PRODUCT,
+  SELLER,
+}

@@ -24,6 +24,8 @@ import RealNameAuthForm from '@/views/RealNameAuthForm';
 import OrderTabs from '@/views/OrderTabs';
 import OrderDetails from '@/views/OrderDetails';
 import Wallet from '@/views/Wallet';
+import Collection from '@/views/Collection';
+import History from '@/views/History';
 
 
 const { Navigator, Screen } = createNativeStackNavigator<RootStackParamList>();
@@ -73,6 +75,8 @@ const NavigatorScreen = () => {
       <Screen name="Security" component={Security} options={{ title: '安全信息' }} />
       <Screen name="Agreement" component={Agreement} options={{ title: '加载中...' }} />
       <Screen name="Wallet" component={Wallet} options={{ title: '卡券包' }} />
+      <Screen name="Collection" component={Collection} options={{ title: '我的收藏' }} />
+      <Screen name="History" component={History} options={{ title: '浏览历史' }} />
     </Navigator>
   )
 }

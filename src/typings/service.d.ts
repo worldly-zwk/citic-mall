@@ -67,7 +67,7 @@ declare namespace API {
     productNumber: number;
     isSelf: string;
     isOverseas: string;
-    productList: Product[];
+    productList?: Product[];
   }
 
   interface Product {
@@ -429,5 +429,29 @@ declare namespace API {
     orderThirdType: number;
     logistics: number;
     activityType: string;
+  }
+
+  interface Ticket {
+    id: number;
+    name: string;
+    value: number;
+    remark?: string;
+    useScope: string;
+    minAmount: number;
+    ticketType: number;
+    useStartTime: string;
+    useEndTime: string;
+    state: number;
+  }
+
+  interface CollectionProduct {
+    id: number;
+    productId: number;
+    name1: string;
+    masterImg: string;
+    mallPcPrice: number;
+    state: number;
+    isDelete: number;
+    productType: number;
   }
 }

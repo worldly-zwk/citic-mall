@@ -12,4 +12,7 @@ export default {
   redEnvelope: '/member/couponplatforms',
   coupon: '/member/coupons',
   other: '/promotion/couponthirdusers/member',
+  collectionProduct: '/member/membercollectionproducts',
+  collectionSeller: '/member/membercollectionsellers',
+  logs: '/member/productlooklogs'
 }

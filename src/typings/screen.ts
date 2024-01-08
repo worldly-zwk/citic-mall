@@ -54,7 +54,11 @@ export type RootStackParamList = {
   };
   Wallet: {
     tab: number;
-  }
+  };
+  Collection: {
+    tab: number;
+  },
+  History: undefined;
 }
 
 export  type RootTabParamList = {
@@ -98,4 +102,6 @@ export type RealNameAuthScreenProps = NativeStackScreenProps<RootStackParamList,
 export type RealNameAuthFormScreenProps = NativeStackScreenProps<RootStackParamList, 'RealNameAuthForm'>;
 export type AgreementScreenProps = NativeStackScreenProps<RootStackParamList, 'Agreement'>;
 export type WalletScreenProps = NativeStackScreenProps<RootStackParamList, 'Wallet'>;
+export type CollectionScreenProps = NativeStackScreenProps<RootStackParamList, 'Collection'>;
+export type HistoryScreenProps = NativeStackScreenProps<RootStackParamList, 'History'>;
 

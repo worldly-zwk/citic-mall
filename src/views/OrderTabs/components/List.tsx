@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef } from 'react';
 import { FlatList, ListRenderItemInfo, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useInfiniteScroll } from '@/hooks';
-import { Empty } from '@/components';
+import { Empty, Spin } from '@/components';
 import { ORDER } from '@/services';
 import request from '@/utils/request';
 import { OrderStatus } from '@/typings';
@@ -35,11 +35,13 @@ const OrderList = ({ status }: ProductListProps) => {
 
   if (!state.data?.length) {
     return (
-      <Empty
-        style={styles.empty}
-        image={require('@/assets/images/empty/order.png')}
-        title="没有相关订单"
-      />
+      <Spin spinning={state.loading}>
+        <Empty
+          style={styles.empty}
+          image={require('@/assets/images/empty/order.png')}
+          title="没有相关订单"
+        />
+      </Spin>
     )
   }
 

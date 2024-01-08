@@ -6,7 +6,7 @@ import { useRequest } from '@/hooks';
 import { useMember } from '@/store';
 import { PRODUCT } from '@/services';
 import { convertProduct } from '@/utils/convert';
-import { OrderStatus, MemberScreenProps, WalletTab } from '@/typings';
+import { OrderStatus, MemberScreenProps, WalletTab, CollectionTab } from '@/typings';
 import Header from './Header';
 import Card from './Card';
 import GridIcon from './Icon';
@@ -90,10 +90,25 @@ const Member = ({ route, navigation }: MemberScreenProps) => {
           />
         </Card>
         <Card title="我的服务">
-          <GridIcon label="商品收藏" image={require('@/assets/images/icons/favorites.png')} count={memberState?.memberCollectionProductNum} />
+          <GridIcon
+            label="商品收藏"
+            image={require('@/assets/images/icons/favorites.png')}
+            count={memberState?.memberCollectionProductNum}
+            to={{ screen: 'Collection', params: { tab: CollectionTab.PRODUCT } }}
+          />
           <GridIcon label="常用联系人" image={require('@/assets/images/icons/contacts.png')} count={memberState?.memberAuthNum}  />
-          <GridIcon label="店铺收藏" image={require('@/assets/images/icons/shop-favorites.png')} count={memberState?.memberCollectionSellerNum} />
-          <GridIcon label="浏览记录" image={require('@/assets/images/icons/history.png')} count={memberState?.productLookLogNum} />
+          <GridIcon
+            label="店铺收藏"
+            image={require('@/assets/images/icons/shop-favorites.png')}
+            count={memberState?.memberCollectionSellerNum}
+            to={{ screen: 'Collection', params: { tab: CollectionTab.SELLER } }}
+          />
+          <GridIcon
+            label="浏览记录"
+            image={require('@/assets/images/icons/history.png')}
+            count={memberState?.productLookLogNum}
+            to={{ screen: 'History' }}
+          />
           <GridIcon label="在线客服" image={require('@/assets/images/icons/customer-service.png')} showCount={false} />
         </Card>
         {state.data && (
