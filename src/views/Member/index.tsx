@@ -47,26 +47,31 @@ const Member = ({ route, navigation }: MemberScreenProps) => {
             label="待付款"
             image={require('@/assets/images/icons/folder.png')}
             to={{ screen: 'OrderTabs', params: { tab: OrderStatus.PAYMENT } }}
+            showCount={false}
           />
           <GridIcon
             label="待发货"
             image={require('@/assets/images/icons/collect.png')}
             to={{ screen: 'OrderTabs', params: { tab: OrderStatus.SHIPMENT } }}
+            showCount={false}
           />
           <GridIcon
             label="待收货"
             image={require('@/assets/images/icons/drawer.png')}
             to={{ screen: 'OrderTabs', params: { tab: OrderStatus.DELIVERY } }}
+            showCount={false}
           />
           <GridIcon
             label="待评价"
             image={require('@/assets/images/icons/comment.png')}
             to={{ screen: 'OrderTabs', params: { tab: OrderStatus.REVIEW } }}
+            showCount={false}
           />
           <GridIcon
             label="退款/售后"
             image={require('@/assets/images/icons/after-sales.png')}
-            to={{ screen: 'OrderTabs', params: { tab: OrderStatus.ALL } }}
+            to={{ screen: 'AfterSales' }}
+            showCount={false}
           />
         </Card>
         <Card title="我的资产">
@@ -96,7 +101,12 @@ const Member = ({ route, navigation }: MemberScreenProps) => {
             count={memberState?.memberCollectionProductNum}
             to={{ screen: 'Collection', params: { tab: CollectionTab.PRODUCT } }}
           />
-          <GridIcon label="常用联系人" image={require('@/assets/images/icons/contacts.png')} count={memberState?.memberAuthNum}  />
+          <GridIcon
+            label="常用联系人"
+            image={require('@/assets/images/icons/contacts.png')}
+            count={memberState?.memberAuthNum}
+            to={{ screen: 'Contact' }}
+          />
           <GridIcon
             label="店铺收藏"
             image={require('@/assets/images/icons/shop-favorites.png')}

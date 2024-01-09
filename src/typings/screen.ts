@@ -59,6 +59,9 @@ export type RootStackParamList = {
     tab: number;
   },
   History: undefined;
+  AfterSales: undefined;
+  Contact: undefined;
+  ContactForm: undefined;
 }
 
 export  type RootTabParamList = {
@@ -104,4 +107,7 @@ export type AgreementScreenProps = NativeStackScreenProps<RootStackParamList, 'A
 export type WalletScreenProps = NativeStackScreenProps<RootStackParamList, 'Wallet'>;
 export type CollectionScreenProps = NativeStackScreenProps<RootStackParamList, 'Collection'>;
 export type HistoryScreenProps = NativeStackScreenProps<RootStackParamList, 'History'>;
+export type AfterSalesScreenProps = NativeStackScreenProps<RootStackParamList, 'AfterSales'>;
+export type ContactScreenProps = NativeStackScreenProps<RootStackParamList, 'Contact'>;
+export type ContactFormScreenProps = NativeStackScreenProps<RootStackParamList, 'ContactForm'>;
 

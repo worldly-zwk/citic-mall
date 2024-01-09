@@ -1,8 +1,8 @@
+import { ReactNode } from 'react';
 import { Image, ImageBackground, StyleSheet, View, ViewProps } from 'react-native';
 import Typography from '../Typography';
 import Space from '../Space';
 import Tag from '../Tag';
-import { ReactNode } from 'react';
 
 const { Text, Price } = Typography;
 
@@ -22,6 +22,7 @@ interface TicketProps extends ViewProps {
 const Ticket = (props: TicketProps) => {
   const { style, ticket, status = 'expired', disabled, extra, ...restProps } = props;
 
+  const ticketType = ticket.ticketType === 1 ? '满减券' : '现金券';
   const containerStyle = [styles.container, style, { opacity: disabled ? .7 : 1 }];
   const colorTag = disabled ? '#dbdbdb' : '#999';
   const colorPrimary = disabled ? '#dbdbdb' : 'primary';
@@ -32,10 +33,10 @@ const Ticket = (props: TicketProps) => {
       <Space style={styles.ticket}>
         <View style={styles.money}>
           <Price size={20} style={styles.price} unitStyle={{ marginBottom: 4 }} color={colorPrimary}>{ticket?.value}</Price>
-          <Text size="mini" color={colorPrimary}>{ticket.ticketType === 1 ? `满${ticket?.minAmount}元可用` : '无门槛现金券'}</Text>
+          <Text size="mini" color={colorPrimary}>{ticket?.minAmount ? `满${ticket.minAmount}元可用` : '无门槛现金券'}</Text>
         </View>
         <View style={styles.content}>
-          <Typography tag={<Tag style={{ borderColor: colorTag }} textColor={colorPrimary}>{ticket.ticketType === 1 ? '满减券' : '现金券'}</Tag>}>
+          <Typography tag={<Tag style={{ borderColor: colorTag }} textColor={colorPrimary}>{ticketType}</Tag>}>
             <Text indent={7} strong="600" numberOfLines={1} color={disabled ? '#dbdbdb' : undefined}>{ticket?.name}</Text>
           </Typography>
           <Text size="small" color={colorDisabled}>{ticket?.useScope}</Text>
@@ -79,7 +80,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     right: 0,
   },
-  extra: {}
 })
 
 export default Ticket;

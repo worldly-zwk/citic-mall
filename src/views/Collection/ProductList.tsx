@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
-import { FlatList, Image, ListRenderItemInfo, StyleSheet, View } from 'react-native';
+import { FlatList, ListRenderItemInfo, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Empty, Spin, Link, Typography, Space, Button } from '@/components';
+import { Empty, Spin, VisitedProductItem } from '@/components';
 import { useInfiniteScroll } from '@/hooks';
 import request from '@/utils/request';
 import { MEMBER } from '@/services';
@@ -19,18 +19,8 @@ const ProductList = () => {
   });
 
   const renderItem = useCallback((info: ListRenderItemInfo<API.CollectionProduct>) => {
-    const { item } = info;
     return (
-     <Link style={styles.item} to={{ screen: 'Product', params: { id: item.productId } }}>
-      <Image style={styles.image} source={{ uri: item.masterImg }} />
-      <View style={styles.content}>
-        <Typography.Text numberOfLines={2} strong>{item.name1}</Typography.Text>
-        <Space align="center" justify="space-between">
-          <Typography.Price>{item.mallPcPrice}</Typography.Price>
-          <Button size="small" round to={{ screen: 'Product', params: { id: item.productId } }}>立即购买</Button>
-        </Space>
-      </View>
-     </Link>
+      <VisitedProductItem data={info.item} />
     )
   }, []);
 
@@ -70,22 +60,9 @@ const styles = StyleSheet.create({
     flex: 1,
     margin: 10,
     borderRadius: 6,
+    paddingTop: 30,
     marginBottom: 0,
-    paddingVertical: 30,
     backgroundColor: '#fff',
-  },
-  item: {
-    padding: 12,
-    columnGap: 8,
-    flexDirection: 'row',
-  },
-  image: {
-    width: 110,
-    height: 110,
-  },
-  content: {
-    flex: 1,
-    justifyContent: 'space-between'
   },
   bordered: {
     marginHorizontal: 12,

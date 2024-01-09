@@ -454,4 +454,12 @@ declare namespace API {
     isDelete: number;
     productType: number;
   }
+
+  interface History {
+    yesterdayList: Omit<CollectionProduct, 'id'>[];
+    yesterday: string;
+    earlierList: Omit<CollectionProduct, 'id'>[];
+    today: string;
+    todayList: Omit<CollectionProduct, 'id'>[];
+  };
 }

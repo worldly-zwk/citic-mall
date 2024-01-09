@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import ScrollProductList from "@/components/ScrollProductList";
+import HorizontalProductList from "@/components/HorizontalProductList";
 
 interface RecommendProps {
   items?: any[];
@@ -12,7 +12,7 @@ const Recommend: FC<RecommendProps> = ({ title, items }) => {
     return (
       <View style={styles.wrapper}>
         <Text style={styles.title}>{title}</Text>
-        <ScrollProductList style={styles.content} horizontal items={items} />
+        <HorizontalProductList style={styles.content} horizontal items={items} />
       </View>
     )
   }

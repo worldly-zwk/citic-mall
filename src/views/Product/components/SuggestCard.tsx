@@ -1,7 +1,6 @@
 import { FC, useMemo } from "react";
 import { StyleSheet, View } from "react-native";
-import Typography from "@/components/Typography";
-import ScrollProductList from "@/components/ScrollProductList";
+import { Typography, HorizontalProductList } from "@/components";
 import { convertProduct } from "@/utils/convert";
 
 interface SuggestCardProps {
@@ -20,7 +19,7 @@ const SuggestCard: FC<SuggestCardProps> = ({ data }) => {
   return (
     <View style={styles.container}>
       <Typography.Title level={4} style={styles.title}>同类推荐</Typography.Title>
-      <ScrollProductList style={styles.list} items={items} />
+      <HorizontalProductList style={styles.list} items={items} />
     </View>
   );
 }

@@ -24,18 +24,18 @@ const WalletList = ({ service, contentContainerStyle }: ProductListProps) => {
   const renderItem = useCallback((info: ListRenderItemInfo<API.Ticket>) => {
     return (
       <Ticket
-      ticket={info.item}
-      disabled={info.item.state !== 1}
-      extra={(
-        <Link style={styles.button}>
-          {info.item.state === 1 && (
-            <LinearGradient style={styles.buttonInner} colors={['#ffaf31', '#ff8400']} end={{ x: 1, y: 0 }}>
-              <Typography.Text size="small" color="white">去使用</Typography.Text>
-            </LinearGradient>
-          )}
-        </Link>
-      )}
-    />
+        ticket={info.item}
+        disabled={info.item.state !== 1}
+        extra={(
+          <Link style={styles.button}>
+            {info.item.state === 1 && (
+              <LinearGradient style={styles.buttonInner} colors={['#ffaf31', '#ff8400']} end={{ x: 1, y: 0 }}>
+                <Typography.Text size="small" color="white">去使用</Typography.Text>
+              </LinearGradient>
+            )}
+          </Link>
+        )}
+      />
     )
   }, []);
 
@@ -68,8 +68,8 @@ const styles = StyleSheet.create({
     flex: 1,
     margin: 10,
     borderRadius: 6,
+    paddingTop: 30,
     marginBottom: 0,
-    paddingVertical: 30,
     backgroundColor: '#fff',
   },
   button: {

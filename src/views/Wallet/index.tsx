@@ -1,6 +1,6 @@
 import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Tabs } from '@/components';
+import { Link, Tabs, Typography } from '@/components';
 import { WalletScreenProps } from '@/typings/screen';
 import { WALLET_TABS } from '@/constants';
 import { useMember } from '@/store';
@@ -26,8 +26,13 @@ const Wallet = ({ route }: WalletScreenProps) => {
           )
         })}
       </Tabs>
-      <View style={[styles.footer, { paddingBottom: insets.bottom }]}>
-
+      <View style={[styles.footer, { paddingBottom: insets.bottom + 4 }]}>
+        <Link style={[styles.button, styles.bordered]}>
+          <Typography.Text color="primary" size={15}>去抢红包</Typography.Text>
+        </Link>
+        <Link style={styles.button}>
+          <Typography.Text size={15}>兑换</Typography.Text>
+        </Link>
       </View>
     </View>
   )
@@ -42,7 +47,19 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f6fa',
   },
   footer: {
+    padding: 4,
+    flexDirection: 'row',
     backgroundColor: '#fff'
+  },
+  button: {
+    flex: 1,
+    height: 41,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  bordered: {
+    borderRightColor: '#f5f6fa',
+    borderRightWidth: StyleSheet.hairlineWidth,
   }
 })
 

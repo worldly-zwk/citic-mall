@@ -2,9 +2,11 @@ import { useMemo } from 'react';
 import { Image, ImageProps, ImageSourcePropType } from 'react-native';
 import { ICON_MAP } from './constants';
 
-interface IconProps extends Omit<ImageProps, 'source'> {
+export type IconKeys = keyof typeof ICON_MAP;
+
+export interface IconProps extends Omit<ImageProps, 'source'> {
   size?: number;
-  icon?: keyof typeof ICON_MAP | ImageSourcePropType;
+  icon?: IconKeys | ImageSourcePropType;
 }
 
 const Icon = (props: IconProps) => {

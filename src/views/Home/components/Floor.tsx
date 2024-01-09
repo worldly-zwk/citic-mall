@@ -1,6 +1,6 @@
 import { FC, useMemo } from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
-import ScrollProductList from "@/components/ScrollProductList";
+import HorizontalProductList from "@/components/HorizontalProductList";
 import { filter, isLastItem } from "@/utils/array";
 
 interface FloorProps {
@@ -50,7 +50,7 @@ const Floor: FC<FloorProps> = ({ items, collection }) => {
           {floors.map(({ name, advImage, dataList }, index) => (
             <View style={styles.floor} key={`${index}-${name}`}>
               <Image style={styles.floorCover} source={{ uri: advImage }} />
-              <ScrollProductList horizontal style={styles.floorProduct} items={dataList} />
+              <HorizontalProductList style={styles.floorProduct} items={dataList} />
             </View>
           ))}
         </View>

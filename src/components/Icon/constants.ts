@@ -8,4 +8,9 @@ export const ICON_MAP = {
   messageWhite: require('@/assets/images/icons/message-white.png'),
   closedNotice: require('@/assets/images/icons/closed-notice.png'),
   exclamation: require('@/assets/images/icons/exclamation.png'),
+  deleteOutlined: require('@/assets/images/icons/delete-outlined.png'),
+  refund: require('@/assets/images/icons/refund.png'),
+  return: require('@/assets/images/icons/return.png'),
+  barter: require('@/assets/images/icons/barter.png'),
+  appeal: require('@/assets/images/icons/appeal.png'),
 }

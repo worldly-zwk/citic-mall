@@ -1,36 +1,34 @@
 import { useCallback } from 'react';
-import { StyleSheet, View, Image, TouchableWithoutFeedback, FlatList, ListRenderItemInfo, FlatListProps } from 'react-native';
-import Typography from '@/components/Typography';
-import { useNavigation } from '@react-navigation/native';
-import { ProductScreenProps } from '@/typings/screen';
+import { StyleSheet, View, Image, FlatList, ListRenderItemInfo, FlatListProps } from 'react-native';
+import Typography from '../Typography';
 import Tag from '../Tag';
 import Space from '../Space';
+import Link from '../Link';
 
 const FlatProductList = (props: Omit<FlatListProps<API.Product>, 'renderItem'>) => {
-  const { style, ...restProps } = props;
-  const navigation = useNavigation<ProductScreenProps['navigation']>();
+  const { style, contentContainerStyle, ...restProps } = props;
 
   const renderItem = useCallback(({ item }: ListRenderItemInfo<API.Product>) => {
     return (
-      <TouchableWithoutFeedback key={item.id} onPress={() => navigation.navigate('Product', { id: item.id })}>
-        <View style={styles.item}>
-          <Image style={styles.image} source={{ uri: item.masterImg }} />
-          <View style={styles.content}>
-            <Typography.Text style={styles.name} numberOfLines={2}>{item.name1}</Typography.Text>
-            {!!item.promotionLabelList?.length && (
-              <Space size={6} style={styles.tags}>
-                {item.promotionLabelList.map(label => (
-                  <Tag key={label}>{label}</Tag>
-                ))}
-              </Space>
-            )}
-            <Typography style={styles.price}>
-              <Typography.Price>{item.mallPcPrice}</Typography.Price>
+      <Link style={styles.item} to={{ screen: 'Product', params: { id: item.id } }}>
+        <Image style={styles.image} source={{ uri: item.masterImg }} />
+        <View style={styles.content}>
+          <Typography.Text style={styles.name} numberOfLines={2}>{item.name1}</Typography.Text>
+          {!!item.promotionLabelList?.length && (
+            <Space size={6} style={styles.tags}>
+              {item.promotionLabelList.map(label => (
+                <Tag key={label}>{label}</Tag>
+              ))}
+            </Space>
+          )}
+          <Typography style={styles.price}>
+            <Typography.Price>{item.mallPcPrice}</Typography.Price>
+            {!!item.marketPrice && (
               <Typography.Text delete color="disabled" size="small">¥{item.marketPrice}</Typography.Text>
-            </Typography>
-          </View>
+            )}
+          </Typography>
         </View>
-      </TouchableWithoutFeedback>
+      </Link>
     )
   }, []);
 
@@ -38,7 +36,7 @@ const FlatProductList = (props: Omit<FlatListProps<API.Product>, 'renderItem'>) 
     <FlatList
       {...restProps}
       style={[styles.container, style]}
-      contentContainerStyle={styles.list}
+      contentContainerStyle={[styles.list, contentContainerStyle]}
       renderItem={renderItem}
       keyExtractor={(item) => `${item.id}`}
       onEndReachedThreshold={0.1}

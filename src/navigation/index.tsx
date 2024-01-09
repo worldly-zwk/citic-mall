@@ -26,6 +26,9 @@ import OrderDetails from '@/views/OrderDetails';
 import Wallet from '@/views/Wallet';
 import Collection from '@/views/Collection';
 import History from '@/views/History';
+import AfterSales from '@/views/AfterSales';
+import Contact from '@/views/Contact';
+import ContactForm from '@/views/ContactForm';
 
 
 const { Navigator, Screen } = createNativeStackNavigator<RootStackParamList>();
@@ -77,6 +80,9 @@ const NavigatorScreen = () => {
       <Screen name="Wallet" component={Wallet} options={{ title: '卡券包' }} />
       <Screen name="Collection" component={Collection} options={{ title: '我的收藏' }} />
       <Screen name="History" component={History} options={{ title: '浏览历史' }} />
+      <Screen name="AfterSales" component={AfterSales} options={{ title: '退款/售后' }} />
+      <Screen name="Contact" component={Contact} options={{ title: '常用联系人' }} />
+      <Screen name="ContactForm" component={ContactForm} options={{ title: '新增常用联系人' }} />
     </Navigator>
   )
 }

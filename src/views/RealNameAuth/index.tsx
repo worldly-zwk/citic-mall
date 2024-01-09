@@ -54,6 +54,7 @@ const RealNameAuth = ({ route, navigation }: RealNameAuthScreenProps) => {
       <ScrollView contentContainerStyle={styles.main}>
         {state.data?.map(realName => (
           <RealNameCard
+            key={realName.id}
             data={realName}
             checked={realName.id === checkedKey}
             onDelete={() => handleDelete(realName.id)}

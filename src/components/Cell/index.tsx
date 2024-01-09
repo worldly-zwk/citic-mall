@@ -1,16 +1,16 @@
-import { GestureResponderEvent, ImageSourcePropType, StyleSheet, TextStyle, View, ViewProps, ViewStyle } from 'react-native';
+import { GestureResponderEvent, StyleSheet, TextStyle, View, ViewProps, ViewStyle } from 'react-native';
 import { NavigatorScreenParams } from '@react-navigation/native';
 import { RootStackParamList } from '@/typings/screen';
 import Typography from '../Typography';
 import CellGroup from './CellGroup';
 import Link from '../Link';
-import Icon from '../Icon';
+import Icon, { IconProps } from '../Icon';
 
 interface CellProps extends ViewProps {
   label: string;
   labelStyle?: TextStyle;
   description?: string;
-  prefix?: ImageSourcePropType;
+  prefix?: IconProps['icon'];
   isLink?: boolean;
   to?: NavigatorScreenParams<RootStackParamList>;
   onPress?: (event: GestureResponderEvent) => void;

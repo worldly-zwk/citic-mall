@@ -29,11 +29,12 @@ export { default as GlobalBack } from './GlobalBack';
 export { default as TabBarIcon } from './BottomTabBarIcon';
 export { default as OrderActions } from './OrderActions';
 export { default as ModalCaptcha } from './ModalCaptcha';
-export { default as GridProductList } from './GridProductList';
 export { default as FlatStoreList } from './FlatStoreList';
 export { default as FlatProductList } from './FlatProductList';
-export { default as ScrollProductList } from './ScrollProductList';
+export { default as GridProductList } from './GridProductList';
+export { default as HorizontalProductList } from './HorizontalProductList';
 export { default as ProductSummaryInline } from './ProductSummaryInline';
+export { default as VisitedProductItem } from './VisitedProductItem';
 
 export * from './Link';
 export * from './Form';
