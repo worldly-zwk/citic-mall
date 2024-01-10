@@ -29,6 +29,8 @@ export type RootStackParamList = {
   OrderDetails: {
     id: string;
   },
+  OrderInvoice: undefined,
+  OrderPayment: undefined,
   ProfileInfo: undefined;
   Nickname: {
     name?: string;
@@ -95,6 +97,8 @@ export type SettingsScreenProps = NativeStackScreenProps<RootStackParamList, 'Se
 export type OrderScreenProps = NativeStackScreenProps<RootStackParamList, 'Order'>;
 export type OrderTabsScreenProps = NativeStackScreenProps<RootStackParamList, 'OrderTabs'>;
 export type OrderDetailsScreenProps = NativeStackScreenProps<RootStackParamList, 'OrderDetails'>;
+export type OrderInvoiceScreenProps = NativeStackScreenProps<RootStackParamList, 'OrderInvoice'>;
+export type OrderPaymentScreenProps = NativeStackScreenProps<RootStackParamList, 'OrderPayment'>;
 export type ProfileInfoScreenProps = NativeStackScreenProps<RootStackParamList, 'ProfileInfo'>;
 export type NicknameScreenProps = NativeStackScreenProps<RootStackParamList, 'Nickname'>;
 export type StaffScreenProps = NativeStackScreenProps<RootStackParamList, 'Staff'>;

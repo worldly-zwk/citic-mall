@@ -1,5 +1,6 @@
-import { useMemo, useState } from "react";
+import { Key, useMemo } from "react";
 import { StyleSheet, TouchableWithoutFeedback, View } from "react-native";
+import { useControllableValue } from "@/hooks";
 import Typography from "../Typography";
 
 interface RadioOption {
@@ -10,11 +11,13 @@ interface RadioOption {
 
 interface RadioButtonProps {
   options: string[] | RadioOption[];
+  value?: Key;
+  onChange?: (value: Key) => void;
 }
 
 const RadioButton = (props: RadioButtonProps) => {
   const { options } = props;
-  const [activeKey, setActiveKey] = useState<string>();
+  const [activeKey, setActiveKey] = useControllableValue<Key>(props);
 
   const items = useMemo(() => {
     if (Array.isArray(options)) {
@@ -33,9 +36,12 @@ const RadioButton = (props: RadioButtonProps) => {
     <View style={styles.container}>
       {items.map(({ label, value }) => {
         const isCurrent = activeKey === value;
-
         return  (
-          <TouchableWithoutFeedback key={value} onPress={() => setActiveKey(value)}>
+          <TouchableWithoutFeedback key={value} onPress={() => {
+            if (activeKey !== value) {
+              setActiveKey(value);
+            }
+          }}>
             <View style={[styles.radioButton, isCurrent ? styles.radioButtonActive : null]}>
               <Typography.Text primary={isCurrent}>{label}</Typography.Text>
             </View>
@@ -52,6 +58,8 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   radioButton: {
+    borderWidth: 1,
+    borderColor: 'transparent',
     backgroundColor: '#f5f6fa',
     paddingVertical: 6,
     paddingHorizontal: 12,
@@ -60,7 +68,6 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   radioButtonActive: {
-    borderWidth: 1,
     borderColor: '#e65321'
   }
 });

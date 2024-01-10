@@ -1,7 +1,6 @@
 import { create } from 'zustand';
-import Toast from 'react-native-root-toast';
 import { ORDER } from '@/services';
-import request from '@/utils/request';
+import { request, toast } from '@/utils';
 import { OrderModel } from '@/typings';
 import useOrder from './useOrder';
 
@@ -64,8 +63,9 @@ const useCart = create<CartStore>((set, get) => ({
     });
     if (check.code === 1) {
       await useOrder.getState().init(mode);
+      return check;
     }
-    Toast.show(check.message);
+    toast(check.message);
     return check;
   },
   again: (orderSn: string) => request.get(ORDER.again, {

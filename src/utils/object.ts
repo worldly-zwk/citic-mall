@@ -1,3 +1,4 @@
+import { isObject } from "./type";
 
 function pick<T extends RecordAny, K extends keyof T>(data: T, props: readonly K[]) {
   const result = {} as Pick<T, K>;
@@ -7,4 +8,11 @@ function pick<T extends RecordAny, K extends keyof T>(data: T, props: readonly K
     }
   });
   return result;
+}
+
+export function normMapToName(normMap?: RecordAny) {
+  if (isObject(normMap)) {
+    return Object.entries(normMap).map(item => item.join(',')).join(';');
+  }
+  return '';
 }

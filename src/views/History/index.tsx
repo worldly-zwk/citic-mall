@@ -87,7 +87,7 @@ const History = ({ navigation }: HistoryScreenProps) => {
           return (
             <Card title={title} key={index}>
               {items.map(item => (
-                <VisitedProductItem data={item} style={[styles.item, isTrue(index < items.length - 1, styles.bordered)]} />
+                <VisitedProductItem data={item} style={[styles.item, isTrue(index < items.length - 1, styles.bordered)]} key={item.productId} />
               ))}
             </Card>
           )

@@ -5,8 +5,8 @@ import { ContactScreenProps } from '@/typings';
 import { useRequest } from '@/hooks';
 import { MEMBER } from '@/services';
 import request from '@/utils/request';
-// import RealNameCard from './Card';
-// import NotFound from './NotFound';
+import Toast from 'react-native-root-toast';
+import { toast } from '@/utils';
 
 const Contact = ({ route, navigation }: ContactScreenProps) => {
   const [checkedKey, setCheckedKey] = useState<number>();

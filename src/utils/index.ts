@@ -1,7 +1,10 @@
 export * from './type';
 export * from './array';
+export * from './string';
+export * from './object';
 export * from './query';
 export * from './storage';
 export * from './convert';
 export * from './function';
+export { default as toast } from './toast';
 export { default as request  } from './request';

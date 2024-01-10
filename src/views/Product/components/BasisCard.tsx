@@ -1,32 +1,31 @@
-import { FC } from "react";
-import { Image, StyleSheet, View } from "react-native";
-import Typography from "@/components/Typography";
+import { FC } from 'react';
+import { Image, StyleSheet, View } from 'react-native';
+import { Typography, Skeleton } from '@/components';
 
 interface GoodsInfoProps {
+  loading?: boolean;
   data?: API.Product;
 }
 
-const GoodsInfo: FC<GoodsInfoProps> = ({ data }) => {
-  if (data) {
-    return (
+const GoodsInfo: FC<GoodsInfoProps> = ({ data, loading }) => {
+  return (
+    <Skeleton loading={loading} text={{ rows: 4 }}>
       <Typography style={styles.container}>
-        <Typography.Title style={styles.name} numberOfLines={2} lineBreakMode="tail">{data.name1}</Typography.Title>
-        <Typography.Text size="small" primary>{data.name2}</Typography.Text>
+        <Typography.Title style={styles.name} numberOfLines={2} lineBreakMode="tail">{data?.name1}</Typography.Title>
+        <Typography.Text size="small" primary>{data?.name2}</Typography.Text>
         <Typography style={styles.mallPrice}>
-          <Typography.Price size="large">{data.mallPcPrice}</Typography.Price>
-          <Typography.Text size="small" color="disabled" style={styles.marketPrice} delete>¥{data.marketPrice}</Typography.Text>
+          <Typography.Price size="large">{data?.mallPcPrice}</Typography.Price>
+          <Typography.Text size="small" color="disabled" style={styles.marketPrice} delete>¥{data?.marketPrice}</Typography.Text>
         </Typography>
-        {data.countryId && (
+        {data?.countryId && (
           <View style={styles.brand}>
             <Image style={styles.brandIcon} source={{ uri: data.nationalFlag }} />
             <Typography.Text size="mini">{data.countryName} {data.productBrandName}</Typography.Text>
           </View>
         )}
       </Typography>
-    )
-  }
-  
-  return null;
+    </Skeleton>
+  );
 }
 
 const styles = StyleSheet.create({

@@ -1,4 +1,4 @@
-import { FC, useMemo, useState } from "react";
+import { FC, memo, useMemo, useState } from "react";
 import { StyleSheet, TouchableWithoutFeedback, View, useWindowDimensions } from "react-native";
 import Typography from "@/components/Typography";
 import RenderHTML from "react-native-render-html";
@@ -53,7 +53,7 @@ const Introduce: FC<IntroduceProps> = ({ data, richText = '' }) => {
       </TouchableWithoutFeedback>
      </View>
      <View style={{ display: activeKey === KeyEnum.INTRO ? 'flex' : 'none' }}>
-      <RenderHTML contentWidth={width} source={{ html: richText }} ignoredDomTags={['input']} />
+      <RenderHTML contentWidth={width} source={{ html: richText }} ignoredDomTags={['input', 'map', 'area']} />
      </View>
      <View style={[styles.table ,{ display: activeKey === KeyEnum.SPEC ? 'flex' : 'none' }]}>
       <Descriptions items={basis} />
@@ -90,4 +90,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default Introduce;
+export default memo(Introduce);

@@ -29,6 +29,8 @@ import History from '@/views/History';
 import AfterSales from '@/views/AfterSales';
 import Contact from '@/views/Contact';
 import ContactForm from '@/views/ContactForm';
+import OrderInvoice from '@/views/OrderInvoice';
+import OrderPayment from '@/views/OrderPayment';
 
 
 const { Navigator, Screen } = createNativeStackNavigator<RootStackParamList>();
@@ -64,6 +66,8 @@ const NavigatorScreen = () => {
       <Screen name="Order" component={Order} options={{ title: '提交订单' }} />
       <Screen name="OrderTabs" component={OrderTabs} options={{ title: '我的订单' }} />
       <Screen name="OrderDetails" component={OrderDetails} options={{ title: '订单详情' }} />
+      <Screen name="OrderInvoice" component={OrderInvoice} options={{ title: '发票信息' }} />
+      <Screen name="OrderPayment" component={OrderPayment} options={{ title: '订单详情' }} />
       <Screen name="ProfileInfo" component={ProfileInfo} options={{ title: '个人信息' }} />
       <Screen name="Nickname" component={Nickname} options={{ title: '' }} />
       <Screen name="Staff" component={Staff} options={{ title: '' }} />

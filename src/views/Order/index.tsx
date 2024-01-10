@@ -24,7 +24,7 @@ const Order = ({ route, navigation }: OrderScreenProps) => {
             <Cell label="支付方式" labelStyle={styles.label}>
               <Typography.Text>在线支付</Typography.Text>
             </Cell>
-            <Cell label="发票信息" labelStyle={styles.label} isLink>
+            <Cell label="发票信息" labelStyle={styles.label} to={{ screen: 'OrderInvoice' }}>
               <Typography.Text>不开发票</Typography.Text>
             </Cell>
           </CellGroup>
@@ -77,6 +77,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   remark: {
+    flex: 1,
     color: '#333',
     fontSize: 14,
     lineHeight: 16,

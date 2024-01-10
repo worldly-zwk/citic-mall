@@ -1,7 +1,7 @@
-import Toast from 'react-native-root-toast';
 import { CHANNEL } from '@/constants';
 import { baseUrl } from '@/services';
 import { stringify } from './query';
+import toast from './toast';
 
 interface RequsetOptions<P> extends RequestInit {
   url: string;
@@ -97,7 +97,7 @@ async function request<T, P extends RecordAny = any>(options: RequsetOptions<P>)
     }
     return result.data;
   } else {
-    Toast.show(result.message)
+    toast(result.message);
   }
 
   return Promise.reject(result);

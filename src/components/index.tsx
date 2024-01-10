@@ -17,6 +17,7 @@ export { default as Notice } from './Notice';
 export { default as Popup } from './Popup';
 export { default as RadioButton } from './RadioButton';
 export { default as SideBar } from './SideBar';
+export { default as Skeleton } from './Skeleton';
 export { default as Space } from './Space';
 export { default as Spin } from './Spin';
 export { default as Tabs } from './Tabs';

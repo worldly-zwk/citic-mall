@@ -45,7 +45,7 @@ const ProductList = () => {
       keyExtractor={(item) => `${item.id}`}
       onEndReachedThreshold={0.1}
       onEndReached={actions.loadMore}
-      contentContainerStyle={[styles.container]}
+      contentContainerStyle={[styles.container, { marginBottom: insets.bottom }]}
     />
   )
 }

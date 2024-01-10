@@ -1,11 +1,8 @@
 import { FC, useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
-import Typography from '@/components/Typography';
-import Popup from '@/components/Popup';
+import { Tag, Space, Popup, Typography } from '@/components';
 import { useBoolean } from '@/hooks';
-import Item from './Item'
-import Tag from '@/components/Tag';
-import Space from '@/components/Space';
+import Item from './Item';
 
 interface GoodsCardProps {
   info?: API.ProductGoods;
@@ -35,7 +32,7 @@ const GoodsCard: FC<GoodsCardProps> = ({ info, count, services, coupons, promoti
       {isVisibleVoucher && (
         <View style={styles.list}>
           {!!coupons?.length && (
-            <Item style={styles.itemLine} label="领券">
+            <Item label="领券">
               {coupons.map(({ title, detailedInformation }) => (
                 <View>
                   <Tag>{title}</Tag>
@@ -45,7 +42,7 @@ const GoodsCard: FC<GoodsCardProps> = ({ info, count, services, coupons, promoti
             </Item>
           )}
           {!!promotions?.length && (
-            <Item style={styles.itemLine} contentStyle={styles.promotionContent} label="促销" onPress={() => setVisiblePromotion(true)}>
+            <Item contentStyle={styles.promotionContent} label="促销" onPress={() => setVisiblePromotion(true)}>
               {promotions.map(({ id, title, detailedInformation }) => (
                 <Space size={4} align="center" key={id}>
                   <Tag>{title}</Tag>
@@ -57,14 +54,14 @@ const GoodsCard: FC<GoodsCardProps> = ({ info, count, services, coupons, promoti
         </View>
       )}
       <View style={styles.list}>
-        <Item style={styles.itemLine} label="规格" onPress={onClickNorm}>
+        <Item style={styles.bordered} label="规格" onPress={onClickNorm}>
           <Typography.Text numberOfLines={1}>{normContent}</Typography.Text>
         </Item>
         <Item label="服务" contentStyle={styles.serviceContent} onPress={() => setVisible(true)}>
           {services?.map(({ title }) => (
             <View style={styles.serviceLabel} key={title}>
               <View style={styles.dot} />
-              <Typography.Text style={{ lineHeight: 16 }}>{title}</Typography.Text>
+              <Typography.Text>{title}</Typography.Text>
             </View>
           ))}
         </Item>
@@ -100,7 +97,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     marginTop: 10,
   },
-  itemLine: {
+  bordered: {
     borderBottomColor: '#eee',
     borderBottomWidth: StyleSheet.hairlineWidth
   },
@@ -111,7 +108,6 @@ const styles = StyleSheet.create({
     borderRadius: 3,
   },
   serviceContent: {
-    rowGap: 8,
     columnGap: 12,
   },
   serviceLabel: {

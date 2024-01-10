@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
-import { Modal, ModalProps, SafeAreaView, StyleProp, StyleSheet, TouchableWithoutFeedback, View, ViewStyle } from 'react-native';
+import { Modal, ModalProps, StyleProp, StyleSheet, TouchableWithoutFeedback, View, ViewStyle } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Typography from '../Typography';
 
 interface PopupProps extends ModalProps {
@@ -10,28 +11,23 @@ interface PopupProps extends ModalProps {
 }
 
 const Popup = (props: PopupProps) => {
-  const { title, header, bodyStyle, children, onClose, ...restProps } = props;
-
-  const renderHeader = () => {
-    if (header) {
-      return header;
-    }
-  }
+  const { title, header, style, bodyStyle, children, onClose, ...restProps } = props;
+  const insets = useSafeAreaInsets();
 
   return (
     <Modal animationType="fade" transparent onRequestClose={onClose} onDismiss={onClose} {...restProps}>
       <TouchableWithoutFeedback onPress={onClose}>
         <View style={styles.mask}></View>
       </TouchableWithoutFeedback>
-      <SafeAreaView style={styles.popup}>
+      <View style={[styles.popup, style]}>
         {header}
         {(!header && title) && (
           <View style={styles.header}>
             <Typography.Text style={styles.title} size="large">{title}</Typography.Text>
           </View>
         )}
-        <View style={[styles.body, bodyStyle]}>{children}</View>
-      </SafeAreaView>
+        <View style={[styles.body, { paddingBottom: insets.bottom }, bodyStyle]}>{children}</View>
+      </View>
     </Modal>
   )
 }

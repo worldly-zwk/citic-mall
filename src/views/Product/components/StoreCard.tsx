@@ -1,22 +1,26 @@
 import { FC } from "react";
 import { Image, StyleSheet, View } from "react-native";
 import Typography from "@/components/Typography";
+import { Skeleton } from "@/components";
 
 interface StoreCardProps {
   data?: API.ProductInfo;
+  loading?: boolean;
 }
 
-const StoreCard: FC<StoreCardProps> = ({ data }) => {
+const StoreCard: FC<StoreCardProps> = ({ data, loading }) => {
 
   return (
-    <View style={styles.container}>
-     <Image style={styles.avatar} source={{ uri: data?.sellerLogo }} />
-     <View style={styles.content}>
-        <Typography.Text style={styles.name} strong>{data?.sellerName}</Typography.Text>
-        <Typography.Text style={styles.desc} size="small" color="disabled" numberOfLines={2}>{data?.sellerNotice}</Typography.Text>
-        <Image style={styles.tag} source={require('@/assets/images/tag/store.png')} />
-     </View>
-    </View>
+    <Skeleton style={styles.container} text={{ rows: 2 }} avatar={{ circle: true }} loading={loading}>
+      <View style={styles.container}>
+        <Image style={styles.avatar} source={{ uri: data?.sellerLogo }} />
+        <View style={styles.content}>
+            <Typography.Text style={styles.name} strong>{data?.sellerName}</Typography.Text>
+            <Typography.Text style={styles.desc} size="small" color="disabled" numberOfLines={2}>{data?.sellerNotice}</Typography.Text>
+            <Image style={styles.tag} source={require('@/assets/images/tag/store.png')} />
+        </View>
+        </View>
+    </Skeleton>
   )
 }
 

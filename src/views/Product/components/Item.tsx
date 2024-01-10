@@ -1,6 +1,6 @@
 import { PropsWithChildren } from 'react';
-import { Image, StyleProp, StyleSheet, TouchableWithoutFeedback, View, ViewStyle } from 'react-native';
-import Typography from '@/components/Typography';
+import { Image, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
+import { Icon, Link, Typography } from '@/components';
 
 interface ItemProps {
   label: string;
@@ -11,13 +11,11 @@ interface ItemProps {
 
 const Item = ({ style, label, contentStyle, onPress, children }: PropsWithChildren<ItemProps>) => {
   return (
-    <TouchableWithoutFeedback onPress={onPress}>
-      <View style={[styles.item, style]}>
-        <Typography.Text style={styles.label} size="small" color="disabled">{label}</Typography.Text>
-        <View style={[styles.content, contentStyle]}>{children}</View>
-        <Image style={styles.arrow} source={require('@/assets/images/icons/arrow.png')} />
-      </View>
-    </TouchableWithoutFeedback>
+    <Link style={[styles.item, style]} onPress={onPress}>
+      <Typography.Text style={styles.label} color="disabled">{label}</Typography.Text>
+      <View style={[styles.content, contentStyle]}>{children}</View>
+      <Image style={styles.arrow} source={require('@/assets/images/icons/arrow.png')} />
+    </Link>
   )
 }
 
@@ -27,17 +25,12 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   item: {
+    padding: 12,
     flexDirection: 'row',
-    paddingVertical: 14,
-    paddingHorizontal: 12,
     minHeight: 44,
   },
-  itemLine: {
-    borderBottomColor: '#eee',
-    borderBottomWidth: StyleSheet.hairlineWidth
-  },
   label: {
-    marginTop: 2
+    fontSize: 13,
   },
   content: {
     flex: 1,

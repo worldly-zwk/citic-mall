@@ -1,16 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { StyleSheet, ScrollView, View, Image, SafeAreaView } from 'react-native';
-import Popup from '@/components/Popup';
-import FormItem from '@/components/FormItem';
-import RadioButton from '@/components/RadioButton';
-import InputNumber from '@/components/InputNumber';
-import Button from '@/components/Button';
+import { Typography, Form, Button, InputNumber, RadioButton, Popup } from '@/components';
 import { useBoolean, useRequest } from '@/hooks';
 import { PRODUCT } from '@/services';
-import Typography from '@/components/Typography';
-import { ProductScreenProps } from '@/typings/screen';
 import { useCart } from '@/store';
-import { AddCartMode, OrderModel } from '@/typings';
+import { normNameToMap, normMapToName, toast } from '@/utils';
+import { AddCartMode, OrderModel, ProductScreenProps } from '@/typings';
 import Carousel from './components/Carousel';
 import BasisCard from './components/BasisCard';
 import GoodsCard from './components/GoodsCard';
@@ -19,6 +14,8 @@ import StoreCard from './components/StoreCard';
 import SuggestCard from './components/SuggestCard';
 import Introduce from './components/Introduce';
 import ToolBar from './components/Toolbar';
+
+const FormItem = Form.Item;
 
 
 const Product = ({ route, navigation }: ProductScreenProps) => {
@@ -31,7 +28,7 @@ const Product = ({ route, navigation }: ProductScreenProps) => {
     check: state.check,
   }));
 
-  const [state] = useRequest<API.ProductInfo>(`${PRODUCT.details}/${id}`);
+  const [state, { run }] = useRequest<API.ProductInfo>(`${PRODUCT.details}/${id}`);
   const [descState] = useRequest<string>(`${PRODUCT.description}/${id}`);
   const [activityState, { run: activityRun }] = useRequest<API.ProductPromotion[]>(`${PRODUCT.activity}/${id}`, {
     manual: true,
@@ -58,6 +55,17 @@ const Product = ({ route, navigation }: ProductScreenProps) => {
     return state.data?.productGoodsList?.find(({ isDefault }) => isDefault === 1);
   }, [state.data?.productGoodsList]);
 
+  const curGoodsNormMap = useMemo(() => normNameToMap(curGoodsInfo?.normName), [curGoodsInfo]);
+
+  const switchGoods = useCallback((name: string, value: string) => {
+    curGoodsNormMap[name] = value;
+    const normName = normMapToName(curGoodsNormMap);
+    const info = state.data?.productGoodsList.find((goodsItem) => goodsItem.normName === normName);
+    if (info?.id) {
+      run({ productGoodsId: info.id });
+    }
+  }, [curGoodsNormMap, state.data?.productGoodsList]);
+
   const handleOpenPopup = useCallback((mode: AddCartMode) => {
     setMode(mode);
     setVisible(true);
@@ -77,6 +85,7 @@ const Product = ({ route, navigation }: ProductScreenProps) => {
     }).then(success => {
       if (success) {
         setVisible(false);
+        toast('加入购物车成功');
       }
     });
   }, [curGoodsInfo, count]);
@@ -118,7 +127,7 @@ const Product = ({ route, navigation }: ProductScreenProps) => {
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.main}>
         <Carousel items={state.data?.productLeadPicList} />
-        <BasisCard data={state.data} />
+        <BasisCard loading={state.loading} data={state.data} />
         <GoodsCard
           info={curGoodsInfo}
           coupons={ticketState.data}
@@ -128,7 +137,7 @@ const Product = ({ route, navigation }: ProductScreenProps) => {
           onClickNorm={() => setVisible(true)}
         />
         <FeedbackCard />
-        <StoreCard data={state.data} />
+        <StoreCard loading={state.loading} data={state.data} />
         <SuggestCard data={state.data?.catalogRandomProList} />
         <Introduce data={state.data} richText={descState.data} />
         <View style={styles.bottomLine}>
@@ -148,23 +157,37 @@ const Product = ({ route, navigation }: ProductScreenProps) => {
           </View>
         </View>
         <ScrollView style={styles.form}>
-          {norms.map(({ label, items }) => (
-            <FormItem label={label} key={label}>
-              <RadioButton options={items} />
+          <Form
+            colon={false}
+          >
+            {norms.map(({ label, items }, index) => (
+              <FormItem
+                key={index}
+                label={label}
+                style={styles.formItem}
+                labelTextStyle={styles.formLabel}
+              >
+                <RadioButton options={items} value={curGoodsNormMap[label]} onChange={value => switchGoods(label, value as string)}  />
+              </FormItem>
+            ))}
+            <FormItem
+              label="购买数量"
+              layout="horizontal"
+              labelTextStyle={styles.formLabel}
+              contentStyle={styles.number}
+            >
+              <InputNumber value={count} onChange={setCount} />
             </FormItem>
-          ))}
-          <FormItem label="购买数量" layout="horizontal" contentStyle={styles.number}>
-            <InputNumber value={count} onChange={setCount} />
-          </FormItem>
+          </Form>
         </ScrollView>
         {mode === null ? (
           <Button.Group style={{ height: 49 }}>
             <Button onPress={handleAddCart}>加入购物车</Button>
-            <Button color={['#ff680d', '#e65321']} onPress={handleBuyNow}>立即购买</Button>
+            <Button linearGradient={{ colors: ['#ff680d', '#e65321'] }} onPress={handleBuyNow}>立即购买</Button>
           </Button.Group>
         ) : (
           <View style={{ padding: 4 }}>
-            <Button color={['#ff680d', '#e65321']} onPress={handleFinish}>确定</Button>
+            <Button linearGradient={{ colors: ['#ff680d', '#e65321'] }} onPress={handleFinish}>确定</Button>
           </View>
         )}
       </Popup>
@@ -208,8 +231,18 @@ const styles = StyleSheet.create({
     minHeight: 138,
     maxHeight: 371,
   },
+  formItem: {
+    marginBottom: 0,
+    borderBottomColor: '#eee',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+  },
   number: {
-    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+  },
+  formLabel: {
+    color: '#333',
+    fontSize: 16,
   },
   bottomLine: {
     height: 36,
