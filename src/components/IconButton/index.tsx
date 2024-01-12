@@ -4,14 +4,15 @@ import Typography from "../Typography";
 interface IconButtonProps {
   icon: ImageSourcePropType;
   style?: StyleProp<ViewStyle>;
+  onPress?: () => void;
   children?: string;
 }
 
 const IconButton = (props: IconButtonProps) => {
-  const { icon, style, children } = props;
+  const { icon, style, onPress, children } = props;
 
   return (
-    <TouchableWithoutFeedback>
+    <TouchableWithoutFeedback onPress={onPress}>
       <View style={[styles.container, style]}>
         <Image style={styles.icon} source={icon} />
         <Typography.Text size="mini" color="secondary">{children}</Typography.Text>

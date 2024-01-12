@@ -1,6 +1,6 @@
-import { isObject } from "./type";
+import { isMap, isObject } from './type';
 
-function pick<T extends RecordAny, K extends keyof T>(data: T, props: readonly K[]) {
+export function pick<T extends RecordAny, K extends keyof T>(data: T, props: readonly K[]) {
   const result = {} as Pick<T, K>;
   props.forEach((prop) => {
     if (data.hasOwnProperty(prop)) {
@@ -15,4 +15,22 @@ export function normMapToName(normMap?: RecordAny) {
     return Object.entries(normMap).map(item => item.join(',')).join(';');
   }
   return '';
+}
+
+export function enumToOptions(enums: RecordAny) {
+  const options: Record<'label' | 'value', any>[] = [];
+
+  if (isMap(enums)) {
+    enums.forEach((label, value) => {
+      options.push({ label, value });
+    });
+  }
+
+  if (isObject(enums)) {
+    Object.entries(enums).forEach(([value, label]) => {
+      options.push({ label, value });
+    })
+  }
+
+  return options;
 }

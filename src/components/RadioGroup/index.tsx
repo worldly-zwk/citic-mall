@@ -1,7 +1,8 @@
 import { Key, useMemo } from "react";
-import { StyleSheet, TouchableWithoutFeedback, View } from "react-native";
+import { Image, StyleSheet, TouchableWithoutFeedback, View } from "react-native";
 import { useControllableValue } from "@/hooks";
 import Typography from "../Typography";
+import Space from "../Space";
 
 interface RadioOption {
   label: string;
@@ -9,13 +10,14 @@ interface RadioOption {
   disabled?: boolean;
 }
 
-interface RadioButtonProps {
-  options: string[] | RadioOption[];
+interface RadioGroupProps {
+  round?: boolean;
   value?: Key;
   onChange?: (value: Key) => void;
+  options: string[] | RadioOption[];
 }
 
-const RadioButton = (props: RadioButtonProps) => {
+const RadioGroup = (props: RadioGroupProps) => {
   const { options } = props;
   const [activeKey, setActiveKey] = useControllableValue<Key>(props);
 
@@ -35,16 +37,19 @@ const RadioButton = (props: RadioButtonProps) => {
   return (
     <View style={styles.container}>
       {items.map(({ label, value }) => {
-        const isCurrent = activeKey === value;
+        const checked = activeKey === value;
         return  (
           <TouchableWithoutFeedback key={value} onPress={() => {
             if (activeKey !== value) {
               setActiveKey(value);
             }
           }}>
-            <View style={[styles.radioButton, isCurrent ? styles.radioButtonActive : null]}>
-              <Typography.Text primary={isCurrent}>{label}</Typography.Text>
-            </View>
+            <Space size={8} align="center">
+              <Image style={styles.radio} source={checked ? require('@/assets/images/icons/checkbox-checked.png') : require('@/assets/images/icons/checkbox.png')} />
+              {label && (
+                <Typography.Text>{label}</Typography.Text>
+              )}
+            </Space>
           </TouchableWithoutFeedback>
         )
       })}
@@ -54,22 +59,14 @@ const RadioButton = (props: RadioButtonProps) => {
 
 const styles = StyleSheet.create({
   container: {
+    gap: 12,
     flexDirection: 'row',
     flexWrap: 'wrap',
   },
-  radioButton: {
-    borderWidth: 1,
-    borderColor: 'transparent',
-    backgroundColor: '#f5f6fa',
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-    borderRadius: 26,
-    marginRight: 12,
-    marginBottom: 12,
+  radio: {
+    width: 24,
+    height: 24,
   },
-  radioButtonActive: {
-    borderColor: '#e65321'
-  }
 });
 
-export default RadioButton;
+export default RadioGroup;

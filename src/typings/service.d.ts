@@ -341,6 +341,21 @@ declare namespace API {
     sevenDays: number;
   }
 
+  interface Invoice {
+    invoiceType: number;
+    bonusOrderFee?: number;
+    bonusOrderAmount?: number;
+    invoiceContent: string;
+    invoiceProperty?: number;
+    invoiceTitle?: string;
+    registAddress?: string;
+    registTelephone?: string;
+    bankName?: string;
+    bankCode?: string;
+    taxpayerCode?: string;
+    invoiceEmail?: string;
+  }
+
   interface OrderCheck {
     code: number;
     message: string;

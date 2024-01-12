@@ -1,40 +1,30 @@
-import { forwardRef, useImperativeHandle, useMemo, useRef } from 'react';
+import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
 import { View, ViewProps } from 'react-native';
-import { useSetState } from '@/hooks';
 import { FieldContext, FormContext } from './context';
-import { FormContextProps, FormInstance } from './typings';
+import { FormContextProps } from './typings';
+import useForm, { FormInstance } from './hooks/useForm';
 
 interface FormProps<V = any> extends ViewProps, FormContextProps {
+  form?: FormInstance;
   initialValues?: V;
 }
 
-const InternalForm = forwardRef<FormInstance, FormProps>(function Form(props, ref) {
-  const { initialValues = {}, layout, labelWidth, colon = true, ...restProps } = props;
-  const storeRef = useRef();
-  const [state, setState] = useSetState(initialValues);
+const InternalForm = forwardRef<FormInstance | undefined, FormProps>(function Form(props, ref) {
+  const { form, initialValues = {}, layout, labelWidth, colon = true, ...restProps } = props;
+  const formInstance = useForm(form);
+  const { setInitialValues } = formInstance.getInternalHooks();
 
-  storeRef.current = state;
-
-  const formInstance = useMemo(() => {
-    return {
-      getValue: (name: string) => {
-        return storeRef.current?.[name]
-      },
-      setValue: (name: string, value: any) => {
-        setState({
-          [name]: value
-        });
-      },
-      getValues: () => storeRef.current || {},
-      setValues: setState,
-    }
-  }, []);
+  const mountRef = useRef(false);
+  setInitialValues(initialValues, !mountRef.current);
+  if (!mountRef.current) {
+    mountRef.current = true;
+  }
 
   useImperativeHandle(ref, () => formInstance);
 
   return (
     <FormContext.Provider value={{ colon, layout, labelWidth }}>
-      <FieldContext.Provider value={{ store: state, ...formInstance }}>
+      <FieldContext.Provider value={formInstance}>
         <View {...restProps} />
       </FieldContext.Provider>
     </FormContext.Provider>

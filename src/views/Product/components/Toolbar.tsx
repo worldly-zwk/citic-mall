@@ -2,15 +2,16 @@ import { FC } from "react";
 import { StyleSheet, View } from "react-native";
 import IconButton from "@/components/IconButton";
 import Button from "@/components/Button";
-import { AddCartMode } from "@/typings";
+import { AddCartMode, ProductScreenProps } from "@/typings";
+import { useNavigation } from "@react-navigation/native";
 
 interface ToolbarProps {
   data?: API.ProductInfo;
+  navigation?: ProductScreenProps['navigation'];
   onSubmit?: (mode: AddCartMode) => void;
 }
 
 const Toolbar: FC<ToolbarProps> = ({ onSubmit }) => {
-
   return (
     <View style={styles.container}>
       <View style={styles.icons}>
@@ -20,7 +21,7 @@ const Toolbar: FC<ToolbarProps> = ({ onSubmit }) => {
       </View>
       <Button.Group>
         <Button onPress={() => onSubmit?.(AddCartMode.ADD)}>加入购物车</Button>
-        <Button onPress={() => onSubmit?.(AddCartMode.BUY)} color={['#ff680d', '#e65321']}>立即购买</Button>
+        <Button onPress={() => onSubmit?.(AddCartMode.BUY)} linearGradient={{ colors: ['#ff680d', '#e65321'] }}>立即购买</Button>
       </Button.Group>
     </View>
   )

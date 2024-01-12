@@ -1,23 +1,21 @@
-import { cloneElement, isValidElement, useCallback, useContext, useMemo } from "react";
-import { NativeSyntheticEvent, StyleProp, StyleSheet, TextStyle, View, ViewProps, ViewStyle } from "react-native";
+import { cloneElement, isValidElement, useContext, useMemo } from "react";
+import { StyleProp, StyleSheet, TextStyle, View, ViewProps, ViewStyle } from "react-native";
 import Typography from "../Typography";
-import { FormContextProps } from "./typings";
-import { FieldContext, FormContext } from "./context";
-import { getValueFromEvent } from "./utils";
+import useFormField from "./hooks/useFormField";
+import { FieldProps } from "./typings";
+import { FormContext } from "./context";
 
-interface FormItemProps extends ViewProps, FormContextProps {
-  name?: string;
+interface FormItemProps extends ViewProps, FieldProps {
+  help?: string;
   label?: string;
   labelStyle?: StyleProp<ViewStyle>;
   labelTextStyle?: StyleProp<TextStyle>;
-  trigger?: string;
-  valuePropName?: string;
   contentStyle?: StyleProp<ViewStyle>;
 }
 
 const FormItem = (props: FormItemProps) => {
   const {
-    name,
+    help,
     label,
     style,
     layout,
@@ -26,52 +24,41 @@ const FormItem = (props: FormItemProps) => {
     labelWidth,
     labelStyle,
     labelTextStyle,
-    trigger = 'onChange',
-    valuePropName = 'value'
   } = props;
   const formContext = useContext(FormContext);
-  const fieldContext = useContext(FieldContext);
   const colon = formContext.colon || props.colon;
   const isHorizontal = (layout || formContext.layout) === 'horizontal';
   const itemStyles = [styles.item, isHorizontal ? styles.horizontalItem : null, style];
   const labelStyles = useMemo(() => {
-    const labelStyle: ViewStyle = {
+    const labelContainerStyle: ViewStyle = {
       width: labelWidth || formContext.labelWidth
     };
     if (isHorizontal) {
-      Object.assign(labelStyle, styles.horizontalLabel)
+      Object.assign(labelContainerStyle, styles.horizontalLabel)
     }
-    return StyleSheet.compose(styles.label, [labelStyle, labelStyle]);
+    return StyleSheet.compose(styles.label, [labelContainerStyle, labelStyle]);
   }, [isHorizontal, labelStyle, labelWidth, formContext]);
 
   const contentStyles = [isHorizontal ? styles.horizontalContent : null, contentStyle];
 
-  const fieldProps = useCallback((childProps: RecordAny) => {
-    const originTriggerFunc = childProps[trigger];
-    const controlProps = { ...childProps };
-    if (name) {
-      controlProps[valuePropName] = fieldContext.getValue(name);
-      controlProps[trigger] =  (event: NativeSyntheticEvent<any>) => {
-        fieldContext.setValue(name, getValueFromEvent(event));
-        originTriggerFunc?.(event);
-      }
-    }
-    return controlProps;
-  }, [name, trigger, valuePropName]);
+  const getControlled = useFormField(props);
 
   return (
     <View style={itemStyles}>
       {label && (
         <View style={labelStyles}>
-          <Typography.Text style={labelTextStyle} color="secondary">
+          <Typography.Text style={labelTextStyle}>
             {label}
             {(isHorizontal && colon) && ' :'}
           </Typography.Text>
         </View>
       )}
       <View style={contentStyles}>
-        {isValidElement(children) ? cloneElement(children, fieldProps(children.props)) : children}
+        {isValidElement(children) ? cloneElement(children, getControlled(children.props)) : children}
       </View>
+      {help && (
+        <Typography.Text size="small" color="secondary" style={styles.help}>{help}</Typography.Text>
+      )}
     </View>
   )
 }
@@ -98,6 +85,9 @@ const styles = StyleSheet.create({
   },
   horizontalContent: {
     flex: 1
+  },
+  help: {
+    marginTop: 12,
   }
 });
 

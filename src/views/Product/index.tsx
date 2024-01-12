@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { StyleSheet, ScrollView, View, Image, SafeAreaView } from 'react-native';
-import { Typography, Form, Button, InputNumber, RadioButton, Popup } from '@/components';
+import { Typography, Form, Button, InputNumber, Popup, Radio } from '@/components';
 import { useBoolean, useRequest } from '@/hooks';
 import { PRODUCT } from '@/services';
 import { useCart } from '@/store';
@@ -167,7 +167,13 @@ const Product = ({ route, navigation }: ProductScreenProps) => {
                 style={styles.formItem}
                 labelTextStyle={styles.formLabel}
               >
-                <RadioButton options={items} value={curGoodsNormMap[label]} onChange={value => switchGoods(label, value as string)}  />
+                <Radio.Group
+                  buttonRound
+                  optionType="button"
+                  options={items}
+                  value={curGoodsNormMap[label]}
+                  onChange={value => switchGoods(label, value as string)}
+                />
               </FormItem>
             ))}
             <FormItem
@@ -233,6 +239,7 @@ const styles = StyleSheet.create({
   },
   formItem: {
     marginBottom: 0,
+    paddingBottom: 12,
     borderBottomColor: '#eee',
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
@@ -241,7 +248,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   formLabel: {
-    color: '#333',
     fontSize: 16,
   },
   bottomLine: {

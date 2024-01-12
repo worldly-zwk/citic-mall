@@ -13,4 +13,6 @@ export const ICON_MAP = {
   return: require('@/assets/images/icons/return.png'),
   barter: require('@/assets/images/icons/barter.png'),
   appeal: require('@/assets/images/icons/appeal.png'),
+  radio: require('@/assets/images/icons/checkbox.png'),
+  radioChecked: require('@/assets/images/icons/checkbox-checked.png'),
 }
