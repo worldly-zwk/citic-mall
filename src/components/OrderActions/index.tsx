@@ -30,7 +30,7 @@ const OrderActions = ({ order, buttonStyle }: AddressCardProps) => {
   }, [cartAgain, order.orderSn]);
 
   if (order.status === OrderStatus.PAYMENT) {
-    return <Button size="small" type="primary" round style={buttonStyle}>去支付</Button>
+    return <Button size="small" type="primary" round style={buttonStyle} to={{ screen: 'OrderPayment', params: { orderSn: order.orderSn as string } }}>去支付</Button>
   }
 
   if (order.status === OrderStatus.DELIVERY) {

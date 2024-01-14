@@ -32,6 +32,9 @@ function useTimer(second: number, autoplay = false) {
     if (autoplay) {
       actions.start(second);
     }
+    return () => {
+      clearTimeout(timerRef.current);
+    }
   }, [])
 
   return [state, actions] as const;

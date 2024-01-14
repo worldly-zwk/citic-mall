@@ -13,7 +13,7 @@ import {
   InvoiceTypeEnum
 } from './constants';
 
-interface InvoiceStore extends Omit<API.Invoice, 'invoiceType' | 'invoiceProperty'> {
+interface InvoiceStore extends Omit<API.Invoice, 'type' | 'name' | 'content'> {
   type: InvoiceTypeEnum;
   name: InvoiceNameEnum;
   content: InvoiceContentEnum;
@@ -29,32 +29,32 @@ const OrderInvoice = ({ route, navigation }: OrderInvoiceScreenProps) => {
   const invoicing = content === InvoiceContentEnum.DETAIL;
 
   const initialValues = useMemo<InvoiceStore>(() => {
-    const { invoiceType, invoiceProperty, ...restInvoice } = invoice;
-    let type = InvoiceTypeEnum.GENERAL;
-    let name = InvoiceNameEnum.PERSONAL;
+    const { type, property, ...restInvoice } = invoice;
+    let invoiceType = InvoiceTypeEnum.GENERAL;
+    let invoiceTitle = InvoiceNameEnum.PERSONAL;
     let content = InvoiceContentEnum.NULL;
 
-    if (invoiceType) {
+    if (type) {
       content = InvoiceContentEnum.DETAIL;
 
-      if (invoiceType === 2) {
-        name = InvoiceNameEnum.CORPORATE;
+      if (type === 2) {
+        invoiceTitle = InvoiceNameEnum.CORPORATE;
       }
 
-      if (invoiceProperty === 2 && invoiceType !== 3) {
-        type = InvoiceTypeEnum.ELECTRONIC;
+      if (property === 1 && type !== 3) {
+        invoiceType = InvoiceTypeEnum.ELECTRONIC;
       }
 
-      if (invoiceType === 3) {
-        type = InvoiceTypeEnum.PROFESSIONAL;
+      if (type === 3) {
+        invoiceType = InvoiceTypeEnum.PROFESSIONAL;
       }
     }
 
     return {
-      type,
+      ...restInvoice,
+      type: invoiceType,
       name,
       content,
-      ...restInvoice,
     }
   }, [invoice]);
 
@@ -78,31 +78,34 @@ const OrderInvoice = ({ route, navigation }: OrderInvoiceScreenProps) => {
       }
     }
 
+    console.log(restValues, )
+
     setInvoice({
-      invoiceType,
-      invoiceProperty,
-      invoiceTitle: '个人发票',
-      invoiceContent: INVOICE_CONTENT_ENUM.get(content) as string,
+      title: '个人发票',
       ...restValues,
+      type: invoiceType,
+      property: invoiceProperty,
+      content: INVOICE_CONTENT_ENUM.get(content) as string,
     });
 
     navigation.navigate('Order');
   }, [setInvoice]);
 
+  // TODO 切换时在form中invoiceTitle字段丢了
   const renderInvoiceName = () => {
     if (type === InvoiceTypeEnum.PROFESSIONAL) {
       return (
         <>
-          <Form.Item name="invoiceTitle">
+          <Form.Item name="title">
             <Input size="middle" style={styles.input} bordered={false} placeholder="请输入单位名称（必填）" />
           </Form.Item>
           <Form.Item name="taxpayerCode">
             <Input size="middle" style={styles.input} bordered={false} placeholder="请输入15或18位纳税人识别号（必填）" />
           </Form.Item>
-          <Form.Item name="registAddress">
+          <Form.Item name="address">
             <Input size="middle" style={styles.input} bordered={false} placeholder="请输入注册地址（必填）" />
           </Form.Item>
-          <Form.Item name="registTelephone">
+          <Form.Item name="telephone">
             <Input size="middle" style={styles.input} bordered={false} placeholder="请输入注册电话（必填）" />
           </Form.Item>
           <Form.Item name="bankName">
@@ -122,10 +125,10 @@ const OrderInvoice = ({ route, navigation }: OrderInvoiceScreenProps) => {
         </Form.Item>
         {name === InvoiceNameEnum.CORPORATE && (
           <>
-            <Form.Item name="invoiceTitle">
+            <Form.Item name="title">
               <Input size="middle" style={styles.input} bordered={false} placeholder="请输入单位名称" />
             </Form.Item>
-            <Form.Item name="taxpayerCode">
+            <Form.Item name="code">
               <Input size="middle" style={styles.input} bordered={false} placeholder="请输入15或18位纳税人识别号" />
             </Form.Item>
           </>

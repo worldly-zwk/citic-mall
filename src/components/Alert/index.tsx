@@ -19,10 +19,17 @@ export default {
     );
   },
   confirm: (options: ConfirmProps) => {
+    const originOk = options?.onOk;
     const originCancel = options?.onCancel;
     const rootSibling = new RootSiblingsManager(
       <Confirm
         {...options}
+        onOk={() => {
+          setTimeout(() => {
+            originOk?.();
+            rootSibling.destroy();
+          }, 200)
+        }}
         onCancel={() => {
           setTimeout(() => {
             originCancel?.();

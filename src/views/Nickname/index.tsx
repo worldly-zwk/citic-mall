@@ -1,6 +1,6 @@
-import { StyleSheet } from 'react-native';
-import { Button, Form, Input, Typography, FormInstance } from '@/components';
 import { useCallback, useRef } from 'react';
+import { StyleSheet } from 'react-native';
+import { Button, Form, FormInstance, Input, Typography } from '@/components';
 import { NicknameScreenProps } from '@/typings';
 import { useMember } from '@/store';
 
@@ -11,7 +11,7 @@ const Nickname = ({ route, navigation }: NicknameScreenProps) => {
   const setMember = useMember(state => state.set);
 
   const handleSubmit = useCallback(() => {
-    setMember(formRef.current?.getValues()).then(success => {
+    setMember(formRef.current?.getFieldsValue()).then(success => {
       if (success) {
         navigation.goBack();
       }

@@ -8,15 +8,15 @@ interface OrderStore {
   order: null | API.OrderInit;
   invoice: API.Invoice;
   orderModel: OrderModel;
-  init: (model: OrderModel, data?: Omit<API.OrderInitParams, 'orderModel'>) => Promise<API.OrderInit>;
+  init: (model: OrderModel, data?: Omit<API.OrderInitParams, 'orderModel'>, init?: boolean) => Promise<API.OrderInit>;
   update: (data: Omit<API.OrderInitParams, 'orderModel'>) => void;
   setInvoice: (invoice: API.Invoice) => void;
-  finish: () => void;
+  finish: (data: Pick<API.OrderCommitParams, 'memberNotes'>) => Promise<API.OrderCommit>;
 }
 
 const initialInvoice = {
-  invoiceType: 0,
-  invoiceContent: '不开发票',
+  type: 0,
+  content: '不开发票',
 };
 
 function hasNotSupportSevenBack(sellers: API.OrderSeller[]) {
@@ -35,16 +35,30 @@ const useOrder = create<OrderStore>((set, get) => ({
   order: null,
   invoice: initialInvoice,
   orderModel: OrderModel.ORDINARY,
-  init: async (orderModel, data = {}) => {
+  init: async (orderModel, data = {}, init = true) => {
     const order = await request.post<API.OrderInit>(ORDER.init, { orderModel, ...data });
-    set({ order, tips: hasNotSupportSevenBack(order.productVOList), orderModel, invoice: initialInvoice });
+    set({ order, tips: hasNotSupportSevenBack(order.productVOList), orderModel });
+    if (init) {
+      set({ invoice: initialInvoice });
+    }
     return order;
   },
-  update: data => get().init(get().orderModel, data),
+  update: data => get().init(get().orderModel, data, false),
   setInvoice: (invoice: API.Invoice) => {
     set({ invoice });
   },
-  finish: () => {}
+  finish: (values) => {
+    const { order, orderModel, invoice } = get();
+    const addressId = order?.addressVO?.id;
+    const moneyPay = order?.moneyPay;
+    return request.post<API.OrderCommit>(ORDER.commit, {
+      moneyPay,
+      addressId,
+      orderModel,
+      invoice,
+      ...values,
+    })
+  }
 }));
 
 export default useOrder;

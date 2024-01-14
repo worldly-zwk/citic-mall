@@ -23,6 +23,7 @@ const Confirm = (props: ConfirmProps) => {
     cancelText = '取消',
     onOk,
     onCancel,
+
     contentStyle,
     okButtonStyle
   } = props;
@@ -34,8 +35,8 @@ const Confirm = (props: ConfirmProps) => {
   }, [onCancel, hide]);
 
   const handleOk = useCallback(() => {
+    hide();
     onOk?.();
-    handleCancel();
   }, [handleCancel]);
 
   return (

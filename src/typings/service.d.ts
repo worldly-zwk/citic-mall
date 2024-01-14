@@ -342,18 +342,29 @@ declare namespace API {
   }
 
   interface Invoice {
-    invoiceType: number;
+    /**
+     * 发票类型
+     * 1 个人发票
+     * 2 单位发票
+     * 3 增值专票
+     */
+    type: number;
     bonusOrderFee?: number;
     bonusOrderAmount?: number;
-    invoiceContent: string;
-    invoiceProperty?: number;
-    invoiceTitle?: string;
-    registAddress?: string;
-    registTelephone?: string;
+    content: string;
+    /**
+     * 发票属性
+     * 1 电子发票
+     * 2 普通发票
+     */
+    property?: number;
+    title?: string;
+    address?: string;
+    telephone?: string;
     bankName?: string;
     bankCode?: string;
-    taxpayerCode?: string;
-    invoiceEmail?: string;
+    code?: string;
+    email?: string;
   }
 
   interface OrderCheck {
@@ -364,6 +375,32 @@ declare namespace API {
   interface OrderInitParams {
     orderModel: string;
     addressId?: number;
+  }
+
+  interface OrderCommitParams {
+    account: string;
+    mobile: string;
+    activityId: string;
+    addressId: number;
+    couponPlatformSn: string[];
+    couponSn: string[];
+    memberNotes: string;
+    moneyPay: string;
+    orderModel: string;
+    performers: any[];
+    productList: any[];
+  }
+
+  enum OrderPaidStatus {
+    N,
+    Y
+  }
+
+  interface OrderCommit {
+    isPaid: OrderPaidStatus;
+    goJumpPayfor: boolean;
+    orderSn: string;
+    orderSnList: string[];
   }
 
   interface Agreement {
@@ -477,4 +514,18 @@ declare namespace API {
     today: string;
     todayList: Omit<CollectionProduct, 'id'>[];
   };
+
+  interface Payment {
+    order: {
+      orderSn: string;
+      bonusPayAmount: number;
+      payMoney: number;
+      restTime: number;
+    };
+    paymentList: {
+      code: string;
+      name: string;
+      image: string;
+    }[];
+  }
 }

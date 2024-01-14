@@ -1,3 +1,4 @@
+import { useCallback, useMemo, useState } from 'react';
 import { StyleSheet, SafeAreaView, ScrollView, View, TextInput } from 'react-native';
 import { Cell, Notice, Space, Typography, Button } from '@/components';
 import { useOrder } from '@/store';
@@ -8,8 +9,38 @@ import SummaryCard from './components/SummaryCard';
 
 const CellGroup = Cell.Group;
 
+const invoicePropertyTextEnum: RecordAny = {
+  1: '电子',
+  2: '普票',
+}
+
 const Order = ({ route, navigation }: OrderScreenProps) => {
   const orderStore = useOrder();
+  const [remark, setRemark] = useState('');
+
+  const invoiceName = useMemo(() => {
+    const { invoiceType, invoiceProperty, invoiceTitle } = orderStore.invoice;
+
+    if (invoiceType === 3) {
+      return `专票（${invoiceTitle}）`;
+    } else if (invoiceType && invoiceProperty) {
+      return `${invoicePropertyTextEnum[invoiceProperty]}（${invoiceTitle}）`
+    }
+
+    return '不开发票';
+  }, [orderStore.invoice]);
+
+  const handleFinish = useCallback(() => {
+    orderStore.finish({
+      memberNotes: remark
+    }).then(({ goJumpPayfor, orderSn }) => {
+      if (goJumpPayfor) {
+        navigation.navigate('OrderPayment', { orderSn });
+      } else {
+        // TODO 支付成功页
+      }
+    })
+  }, [remark]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -25,7 +56,7 @@ const Order = ({ route, navigation }: OrderScreenProps) => {
               <Typography.Text>在线支付</Typography.Text>
             </Cell>
             <Cell label="发票信息" labelStyle={styles.label} to={{ screen: 'OrderInvoice' }}>
-              <Typography.Text>不开发票</Typography.Text>
+              <Typography.Text>{invoiceName}</Typography.Text>
             </Cell>
           </CellGroup>
           <CellGroup>
@@ -38,7 +69,7 @@ const Order = ({ route, navigation }: OrderScreenProps) => {
           </CellGroup>
           <CellGroup>
             <Cell label="备注" labelStyle={styles.label}>
-              <TextInput style={styles.remark} placeholder="可以对该订单进行备注哦～" placeholderTextColor="#999" />
+              <TextInput style={styles.remark} value={remark} onChangeText={setRemark} placeholder="可以对该订单进行备注哦～" placeholderTextColor="#999" />
             </Cell>
           </CellGroup>
           <SummaryCard />
@@ -49,7 +80,7 @@ const Order = ({ route, navigation }: OrderScreenProps) => {
           <Typography.Text size="large">实付款：</Typography.Text>
           <Typography.Price style={{ marginBottom: 2 }}>{orderStore.order?.moneyPay.toFixed(2)}</Typography.Price>
         </Space>
-        <Button style={styles.submit}>提交订单</Button>
+        <Button style={styles.submit} onPress={handleFinish}>提交订单</Button>
       </View>
     </SafeAreaView>
   )

@@ -3,7 +3,7 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Divider, GridProductList, OrderActions, Typography } from '@/components';
 import { OrderDetailsScreenProps, OrderStatus } from '@/typings';
-import { useRequest, useTimer } from '@/hooks';
+import { useRequest, useTimer, useTimerWithClock } from '@/hooks';
 import { ORDER, PRODUCT } from '@/services';
 import { convertProduct } from '@/utils/convert';
 import OrderState from './components/State';
@@ -17,7 +17,7 @@ const { Text } = Typography;
 const OrderDetails = ({ route, navigation }: OrderDetailsScreenProps) => {
   const { id } = route.params;
   const insets = useSafeAreaInsets();
-  const [time, actions] = useTimer(0);
+  const [clock, actions] = useTimerWithClock(0);
   const [state] = useRequest<API.OrderDetails>(`${ORDER.detail}/${id}`);
   const [recommendState] = useRequest<API.MemberRecommend>(PRODUCT.recommends, {
     defaultParams: {
@@ -25,13 +25,6 @@ const OrderDetails = ({ route, navigation }: OrderDetailsScreenProps) => {
     }
   });
   const order = state.data;
-
-
-  const timeText = useMemo(() => {
-    const hours = Math.floor(time / 60 / 60).toString();
-    const minute = Math.floor(time / 60 % 60).toString();
-    return `${hours.padStart(2, '0')}时${minute.padStart(2, '0')}分`
-  }, [time]);
 
   useEffect(() => {
     if (order?.orderStatus === OrderStatus.PAYMENT && order.restTime) {
@@ -51,7 +44,7 @@ const OrderDetails = ({ route, navigation }: OrderDetailsScreenProps) => {
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={{ paddingBottom: insets.bottom }}>
-        <OrderState title={order?.orderStatusName} describe={order?.orderStatusStep.replace('{time}', timeText)} />
+        <OrderState title={order?.orderStatusName} describe={order?.orderStatusStep.replace('{time}', `${clock.hours}时${clock.minute}分`)} />
         <View style={styles.main}>
           <OrderAddress address={order?.addressVo} />
           <OrderItems seller={order?.sellerVo} items={order?.orderProductList} />

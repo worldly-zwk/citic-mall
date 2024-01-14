@@ -30,7 +30,9 @@ export type RootStackParamList = {
     id: string;
   },
   OrderInvoice: undefined,
-  OrderPayment: undefined,
+  OrderPayment: {
+    orderSn: string;
+  },
   ProfileInfo: undefined;
   Nickname: {
     name?: string;

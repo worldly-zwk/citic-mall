@@ -10,6 +10,8 @@ export default {
   count: '/order/cart/count',
   check: '/order/v2/order/check',
   init: '/order/v2/order/init',
+  commit: '/order/v2/order/commit',
+  payment: '/order/pay',
   list: '/order/list',
   recharges: '/order/recharge/list',
   detail: '/order/detail',

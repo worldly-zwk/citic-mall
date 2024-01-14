@@ -3,6 +3,7 @@ import Item from './Item';
 import useForm from './hooks/useForm';
 import useWatch from './hooks/useWatch';
 export * from './typings';
+export * from './hooks/useForm';
 
 
 type FormType = typeof InternalForm & {

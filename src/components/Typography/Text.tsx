@@ -55,6 +55,7 @@ const TypographyText = (props: TypographyTextProps) => {
       items.push(styles[size]);
     } else if (typeof size === 'number') {
       textStyle.fontSize = size;
+      textStyle.lineHeight = size;
     }
 
     if (color) {

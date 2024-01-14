@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { createNativeStackNavigator, NativeStackNavigationOptions } from '@react-navigation/native-stack';
 import GlobalBack from '@/components/GlobalBack';
 import ProductTitle from '@/components/ProductTitle';
-import { ProductScreenProps, RootStackParamList } from '@/typings/screen';
+import { OrderPaymentScreenProps, ProductScreenProps, RootStackParamList } from '@/typings/screen';
 import Product from '@/views/Product';
 import CategoryTabs from '@/views/CategoryTabs';
 import Search from '@/views/Search';
@@ -48,11 +48,17 @@ const NavigatorScreen = () => {
   }, []);
 
   const screenProductOptions = useCallback((props: ProductScreenProps): NativeStackNavigationOptions => {
-  
       return {
         headerTitle: () => <ProductTitle {...props} />,
       }
     }, []);
+
+  const screenOrderPaymentOptions = useCallback(({ navigation }: OrderPaymentScreenProps): NativeStackNavigationOptions => {
+    return {
+      title: '收银台',
+      headerLeft: () => <GlobalBack onPress={() => navigation.navigate('OrderTabs', { tab: 1 })} />
+    }
+  }, []);
 
   return (
     <Navigator screenOptions={screenOptions}>
@@ -67,7 +73,7 @@ const NavigatorScreen = () => {
       <Screen name="OrderTabs" component={OrderTabs} options={{ title: '我的订单' }} />
       <Screen name="OrderDetails" component={OrderDetails} options={{ title: '订单详情' }} />
       <Screen name="OrderInvoice" component={OrderInvoice} options={{ title: '发票信息' }} />
-      <Screen name="OrderPayment" component={OrderPayment} options={{ title: '订单详情' }} />
+      <Screen name="OrderPayment" component={OrderPayment} options={screenOrderPaymentOptions} />
       <Screen name="ProfileInfo" component={ProfileInfo} options={{ title: '个人信息' }} />
       <Screen name="Nickname" component={Nickname} options={{ title: '' }} />
       <Screen name="Staff" component={Staff} options={{ title: '' }} />
