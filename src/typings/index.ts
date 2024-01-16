@@ -54,3 +54,27 @@ export enum CollectionTab {
   PRODUCT,
   SELLER,
 }
+
+/**
+   * 发票属性
+   * 0 普通发票
+   * 1 电子发票
+   */
+export enum InvoiceProperty {
+  ORDINARY,
+  ELECTRONIC,
+}
+
+/**
+ * 发票类型
+ * 0 不开发票
+ * 1 个人发票
+ * 2 单位发票
+ * 3 增值专票
+ */
+export enum InvoiceType {
+  NONE,
+  PERSONAL,
+  COMPANY,
+  VALUE_ADDED
+}

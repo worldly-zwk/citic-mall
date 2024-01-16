@@ -14,5 +14,7 @@ export default {
   other: '/promotion/couponthirdusers/member',
   collectionProduct: '/member/membercollectionproducts',
   collectionSeller: '/member/membercollectionsellers',
+  isCollectionProduct: '/member/membercollectionproducts/collection',
+  isCollectionSeller: '/member/membercollectionsellers/collection',
   logs: '/member/productlooklogs'
 }

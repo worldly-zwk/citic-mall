@@ -2,7 +2,7 @@ import { useCallback, useMemo } from 'react';
 import { StyleSheet, SafeAreaView, ScrollView, View } from 'react-native';
 import { Button, Notice, Form, Card, Radio, Input, Typography } from '@/components';
 import { useOrder } from '@/store';
-import { OrderInvoiceScreenProps } from '@/typings';
+import { InvoiceProperty, InvoiceType, OrderInvoiceScreenProps } from '@/typings';
 import {
   INVOICE_CONTENT_ENUM,
   INVOICE_CONTENT_OPTIONS,
@@ -13,13 +13,13 @@ import {
   InvoiceTypeEnum
 } from './constants';
 
-interface InvoiceStore extends Omit<API.Invoice, 'type' | 'name' | 'content'> {
+interface InvoiceStore extends Omit<API.Invoice, 'type' | 'property' | 'content'> {
   type: InvoiceTypeEnum;
   name: InvoiceNameEnum;
   content: InvoiceContentEnum;
 }
 
-const OrderInvoice = ({ route, navigation }: OrderInvoiceScreenProps) => {
+const OrderInvoice = ({ navigation }: OrderInvoiceScreenProps) => {
   const form = Form.useForm();
   const invoice = useOrder(state => state.invoice);
   const setInvoice = useOrder(state => state.setInvoice);
@@ -30,22 +30,22 @@ const OrderInvoice = ({ route, navigation }: OrderInvoiceScreenProps) => {
 
   const initialValues = useMemo<InvoiceStore>(() => {
     const { type, property, ...restInvoice } = invoice;
-    let invoiceType = InvoiceTypeEnum.GENERAL;
+    let invoiceType = InvoiceTypeEnum.ORDINARY;
     let invoiceTitle = InvoiceNameEnum.PERSONAL;
     let content = InvoiceContentEnum.NULL;
 
     if (type) {
       content = InvoiceContentEnum.DETAIL;
 
-      if (type === 2) {
-        invoiceTitle = InvoiceNameEnum.CORPORATE;
+      if (type === InvoiceType.COMPANY) {
+        invoiceTitle = InvoiceNameEnum.COMPANY;
       }
 
-      if (property === 1 && type !== 3) {
+      if (property === InvoiceProperty.ELECTRONIC && type !== InvoiceType.VALUE_ADDED) {
         invoiceType = InvoiceTypeEnum.ELECTRONIC;
       }
 
-      if (type === 3) {
+      if (type === InvoiceType.VALUE_ADDED) {
         invoiceType = InvoiceTypeEnum.PROFESSIONAL;
       }
     }
@@ -60,21 +60,21 @@ const OrderInvoice = ({ route, navigation }: OrderInvoiceScreenProps) => {
 
   const handleFinish = useCallback(() => {
     const { type, name, content, ...restValues } = form.getFieldsValue();
-    let invoiceType = 0;
-    let invoiceProperty = 2;
+    let invoiceType = InvoiceType.NONE;
+    let invoiceProperty = 0;
 
     if (content === InvoiceContentEnum.DETAIL) {
-      invoiceType = 1;
-      if (name === InvoiceNameEnum.CORPORATE) {
-        invoiceType = 2;
+      invoiceType = InvoiceType.PERSONAL;
+      if (name === InvoiceNameEnum.COMPANY) {
+        invoiceType = InvoiceType.COMPANY;
       }
 
       if (type === InvoiceTypeEnum.ELECTRONIC) {
-        invoiceProperty = 1;
+        invoiceProperty = InvoiceProperty.ELECTRONIC;
       }
 
       if (type === InvoiceTypeEnum.PROFESSIONAL) {
-        invoiceType = 3;
+        invoiceType = InvoiceType.VALUE_ADDED;
       }
     }
 
@@ -123,7 +123,7 @@ const OrderInvoice = ({ route, navigation }: OrderInvoiceScreenProps) => {
         <Form.Item name="name">
           <Radio.Group options={INVOICE_NAME_OPTIONS} />
         </Form.Item>
-        {name === InvoiceNameEnum.CORPORATE && (
+        {name === InvoiceNameEnum.COMPANY && (
           <>
             <Form.Item name="title">
               <Input size="middle" style={styles.input} bordered={false} placeholder="请输入单位名称" />
@@ -160,7 +160,7 @@ const OrderInvoice = ({ route, navigation }: OrderInvoiceScreenProps) => {
               <Radio.Group options={INVOICE_CONTENT_OPTIONS} />
             </Form.Item>
           </Card>
-          {(invoicing && type !== InvoiceTypeEnum.GENERAL) && (
+          {(invoicing && type !== InvoiceTypeEnum.ORDINARY) && (
             <Card contentStyle={styles.card}>
               <Typography.Text style={styles.title}>收票信息</Typography.Text>
               <Form.Item name="invoiceEmail" help="部分商品只支持电子发票，建议填写上述信息，以便商户将发票发送至您的邮箱。">

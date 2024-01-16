@@ -1,23 +1,22 @@
 import { Image, ImageSourcePropType, StyleProp, StyleSheet, TouchableWithoutFeedback, View, ViewStyle } from "react-native";
 import Typography from "../Typography";
+import Link, { LinkProps } from "../Link";
 
-interface IconButtonProps {
+interface IconButtonProps extends LinkProps {
   icon: ImageSourcePropType;
+  color?: 'primary' | 'secondary';
   style?: StyleProp<ViewStyle>;
-  onPress?: () => void;
   children?: string;
 }
 
 const IconButton = (props: IconButtonProps) => {
-  const { icon, style, onPress, children } = props;
+  const { icon, color = 'secondary', style, children, ...restProps } = props;
 
   return (
-    <TouchableWithoutFeedback onPress={onPress}>
-      <View style={[styles.container, style]}>
-        <Image style={styles.icon} source={icon} />
-        <Typography.Text size="mini" color="secondary">{children}</Typography.Text>
-      </View>
-    </TouchableWithoutFeedback>
+    <Link style={[styles.container, style]} {...restProps}>
+      <Image style={styles.icon} source={icon} />
+      <Typography.Text size="mini" color={color}>{children}</Typography.Text>
+    </Link>
   )
 }
 

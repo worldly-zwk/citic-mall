@@ -23,7 +23,7 @@ const OrderCard = ({ data, ...restProps }: AddressCardProps) => {
         <ProductInline items={data.productList} />
         <Space size={12} justify="flex-end">
           <Text size="small" color="secondary">共计{data.productList.length}件商品</Text>
-          <Text size="small" color="secondary">需付款：<Text size="large" strong>¥198</Text></Text>
+          <Text size="small" color="secondary">需付款：<Text size="large" strong>¥{data.payMoney}</Text></Text>
         </Space>
       </View>
       <Space style={styles.footer}>

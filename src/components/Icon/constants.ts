@@ -15,4 +15,6 @@ export const ICON_MAP = {
   appeal: require('@/assets/images/icons/appeal.png'),
   radio: require('@/assets/images/icons/checkbox.png'),
   radioChecked: require('@/assets/images/icons/checkbox-checked.png'),
+  star: require('@/assets/images/icons/star.png'),
+  starGrey: require('@/assets/images/icons/star-grey.png'),
 }

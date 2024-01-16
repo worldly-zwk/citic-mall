@@ -13,5 +13,5 @@ export default {
   sellerlist: '/product/search/sellerlist',
   activity: '/product/product/activity',
   ticket: '/product/product/ticket',
-  // /product/product/activity/114595?productGoodsId=175999
+  comment: '/product/productcomments/list'
 }

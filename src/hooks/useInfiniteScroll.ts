@@ -18,10 +18,11 @@ interface RequestState<T> {
   loadingMore: boolean;
 }
 
-const useInfiniteScroll = <T>(service: Service<T>, options: Options = {}) => {
+const useInfiniteScroll = <T>(serviceFn: Service<T>, options: Options = {}) => {
   const { refreshDeps = [] } = options;
   const indexRef = useRef<number>(1);
   const isLastPage = useRef(false);
+  const service = useMemoizedFn(serviceFn);
   const [state, setState] = useSetState<RequestState<T>>({
     count: 0,
     loading: false,
@@ -65,10 +66,11 @@ const useInfiniteScroll = <T>(service: Service<T>, options: Options = {}) => {
         count,
         loading: false,
       });
-    }).finally(() => {
+    }).catch(() => {
       setState({
+        data: [],
         loading: false
-      });
+      })
     });
   }, []);
 

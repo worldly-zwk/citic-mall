@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { StyleSheet, SafeAreaView, ScrollView, View, TouchableWithoutFeedback } from 'react-native';
 import { EventArg } from '@react-navigation/native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Space, Typography, Button, Card, Radio, Icon, Alert } from '@/components';
 import { OrderPaymentScreenProps } from '@/typings';
 import { useRequest, useTimerWithClock } from '@/hooks';
@@ -10,10 +11,11 @@ const { Text } = Typography;
 
 const OrderPayment = ({ route, navigation }: OrderPaymentScreenProps) => {
   const [payment, setPayment] = useState('');
+  const insets = useSafeAreaInsets();
   const [clock, actions] = useTimerWithClock(0);
   const [state] = useRequest<API.Payment>(ORDER.payment, {
     defaultParams: {
-      orderSn: route.params?.orderSn || 'FD2024011420411381121395'
+      orderSn: route.params.orderSn
     },
     onSuccess: result => {
       setPayment(result.paymentList[0].code);
@@ -46,7 +48,7 @@ const OrderPayment = ({ route, navigation }: OrderPaymentScreenProps) => {
   }, [order?.restTime]);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <ScrollView style={styles.main} contentContainerStyle={{ rowGap: 12 }}>
         <Card contentStyle={{ paddingVertical: 0 }}>
           <View style={styles.section}>
@@ -86,10 +88,10 @@ const OrderPayment = ({ route, navigation }: OrderPaymentScreenProps) => {
           })}
         </Card>
       </ScrollView>
-      <SafeAreaView style={styles.buttonContainer}>
+      <SafeAreaView style={[styles.buttonContainer, { paddingBottom: insets.bottom }]}>
         <Button style={styles.button}>确定支付¥{order?.payMoney}</Button>
       </SafeAreaView>
-    </SafeAreaView>
+    </View>
   )
 }
 

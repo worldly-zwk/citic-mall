@@ -57,7 +57,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
   body: {
-    padding: 10
+    padding: 10,
+    backgroundColor: '#fff'
   },
   title: {
     textAlign: 'center',

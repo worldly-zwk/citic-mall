@@ -1,23 +1,28 @@
-import { FC } from "react";
-import { StyleSheet, View } from "react-native";
-import IconButton from "@/components/IconButton";
-import Button from "@/components/Button";
-import { AddCartMode, ProductScreenProps } from "@/typings";
-import { useNavigation } from "@react-navigation/native";
+import { FC, useCallback } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { Button, IconButton } from '@/components';
+import { AddCartMode } from '@/typings';
 
 interface ToolbarProps {
   data?: API.ProductInfo;
-  navigation?: ProductScreenProps['navigation'];
+  collection?: boolean;
+  onCollection?: (collection: boolean) => void;
   onSubmit?: (mode: AddCartMode) => void;
 }
 
-const Toolbar: FC<ToolbarProps> = ({ onSubmit }) => {
+const Toolbar: FC<ToolbarProps> = ({ collection, onCollection, onSubmit }) => {
+  const collectionIcon = collection ? require('@/assets/images/icons/bookmark-active.png') : require('@/assets/images/icons/bookmark.png');
+
+  const handleCollection = useCallback(() => {
+    onCollection?.(!collection);
+  }, [collection]);
+
   return (
     <View style={styles.container}>
       <View style={styles.icons}>
-        <IconButton style={styles.borderd} icon={require('@/assets/images/icons/cart.png')}>购物车</IconButton>
+        <IconButton style={styles.borderd} icon={require('@/assets/images/icons/cart.png')} to={{ screen: 'Cart' }}>购物车</IconButton>
         <IconButton style={styles.borderd} icon={require('@/assets/images/icons/help-hands.png')}>客服</IconButton>
-        <IconButton icon={require('@/assets/images/icons/bookmark.png')}>收藏</IconButton>
+        <IconButton icon={collectionIcon} color={collection ? 'primary' : 'secondary'} onPress={handleCollection}>{collection ? '已收藏' : '收藏'}</IconButton>
       </View>
       <Button.Group>
         <Button onPress={() => onSubmit?.(AddCartMode.ADD)}>加入购物车</Button>

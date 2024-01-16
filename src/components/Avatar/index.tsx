@@ -1,12 +1,16 @@
+import { isTrue } from '@/utils';
 import { useMemo } from 'react';
 import { Image, ImageProps, ImageSourcePropType, StyleSheet } from 'react-native';
 
 interface AvatarProps extends Omit<ImageProps, 'source' | 'src'> {
+  size?: number;
   src?: string;
+  bordered?: boolean;
 }
 
 const Avatar = (props: AvatarProps) => {
-  const { src, style, ...restProps } = props;
+  const { src, size = 56, style, bordered = true, ...restProps } = props;
+  const avatarStyle = [isTrue(bordered, styles.bordered), { width: size, height: size, borderRadius: size }, style];
 
   const avatar = useMemo<ImageSourcePropType>(() => {
     if (src) {
@@ -16,18 +20,14 @@ const Avatar = (props: AvatarProps) => {
   }, [src]);
 
   return (
-    <Image source={avatar} style={[styles.avatar, style]} {...restProps} />
+    <Image source={avatar} style={avatarStyle} {...restProps} />
   )
 }
 
 const styles = StyleSheet.create({
-  avatar: {
-    width: 56,
-    height: 56,
-    borderRadius: 56,
+  bordered: {
     borderColor: '#f5f6fa',
     borderWidth: 1.5,
-    marginBottom: 10,
   }
 });
 

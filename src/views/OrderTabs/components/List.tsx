@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback } from 'react';
 import { FlatList, ListRenderItemInfo, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useInfiniteScroll } from '@/hooks';
@@ -50,6 +50,7 @@ const OrderList = ({ status }: ProductListProps) => {
       data={state.data}
       onEndReached={actions.loadMore}
       renderItem={renderItem}
+      keyExtractor={(item) => `${item.id}`}
       contentContainerStyle={[styles.container, { paddingBottom: insets.bottom }]}
     />
   )

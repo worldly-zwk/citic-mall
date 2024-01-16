@@ -7,3 +7,11 @@ export function normNameToMap(normName?: string) {
   });
   return normMap;
 }
+
+export function maskMiddle(text: string): string {
+  const { length } = text;
+  if (text.length <= 4) return `${text[0]}****${text.slice(-1)}`;
+  const middle = Math.min((length - 2) / 2, 4);
+
+  return `${text.slice(0, middle)}****${text.slice(-middle)}`;
+}

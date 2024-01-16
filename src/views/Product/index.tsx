@@ -1,8 +1,7 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { StyleSheet, ScrollView, View, Image, SafeAreaView } from 'react-native';
 import { Typography, Form, Button, InputNumber, Popup, Radio } from '@/components';
-import { useBoolean, useRequest } from '@/hooks';
-import { PRODUCT } from '@/services';
+import { useBoolean } from '@/hooks';
 import { useCart } from '@/store';
 import { normNameToMap, normMapToName, toast } from '@/utils';
 import { AddCartMode, OrderModel, ProductScreenProps } from '@/typings';
@@ -14,6 +13,7 @@ import StoreCard from './components/StoreCard';
 import SuggestCard from './components/SuggestCard';
 import Introduce from './components/Introduce';
 import ToolBar from './components/Toolbar';
+import useProduct from './useProduct';
 
 const FormItem = Form.Item;
 
@@ -23,48 +23,36 @@ const Product = ({ route, navigation }: ProductScreenProps) => {
   const [count, setCount] = useState(1);
   const [mode, setMode] = useState<AddCartMode | null>(null);
   const [visible, setVisible] = useBoolean();
-  const actions = useCart(state => ({
+  const [state, actions] = useProduct(id);
+  const cartActions = useCart(state => ({
     add: state.add,
     check: state.check,
   }));
 
-  const [state, { run }] = useRequest<API.ProductInfo>(`${PRODUCT.details}/${id}`);
-  const [descState] = useRequest<string>(`${PRODUCT.description}/${id}`);
-  const [activityState, { run: activityRun }] = useRequest<API.ProductPromotion[]>(`${PRODUCT.activity}/${id}`, {
-    manual: true,
-  });
-  const [ticketState, { run: ticketRun }] = useRequest<API.ProductPromotion[]>(`${PRODUCT.ticket}/${id}`, {
-    manual: true,
-  });
-
   const services = useMemo(() => {
-    if (state.data?.productServe) {
-      return Object.entries(state.data.productServe).map(([title, desc]) => ({ title, desc }));
+    if (state.info?.productServe) {
+      return Object.entries(state.info.productServe).map(([title, desc]) => ({ title, desc }));
     }
     return [];
-  }, [state.data?.productServe]);
+  }, [state.info?.productServe]);
 
   const norms = useMemo(() => {
-    if (state.data?.normMap) {
-      return Object.entries(state.data.normMap).map(([label, items]) => ({ label, items }));
+    if (state.info?.normMap) {
+      return Object.entries(state.info.normMap).map(([label, items]) => ({ label, items }));
     }
     return [];
-  }, [state.data?.normMap]);
+  }, [state.info?.normMap]);
 
-  const curGoodsInfo = useMemo(() => {
-    return state.data?.productGoodsList?.find(({ isDefault }) => isDefault === 1);
-  }, [state.data?.productGoodsList]);
-
-  const curGoodsNormMap = useMemo(() => normNameToMap(curGoodsInfo?.normName), [curGoodsInfo]);
+  const curGoodsNormMap = useMemo(() => normNameToMap(state.curGoodsInfo?.normName), [state.curGoodsInfo]);
 
   const switchGoods = useCallback((name: string, value: string) => {
     curGoodsNormMap[name] = value;
     const normName = normMapToName(curGoodsNormMap);
-    const info = state.data?.productGoodsList.find((goodsItem) => goodsItem.normName === normName);
+    const info = state.info?.productGoodsList.find((goodsItem) => goodsItem.normName === normName);
     if (info?.id) {
-      run({ productGoodsId: info.id });
+      actions.reload({ productGoodsId: info.id });
     }
-  }, [curGoodsNormMap, state.data?.productGoodsList]);
+  }, [curGoodsNormMap, state.info?.productGoodsList]);
 
   const handleOpenPopup = useCallback((mode: AddCartMode) => {
     setMode(mode);
@@ -77,10 +65,10 @@ const Product = ({ route, navigation }: ProductScreenProps) => {
   }, []);
 
   const handleAddCart = useCallback(() => {
-    actions.add({
+    cartActions.add({
       count,
       productId: id,
-      productGoodsId: curGoodsInfo?.id as number,
+      productGoodsId: state.curGoodsInfo?.id as number,
       isBuyNow: AddCartMode.ADD,
     }).then(success => {
       if (success) {
@@ -88,25 +76,25 @@ const Product = ({ route, navigation }: ProductScreenProps) => {
         toast('加入购物车成功');
       }
     });
-  }, [curGoodsInfo, count]);
+  }, [state.curGoodsInfo, count]);
 
   const handleBuyNow = useCallback(async () => {
-    const success = await actions.add({
+    const success = await cartActions.add({
       count,
       productId: id,
-      productGoodsId: curGoodsInfo?.id as number,
+      productGoodsId: state.curGoodsInfo?.id as number,
       isBuyNow: AddCartMode.BUY,
     });
 
     if (success) {
-      const check = await actions.check(OrderModel.ORDINARY);
+      const check = await cartActions.check(OrderModel.ORDINARY);
 
       if (check.code === 1) {
         setVisible(false);
         navigation.navigate('Order');
       }
     }
-  }, [curGoodsInfo, count]);
+  }, [state.curGoodsInfo, count]);
 
   const handleFinish = useCallback(() => {
     if (mode === AddCartMode.ADD) {
@@ -115,45 +103,34 @@ const Product = ({ route, navigation }: ProductScreenProps) => {
     return handleBuyNow();
   }, [mode]);
 
-  useEffect(() => {
-    const productGoodsId = curGoodsInfo?.id;
-    if (productGoodsId) {
-      ticketRun({ productGoodsId });
-      activityRun({ productGoodsId });
-    }
-  }, [curGoodsInfo?.id]);
-
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.main}>
-        <Carousel items={state.data?.productLeadPicList} />
-        <BasisCard loading={state.loading} data={state.data} />
+        <Carousel items={state.info?.productLeadPicList} />
+        <BasisCard loading={state.loading} data={state.info} />
         <GoodsCard
-          info={curGoodsInfo}
-          coupons={ticketState.data}
-          promotions={activityState.data}
+          info={state.curGoodsInfo}
+          coupons={state.ticket}
+          promotions={state.activity}
           count={count}
           services={services}
           onClickNorm={() => setVisible(true)}
         />
-        <FeedbackCard />
-        <StoreCard loading={state.loading} data={state.data} />
-        <SuggestCard data={state.data?.catalogRandomProList} />
-        <Introduce data={state.data} richText={descState.data} />
+        <FeedbackCard id={id} data={state.comment} />
+        <StoreCard loading={state.loading} data={state.info} />
+        <SuggestCard data={state.info?.catalogRandomProList} />
+        <Introduce data={state.info} richText={state.richText} />
         <View style={styles.bottomLine}>
           <Typography.Text size="small" color="disabled">已经到底了</Typography.Text>
         </View>
       </ScrollView>
-      <ToolBar onSubmit={handleOpenPopup} />
+      <ToolBar collection={state.collection} onCollection={actions.collection} onSubmit={handleOpenPopup} />
       <Popup bodyStyle={{ padding: 0 }} visible={visible} onClose={handleClose}>
         <View style={styles.norm}>
-          <Image style={styles.normImage} source={{ uri: curGoodsInfo?.images }} />
-          <View>
-            <View style={styles.normPrice}>
-              <Typography.Text primary size="small" strong>¥</Typography.Text>
-              <Typography.Title primary>{curGoodsInfo?.mallPcPrice}</Typography.Title>
-            </View>
-            <Typography.Text size="small" color="disabled">库存{curGoodsInfo?.productStock}件</Typography.Text>
+          <Image style={styles.normImage} source={{ uri: state.curGoodsInfo?.images }} />
+          <View style={styles.normContent}>
+            <Typography.Price>{state.curGoodsInfo?.mallPcPrice}</Typography.Price>
+            <Typography.Text size="small" color="disabled">库存{state.curGoodsInfo?.productStock}件</Typography.Text>
           </View>
         </View>
         <ScrollView style={styles.form}>
@@ -226,11 +203,9 @@ const styles = StyleSheet.create({
     marginTop: -50,
     backgroundColor: '#fff'
   },
-  normPrice: {
-    flexDirection: 'row',
-    marginTop: 36,
-    paddingVertical: 3,
-    alignItems: 'center',
+  normContent: {
+    paddingTop: 36,
+    rowGap: 8,
   },
   form: {
     padding: 12,

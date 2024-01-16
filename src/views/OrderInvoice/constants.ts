@@ -1,14 +1,14 @@
 import { enumToOptions } from "@/utils";
 
 export enum InvoiceTypeEnum {
-  GENERAL,
+  ORDINARY,
   ELECTRONIC,
   PROFESSIONAL,
 }
 
 export enum InvoiceNameEnum {
   PERSONAL,
-  CORPORATE,
+  COMPANY,
 }
 
 export enum InvoiceContentEnum {
@@ -17,7 +17,7 @@ export enum InvoiceContentEnum {
 }
 
 export const INVOICE_TYPE_ENUM = new Map([
-  [InvoiceTypeEnum.GENERAL, '纸质普票'],
+  [InvoiceTypeEnum.ORDINARY, '纸质普票'],
   [InvoiceTypeEnum.ELECTRONIC, '电子普票'],
   [InvoiceTypeEnum.PROFESSIONAL, '增值专票'],
 ]);
@@ -26,7 +26,7 @@ export const INVOICE_TYPE_OPTIONS = enumToOptions(INVOICE_TYPE_ENUM);
 
 export const INVOICE_NAME_ENUM = new Map([
   [InvoiceNameEnum.PERSONAL, '个人'],
-  [InvoiceNameEnum.CORPORATE, '单位'],
+  [InvoiceNameEnum.COMPANY, '单位'],
 ]);
 
 export const INVOICE_NAME_OPTIONS = enumToOptions(INVOICE_NAME_ENUM);

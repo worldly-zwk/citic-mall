@@ -20,7 +20,7 @@ const Link = (props: LinkProps) => {
       navigation.navigate(screen as any, params);
     }
     onPress?.(e);
-  }, [to, disabled]);
+  }, [to, disabled, onPress]);
 
   return (
     <TouchableWithoutFeedback onPress={handlePress}>

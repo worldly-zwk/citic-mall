@@ -1,6 +1,6 @@
 import { PropsWithChildren, useEffect, useMemo } from 'react';
 import { Animated, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
-import { isBoolean } from '@/utils';
+import { isBoolean, isTrue } from '@/utils';
 
 interface SkeletonAvatar {
   size?: number;
@@ -9,7 +9,7 @@ interface SkeletonAvatar {
 
 interface SkeletonText {
   rows: number;
-  width?: number | number[];
+  width?: number;
 }
 
 interface SpaceProps extends PropsWithChildren {
@@ -71,9 +71,10 @@ const Skeleton = (props: SpaceProps) => {
         )}
         {skeletonText.rows && (
           <View style={styles.content}>
-            {Array.from({ length: skeletonText.rows }).map((_, index) => (
-              <View style={styles.text} key={index} />
-            ))}
+            {Array.from({ length: skeletonText.rows }).map((_, index) => {
+              const isLast = index >= skeletonText.rows - 1;
+              return <View style={[styles.text, isTrue(isLast, { width: skeletonText.width || 100 })]} key={index} />
+            })}
           </View>
         )}
       </Animated.View>

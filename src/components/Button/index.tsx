@@ -41,7 +41,7 @@ const Button = (props: ButtonProps) => {
       items.push(styles.disabled);
     }
 
-    return StyleSheet.compose(items, style);
+    return items;
   }, [size, style, round, disabled]);
 
   const buttonLinearGradient = useMemo(() => {
@@ -67,14 +67,14 @@ const Button = (props: ButtonProps) => {
   }, [onPress, disabled, to]);
 
   let buttonChildren = (
-    <View style={[buttonStyle, styles[type as ButtonType]]}>
+    <View style={[buttonStyle, styles[type as ButtonType], style]}>
       <Typography.Text size={size} color={type}>{children}</Typography.Text>
     </View>
   );
 
   if (buttonLinearGradient.colors) {
     buttonChildren = (
-      <LinearGradient {...buttonLinearGradient} style={buttonStyle}>
+      <LinearGradient {...buttonLinearGradient} style={[buttonStyle, style]}>
         <Typography.Text size={size} color="white">{children}</Typography.Text>
       </LinearGradient>
     )

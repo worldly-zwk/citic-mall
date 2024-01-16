@@ -1,5 +1,13 @@
 import { isMap, isObject } from './type';
 
+export function omit<T extends RecordAny, K extends keyof T>(data: T, props: readonly K[]) {
+  const result = Object.assign({}, data) as Omit<T, K>;
+  props.forEach((prop) => {
+    Reflect.deleteProperty(result, prop);
+  });
+  return result;
+}
+
 export function pick<T extends RecordAny, K extends keyof T>(data: T, props: readonly K[]) {
   const result = {} as Pick<T, K>;
   props.forEach((prop) => {

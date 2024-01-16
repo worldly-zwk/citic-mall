@@ -9,26 +9,25 @@ import SummaryCard from './components/SummaryCard';
 
 const CellGroup = Cell.Group;
 
-const invoicePropertyTextEnum: RecordAny = {
-  1: '电子',
-  2: '普票',
-}
+const invoicePropertyTextEnum: RecordAny =['普票', '电子'];
 
 const Order = ({ route, navigation }: OrderScreenProps) => {
   const orderStore = useOrder();
   const [remark, setRemark] = useState('');
 
   const invoiceName = useMemo(() => {
-    const { invoiceType, invoiceProperty, invoiceTitle } = orderStore.invoice;
+    const { type, property, title } = orderStore.invoice;
 
-    if (invoiceType === 3) {
-      return `专票（${invoiceTitle}）`;
-    } else if (invoiceType && invoiceProperty) {
-      return `${invoicePropertyTextEnum[invoiceProperty]}（${invoiceTitle}）`
+    if (type === 3) {
+      return `专票（${title}）`;
+    } else if (type) {
+      return `${invoicePropertyTextEnum[property]}（${title}）`
     }
 
     return '不开发票';
   }, [orderStore.invoice]);
+
+  console.log(invoiceName, orderStore.invoice);
 
   const handleFinish = useCallback(() => {
     orderStore.finish({

@@ -46,10 +46,10 @@ const OrderDetails = ({ route, navigation }: OrderDetailsScreenProps) => {
       <ScrollView contentContainerStyle={{ paddingBottom: insets.bottom }}>
         <OrderState title={order?.orderStatusName} describe={order?.orderStatusStep.replace('{time}', `${clock.hours}时${clock.minute}分`)} />
         <View style={styles.main}>
-          <OrderAddress address={order?.addressVo} />
-          <OrderItems seller={order?.sellerVo} items={order?.orderProductList} />
+          <OrderAddress loading={state.loading} address={order?.addressVo} />
+          <OrderItems loading={state.loading} seller={order?.sellerVo} items={order?.orderProductList} />
           <OrderMoney order={order} />
-          <OrderInfo order={order} />
+          <OrderInfo loading={state.loading} order={order} />
           {recommendState.data?.heardTitle && (
             <Divider>{recommendState.data?.heardTitle}</Divider>
           )}

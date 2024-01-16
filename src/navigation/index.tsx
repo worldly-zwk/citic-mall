@@ -31,6 +31,8 @@ import Contact from '@/views/Contact';
 import ContactForm from '@/views/ContactForm';
 import OrderInvoice from '@/views/OrderInvoice';
 import OrderPayment from '@/views/OrderPayment';
+import Cart from '@/views/Cart';
+import ProductComment from '@/views/ProductComment';
 
 
 const { Navigator, Screen } = createNativeStackNavigator<RootStackParamList>();
@@ -54,16 +56,28 @@ const NavigatorScreen = () => {
     }, []);
 
   const screenOrderPaymentOptions = useCallback(({ navigation }: OrderPaymentScreenProps): NativeStackNavigationOptions => {
+    const handleBack = () => {
+      navigation.reset({
+        index: 0,
+        routes: [
+          { name: 'Index', params: { screen: 'Member' }},
+          { name: 'OrderTabs', params: { tab: 1 }}
+        ]
+      });
+    }
+
     return {
       title: '收银台',
-      headerLeft: () => <GlobalBack onPress={() => navigation.navigate('OrderTabs', { tab: 1 })} />
+      headerLeft: () => <GlobalBack onPress={handleBack} />
     }
   }, []);
 
   return (
     <Navigator screenOptions={screenOptions}>
       <Screen name="Index" component={HomeScreen} options={{ headerShown: false }} />
+      <Screen name="Cart" component={Cart} options={{ title: '购物车' }} />
       <Screen name="Product" component={Product} options={screenProductOptions} />
+      <Screen name="ProductComment" component={ProductComment} options={{ title: '商品评价' }} />
       <Screen name="CategoryTabs" component={CategoryTabs} options={{ title: '' }} />
       <Screen name="Search" component={Search} options={{ headerShown: false }} />
       <Screen name="SearchList" component={SearchList} options={{ headerShown: false }} />

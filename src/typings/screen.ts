@@ -9,7 +9,11 @@ export enum SearchTypeEnum {
 
 export type RootStackParamList = {
   Index: NavigatorScreenParams<RootTabParamList>,
+  Cart: undefined,
   Product: {
+    id: number;
+  },
+  ProductComment: {
     id: number;
   },
   CategoryTabs: {
@@ -91,6 +95,7 @@ export type CartScreenProps = CompositeScreenProps<BottomTabScreenProps<RootTabP
 export type MemberScreenProps = CompositeScreenProps<BottomTabScreenProps<RootTabParamList, 'Member'>, IndexScreenProps>;
 export type SearchScreenProps = NativeStackScreenProps<RootStackParamList, 'Search'>;
 export type ProductScreenProps = NativeStackScreenProps<RootStackParamList, 'Product'>;
+export type ProductCommentScreenProps = NativeStackScreenProps<RootStackParamList, 'ProductComment'>;
 export type SearchListScreenProps = NativeStackScreenProps<RootStackParamList, 'SearchList'>;
 export type CategoryTabsScreenProps = NativeStackScreenProps<RootStackParamList, 'CategoryTabs'>;
 export type LoginScreenProps = NativeStackScreenProps<LoginStackParamList, 'Index'>;

@@ -16,6 +16,7 @@ interface OrderStore {
 
 const initialInvoice = {
   type: 0,
+  property: 0,
   content: '不开发票',
 };
 
@@ -57,7 +58,7 @@ const useOrder = create<OrderStore>((set, get) => ({
       orderModel,
       invoice,
       ...values,
-    })
+    });
   }
 }));
 

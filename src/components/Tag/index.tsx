@@ -17,7 +17,7 @@ interface TagProps extends ViewProps {
 }
 
 const Tag = (props: TagProps) => {
-  const { color, style, children, textColor = color ? 'white' : 'primary' } = props;
+  const { color, style, children, textColor = color ? 'white' : 'primary', ...restProps } = props;
 
   const tagStyles = useMemo(() => {
     const tagStyle: ViewStyle = {};
@@ -31,7 +31,7 @@ const Tag = (props: TagProps) => {
   }, [color, style]);
 
   return (
-    <View style={tagStyles}>
+    <View style={tagStyles} {...restProps}>
       <Typography.Text size="small" color={textColor}>{children}</Typography.Text>
     </View>
   )
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   },
   borderd: {
     borderColor: '#e65321',
-    borderWidth: 1,
+    borderWidth: StyleSheet.hairlineWidth,
   }
 })
 

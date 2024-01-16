@@ -24,6 +24,7 @@ export { default as Tag } from './Tag';
 export { default as Typography } from './Typography';
 
 export { default as Ticket } from './Ticket';
+export { default as Comment } from './Comment';
 export { default as SearchBar } from './SearchBar';
 export { default as GlobalBack } from './GlobalBack';
 export { default as TabBarIcon } from './BottomTabBarIcon';

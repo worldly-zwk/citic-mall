@@ -1,4 +1,4 @@
-import { Card, Icon, Link, Space, Typography } from '@/components';
+import { Card, Icon, Link, Skeleton, Space, Typography } from '@/components';
 import { Image, StyleSheet, View } from 'react-native';
 
 const { Text } = Typography;
@@ -6,37 +6,42 @@ const { Text } = Typography;
 interface OrderItemsProps {
   seller?: API.OrderDetails['sellerVo'];
   items?: API.OrderInitProduct[];
+  loading?: boolean;
 }
 
 
-const OrderItems = ({ seller, items }: OrderItemsProps) => {
+const OrderItems = ({ seller, items, loading }: OrderItemsProps) => {
   return (
     <Card contentStyle={styles.container}>
       <Space size={4} style={styles.header}>
         <Icon icon="shop" />
-        <Text strong>{seller?.sellerName}</Text>
+        <Skeleton loading={loading} style={{ width: 100, padding: 0 }}>
+          <Text strong>{seller?.sellerName}</Text>
+        </Skeleton>
         <Icon icon="arrow" />
       </Space>
-      {items?.map((item) => {
-        return (
-          <Link style={styles.item} key={item.productId} to={{ screen: 'Product', params: { id: item.productId } }}>
-            <Image style={styles.image} source={{ uri: item.productMasterImage }} />
-            <View style={{ flex: 1 }}>
-              <Text numberOfLines={1}>{item.productName}</Text>
-              <Text size="small" color="disabled" style={styles.norms}>{item.number}件, {item.specInfo || '默认规格'}</Text>
-              <Space align="center" justify="space-between">
-                <Text size="large" primary>¥{item?.moneyPrice}</Text>
-              </Space>
-              {item?.sevenDays === 0 && (
-                <Space size={6} align="center">
-                  <Icon icon="warning" />
-                  <Text size="small" color="#ff873c">该商品不支持7天无理由退货</Text>
+      <Skeleton loading={loading} avatar={{ size: 70 }} text={{ rows: 3 }}>
+        {items?.map((item) => {
+          return (
+            <Link style={styles.item} key={item.productId} to={{ screen: 'Product', params: { id: item.productId } }}>
+              <Image style={styles.image} source={{ uri: item.productMasterImage }} />
+              <View style={{ flex: 1 }}>
+                <Text numberOfLines={1}>{item.productName}</Text>
+                <Text size="small" color="disabled" style={styles.norms}>{item.number}件, {item.specInfo || '默认规格'}</Text>
+                <Space align="center" justify="space-between">
+                  <Text size="large" primary>¥{item?.moneyPrice}</Text>
                 </Space>
-              )}
-            </View>
-          </Link>
-        )
-      })}
+                {item?.sevenDays === 0 && (
+                  <Space size={6} align="center">
+                    <Icon icon="warning" />
+                    <Text size="small" color="#ff873c">该商品不支持7天无理由退货</Text>
+                  </Space>
+                )}
+              </View>
+            </Link>
+          )
+        })}
+      </Skeleton>
     </Card>
   )
 }

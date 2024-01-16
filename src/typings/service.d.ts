@@ -1,4 +1,9 @@
 declare namespace API {
+  interface BasePageParams {
+    pageSize?: number;
+    pageIndex?: number;
+  }
+
   interface BasePageResponse<T> {
     count: number;
     data: T[];
@@ -123,6 +128,50 @@ declare namespace API {
     value: string;
     state: number;
   }
+
+  interface ProductComment {
+    id: number;
+    userId: number;
+    userName: string;
+    grade: number;
+    content: string;
+    createTime: string;
+    productId: number;
+    productGoodsId: number;
+    sellerId: number;
+    orderSn: string;
+    ordersProductId: number;
+    state: number;
+    description: number;
+    serviceAttitude: number;
+    productSpeed: number;
+    imageNum: number;
+    optId: number;
+    optName: string;
+    optTime: string;
+    optContent: string;
+    channelCode: string;
+    channelName: string;
+    userHeadPortrait: string;
+    imageList: string[];
+  };
+
+  interface ProductCommentParams extends BasePageParams {
+    productId: number;
+    imageNum?: number;
+    grades?: string
+  }
+
+  interface ProductCommentResponse {
+    allNum: number;
+    existImgNum: number;
+    goodNum: number;
+    mediumNum: number;
+    negativeNum: number;
+    favorableRate: number;
+    productComments: ProductComment[];
+    count: number;
+  };
 
   interface ProductInfo extends Product {
     catalogRandomProList: Product[];
@@ -344,6 +393,7 @@ declare namespace API {
   interface Invoice {
     /**
      * 发票类型
+     * 0 不开发票
      * 1 个人发票
      * 2 单位发票
      * 3 增值专票
@@ -354,10 +404,10 @@ declare namespace API {
     content: string;
     /**
      * 发票属性
+     * 0 普通发票
      * 1 电子发票
-     * 2 普通发票
      */
-    property?: number;
+    property: number;
     title?: string;
     address?: string;
     telephone?: string;
@@ -438,7 +488,22 @@ declare namespace API {
     addressVo: Address;
     orderProductList: OrderInitProduct[];
     orderStatusStep: string;
-    invoiceVo: any;
+    invoiceVo: {
+      invoiceStatus: number;
+      invoiceType: number;
+      invoiceProperty: number;
+      invoiceTitle: string;
+      invoiceContent: string;
+      invoiceEmail: string;
+      identificationNumber: string;
+      email: string;
+      thumb: string;
+      thumb: string;
+      addr: string;
+      phone: string;
+      bank: string;
+      bankNumber: string;
+    };
     orderSn: string;
     orderStatus: number;
     orderStatusName: string;

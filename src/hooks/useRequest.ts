@@ -22,7 +22,8 @@ type OptionsWithFormat<T, P, U> = {
 } & Options<U, P>;
 
 interface Action<T, P> {
-  run(params?: P): Promise<T>
+  run(params?: P): Promise<T>;
+  mutate(data: T): void;
 }
 
 type Result<T, P> = [RequestState<T>, Action<T, P>];
@@ -117,6 +118,9 @@ function useRequest(service: any, options: any = {}) {
   const actions = useMemo(() => {
     return {
       run,
+      mutate: (data: any) => {
+        setState({ data });
+      }
     }
   }, []);
 
