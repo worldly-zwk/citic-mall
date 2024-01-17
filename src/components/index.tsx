@@ -22,6 +22,7 @@ export { default as Spin } from './Spin';
 export { default as Tabs } from './Tabs';
 export { default as Tag } from './Tag';
 export { default as Typography } from './Typography';
+export { default as AutoHeightImage  } from './AutoHeightImage';
 
 export { default as Ticket } from './Ticket';
 export { default as Comment } from './Comment';

@@ -41,7 +41,7 @@ const Floor: FC<FloorProps> = ({ items, collection }) => {
           <View>
             {collections.map((image, index) => (
               <View style={[styles.collection, isLastItem(index, collections.length) ? styles.lastCollection : undefined]} key={`${index}-${image}`}>
-                <Image style={styles.collectionCover} source={{ uri: image }} />
+                <Image style={styles.collectionCover} source={{ uri: image, cache: 'force-cache' }} />
               </View>
             ))}
           </View>

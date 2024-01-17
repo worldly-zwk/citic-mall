@@ -95,6 +95,9 @@ declare namespace API {
     normMap: Record<string, string[]>;
     countryId?: string;
     countryName?: string;
+    /**
+     * 7 已下架
+     */
     state: number;
     isSelf: number;
     isDelete: number;
@@ -174,6 +177,7 @@ declare namespace API {
   };
 
   interface ProductInfo extends Product {
+    crossBorder: boolean;
     catalogRandomProList: Product[];
     sellerId: number;
     sellerLogo: string;
@@ -592,5 +596,55 @@ declare namespace API {
       name: string;
       image: string;
     }[];
+  }
+
+  interface Message {
+    id: number;
+    title: string;
+    content: string;
+    memberId: number;
+    memberName: string;
+    pcUrl: string;
+    h5Url: string;
+    appUrl: string;
+    imageType: number;
+    image: string;
+    /**
+     * 1-订单状态提示，2-优惠券过期提示，3-商品售后提示
+     */
+    msgType: number;
+    // 售后服务id
+    refId: number;
+    // 订单编号
+    refSn: string;
+    tmpType: number;
+    isRead: number;
+    readTime: string;
+    isDelete: number;
+    remark: string;
+    createUserId: number;
+    createUserName: string;
+    createTime: string;
+    updateUserId: number;
+    updateUserName: string;
+    updateTime: string;
+    timeName: string;
+    h5Image: string;
+  }
+
+  interface NoticeResponse {
+    msgActivityNoReadCount: number;
+    currentType: number;
+    msgNoticeNoReadCount: number;
+    member: Member;
+    msgMemberNoReadCount: number;
+    msgList: Message[];
+    memberStart: number;
+  }
+
+  interface NoticeInfoResponse {
+    title: string;
+    timeName: string;
+    content: string;
   }
 }

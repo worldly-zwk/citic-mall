@@ -1,4 +1,4 @@
-import { CollectionTab, WalletTab } from "@/typings";
+import { CollectionTab, NoticeTab, WalletTab } from "@/typings";
 
 export const AUTH_RULES = [
   '根据海关规定，购买跨境商品需进行实名认证，用于个人物品入境申报。为确保您购买的商品能够顺利办理清关手续，请配合提供实名信息，并确保订购人（注册人）实名信息与您微信支付的实名信息保持一致，否则将无法正常发货哦。',
@@ -51,5 +51,20 @@ export const COLLECTION_TABS = [
   {
     title: '店铺',
     value: CollectionTab.SELLER,
+  },
+];
+
+export const NOTIFICATION_TABS = [
+  {
+    title: '活动通知',
+    value: NoticeTab.ACTIVITY,
+  },
+  {
+    title: '系统通知',
+    value: NoticeTab.SYSTEM,
+  },
+  {
+    title: '平台公告',
+    value: NoticeTab.PLATFORM,
   },
 ];

@@ -124,7 +124,7 @@ const Product = ({ route, navigation }: ProductScreenProps) => {
           <Typography.Text size="small" color="disabled">已经到底了</Typography.Text>
         </View>
       </ScrollView>
-      <ToolBar collection={state.collection} onCollection={actions.collection} onSubmit={handleOpenPopup} />
+      <ToolBar data={state.info} collection={state.collection} onCollection={actions.collection} onSubmit={handleOpenPopup} />
       <Popup bodyStyle={{ padding: 0 }} visible={visible} onClose={handleClose}>
         <View style={styles.norm}>
           <Image style={styles.normImage} source={{ uri: state.curGoodsInfo?.images }} />

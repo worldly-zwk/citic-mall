@@ -1,12 +1,12 @@
+import { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import WebView from 'react-native-webview';
 import { useRequest } from '@/hooks';
-import { MEMBER } from '@/services';
+import { HOME } from '@/services';
 import { AgreementScreenProps } from '@/typings';
-import { useMemo } from 'react';
 
 const Agreement = ({ route, navigation }: AgreementScreenProps) => {
-  const [state] = useRequest<API.Agreement>(`${MEMBER.agreement}/${route.params.id}`, {
+  const [state] = useRequest<API.Agreement>(`${HOME.agreement}/${route.params.id}`, {
     onSuccess: result => {
       navigation.setOptions({ title: result.title });
     }

@@ -10,7 +10,7 @@ interface CardProps extends ViewProps {
 }
 
 const Card = (props: CardProps) => {
-  const { title, header, titleStyle, contentStyle, children } = props;
+  const { title, header, style, titleStyle, contentStyle, children } = props;
 
   const renderHeader = () => {
     if (header) {
@@ -27,7 +27,7 @@ const Card = (props: CardProps) => {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, style]}>
       {renderHeader()}
       <View style={[styles.content, contentStyle]}>
         {children}

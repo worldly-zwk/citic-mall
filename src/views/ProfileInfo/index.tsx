@@ -2,6 +2,7 @@ import { Key, useCallback } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Alert, Avatar, Cell, Link, Tag, Typography } from '@/components';
 import { useMember } from '@/store';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 
 const { Text } = Typography;
 const CellGroup = Cell.Group;
@@ -33,9 +34,11 @@ const ProfileInfo = () => {
     });
   }, []);
 
+  console.log(launchCamera);
+
   return (
     <View style={styles.container}>
-      <Link style={styles.head}>
+      <Link style={styles.head} onPress={() => launchImageLibrary({ mediaType: 'photo' }, console.log)}>
         <Avatar src={member?.headPortrait} style={styles.avatar} />
         <Text color="disabled" size="small">点击修改头像</Text>
       </Link>

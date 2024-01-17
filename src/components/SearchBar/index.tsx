@@ -1,6 +1,7 @@
 import { ReactNode, useCallback } from 'react';
 import { Image, StyleSheet, TextInput, TextInputProps, TouchableWithoutFeedback, View } from 'react-native';
 import GlobalBack from '../GlobalBack';
+import Link from '../Link';
 
 interface SearchBarProps extends TextInputProps {
   back?: boolean;
@@ -16,9 +17,9 @@ const SearchBar = (props: SearchBarProps) => {
   const renderExtra = useCallback(() => {
     if (typeof extra === 'undefined') {
       return (
-        <TouchableWithoutFeedback>
+        <Link to={{ screen: 'Notice'}}>
           <Image style={styles.news} source={require('@/assets/images/icons/message.png')} />
-        </TouchableWithoutFeedback>
+        </Link>
       );
     }
     return extra;

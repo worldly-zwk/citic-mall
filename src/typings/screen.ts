@@ -70,6 +70,10 @@ export type RootStackParamList = {
   AfterSales: undefined;
   Contact: undefined;
   ContactForm: undefined;
+  Notice: undefined;
+  NoticeDetails: {
+    id: number;
+  };
 }
 
 export  type RootTabParamList = {
@@ -121,4 +125,6 @@ export type HistoryScreenProps = NativeStackScreenProps<RootStackParamList, 'His
 export type AfterSalesScreenProps = NativeStackScreenProps<RootStackParamList, 'AfterSales'>;
 export type ContactScreenProps = NativeStackScreenProps<RootStackParamList, 'Contact'>;
 export type ContactFormScreenProps = NativeStackScreenProps<RootStackParamList, 'ContactForm'>;
+export type NoticeScreenProps = NativeStackScreenProps<RootStackParamList, 'Notice'>;
+export type NoticeDetailsScreenProps = NativeStackScreenProps<RootStackParamList, 'NoticeDetails'>;
 

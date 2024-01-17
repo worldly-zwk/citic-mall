@@ -35,7 +35,7 @@ const Header = ({ member }: CardProps) => {
         <Link to={{ screen: 'Settings' }}>
           <Icon icon="setting" size={24} />
         </Link>
-        <Link to={{ screen: 'Settings' }}>
+        <Link to={{ screen: 'Notice' }}>
           <Icon icon="messageWhite" size={24} />
         </Link>
       </View>

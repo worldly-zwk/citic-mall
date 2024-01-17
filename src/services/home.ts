@@ -1,4 +1,6 @@
 export default {
   index: '/page/appindex',
-  memberrecommends: '/product/memberrecommends?position=1'
+  notice: '/page/msg/index',
+  noticeDetail: '/page/msg/noticedetail',
+  agreement: '/page/news/detail',
 }

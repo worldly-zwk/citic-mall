@@ -1,5 +1,5 @@
 import { PropsWithChildren, cloneElement, useCallback, useMemo } from 'react';
-import { GestureResponderEvent, StyleProp, StyleSheet, TouchableWithoutFeedback, View, ViewProps, ViewStyle } from 'react-native';
+import { GestureResponderEvent, StyleProp, StyleSheet, TextStyle, TouchableWithoutFeedback, View, ViewProps, ViewStyle } from 'react-native';
 import { NavigatorScreenParams, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import LinearGradient, { LinearGradientProps } from 'react-native-linear-gradient';
@@ -16,6 +16,7 @@ interface ButtonProps extends PropsWithChildren {
   type?: ButtonType;
   round?: boolean;
   style?: StyleProp<ViewStyle>;
+  textStyle?: StyleProp<TextStyle>;
   color?: string[];
   linearGradient?: LinearGradientProps;
   disabled?: boolean;
@@ -23,7 +24,7 @@ interface ButtonProps extends PropsWithChildren {
 }
 
 const Button = (props: ButtonProps) => {
-  const { to, size = 'large', type, round, style, disabled, linearGradient, onPress, children } = props;
+  const { to, size = 'large', type, round, style, textStyle, disabled, linearGradient, onPress, children } = props;
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   const buttonStyle = useMemo(() => {
@@ -68,14 +69,14 @@ const Button = (props: ButtonProps) => {
 
   let buttonChildren = (
     <View style={[buttonStyle, styles[type as ButtonType], style]}>
-      <Typography.Text size={size} color={type}>{children}</Typography.Text>
+      <Typography.Text size={size} color={disabled ? 'white' : type} style={textStyle}>{children}</Typography.Text>
     </View>
   );
 
   if (buttonLinearGradient.colors) {
     buttonChildren = (
       <LinearGradient {...buttonLinearGradient} style={[buttonStyle, style]}>
-        <Typography.Text size={size} color="white">{children}</Typography.Text>
+        <Typography.Text size={size} color="white" style={textStyle}>{children}</Typography.Text>
       </LinearGradient>
     )
   }

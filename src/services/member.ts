@@ -8,7 +8,6 @@ export default {
   authUsable: '/member/memberauth/usable',
   password: '/member/password',
   sendbindemail: '/member/sendbindemail',
-  agreement: '/page/news/detail',
   redEnvelope: '/member/couponplatforms',
   coupon: '/member/coupons',
   other: '/promotion/couponthirdusers/member',

@@ -38,6 +38,7 @@ const ProductComment = ({ route }: ProductCommentScreenProps) => {
       <Space style={styles.tabs} size={8} align="center">
         {buttons.map(({ key, text }) => (
           <Button
+            key={key}
             round
             size="small"
             type={grade === key ? undefined : 'secondary'}

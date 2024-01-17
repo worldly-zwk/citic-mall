@@ -10,12 +10,29 @@ interface ToolbarProps {
   onSubmit?: (mode: AddCartMode) => void;
 }
 
-const Toolbar: FC<ToolbarProps> = ({ collection, onCollection, onSubmit }) => {
+const Toolbar: FC<ToolbarProps> = ({ data, collection, onCollection, onSubmit }) => {
   const collectionIcon = collection ? require('@/assets/images/icons/bookmark-active.png') : require('@/assets/images/icons/bookmark.png');
 
   const handleCollection = useCallback(() => {
     onCollection?.(!collection);
   }, [collection]);
+
+  const renderButton = () => {
+    if (data?.state === 7 || data?.productStock === 0) {
+      return (
+        <Button.Group>
+          <Button disabled textStyle={{ fontSize: 14 }}>{data.state === 7 ? '已下架' : '已售罄'}</Button>
+        </Button.Group>
+      )
+    }
+
+    return (
+      <Button.Group>
+        <Button onPress={() => onSubmit?.(AddCartMode.ADD)}>加入购物车</Button>
+        <Button onPress={() => onSubmit?.(AddCartMode.BUY)} linearGradient={{ colors: ['#ff680d', '#e65321'] }}>立即购买</Button>
+      </Button.Group>
+    )
+  }
 
   return (
     <View style={styles.container}>
@@ -24,10 +41,7 @@ const Toolbar: FC<ToolbarProps> = ({ collection, onCollection, onSubmit }) => {
         <IconButton style={styles.borderd} icon={require('@/assets/images/icons/help-hands.png')}>客服</IconButton>
         <IconButton icon={collectionIcon} color={collection ? 'primary' : 'secondary'} onPress={handleCollection}>{collection ? '已收藏' : '收藏'}</IconButton>
       </View>
-      <Button.Group>
-        <Button onPress={() => onSubmit?.(AddCartMode.ADD)}>加入购物车</Button>
-        <Button onPress={() => onSubmit?.(AddCartMode.BUY)} linearGradient={{ colors: ['#ff680d', '#e65321'] }}>立即购买</Button>
-      </Button.Group>
+      {renderButton()}
     </View>
   )
 }

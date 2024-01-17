@@ -11,7 +11,7 @@ const Nav: FC<NavProps> = ({ items }) => {
       <View style={styles.wrapper}>
         {items.map(({ title, image }, index) => (
           <View style={styles.icon} key={`${index}-${title}`}>
-            <Image style={styles.image} source={{ uri: image }} />
+            <Image style={styles.image} source={{ uri: image, cache: 'force-cache' }} />
             <Text style={styles.label}>{title}</Text>
           </View>
         ))}

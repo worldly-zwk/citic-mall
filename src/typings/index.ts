@@ -78,3 +78,9 @@ export enum InvoiceType {
   COMPANY,
   VALUE_ADDED
 }
+
+export enum NoticeTab {
+  ACTIVITY,
+  SYSTEM,
+  PLATFORM
+}

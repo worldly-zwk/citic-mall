@@ -33,6 +33,8 @@ import OrderInvoice from '@/views/OrderInvoice';
 import OrderPayment from '@/views/OrderPayment';
 import Cart from '@/views/Cart';
 import ProductComment from '@/views/ProductComment';
+import Notice from '@/views/Notice';
+import NoticeDetails from '@/views/NoticeDetails';
 
 
 const { Navigator, Screen } = createNativeStackNavigator<RootStackParamList>();
@@ -107,6 +109,8 @@ const NavigatorScreen = () => {
       <Screen name="AfterSales" component={AfterSales} options={{ title: '退款/售后' }} />
       <Screen name="Contact" component={Contact} options={{ title: '常用联系人' }} />
       <Screen name="ContactForm" component={ContactForm} options={{ title: '新增常用联系人' }} />
+      <Screen name="Notice" component={Notice} options={{ title: '消息中心' }} />
+      <Screen name="NoticeDetails" component={NoticeDetails} options={{ title: '消息中心' }} />
     </Navigator>
   )
 }

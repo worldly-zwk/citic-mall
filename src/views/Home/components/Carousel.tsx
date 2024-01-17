@@ -20,7 +20,7 @@ const Carousel: FC<CarouselProps> = ({ banners = [] }) => {
         >
           {banners.map((banner) => (
             <View style={styles.silde} key={banner.image}>
-              <Image source={{ uri:  banner.image }} style={styles.image} resizeMode="stretch" />
+              <Image source={{ uri:  banner.image, cache: 'force-cache' }} style={styles.image} resizeMode="stretch" />
             </View>
           ))}
         </Swiper>
