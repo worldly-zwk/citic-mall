@@ -43,7 +43,7 @@ const OrderDetails = ({ route, navigation }: OrderDetailsScreenProps) => {
 
   return (
     <View style={styles.container}>
-      <ScrollView contentContainerStyle={{ paddingBottom: insets.bottom }}>
+      <ScrollView>
         <OrderState title={order?.orderStatusName} describe={order?.orderStatusStep.replace('{time}', `${clock.hours}时${clock.minute}分`)} />
         <View style={styles.main}>
           <OrderAddress loading={state.loading} address={order?.addressVo} />
@@ -70,7 +70,8 @@ const styles = StyleSheet.create({
   main: {
     marginTop: -38,
     paddingHorizontal: 12,
-    rowGap: 10
+    paddingBottom: 12,
+    rowGap: 10,
   },
   suggest: {
     borderRadius: 6,

@@ -1,6 +1,7 @@
-import { useCallback } from 'react';
-import { Modal, ModalProps, StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
+import { useCallback, useEffect, useState } from 'react';
+import { Modal, ModalProps, StyleSheet, View } from 'react-native';
 import WebView, { WebViewMessageEvent } from 'react-native-webview';
+import Spin from '../Spin';
 
 interface PopupProps extends ModalProps {
   onFinish?: (data: any) => void;
@@ -8,15 +9,20 @@ interface PopupProps extends ModalProps {
 }
 
 interface Message<P = any> {
-  type: 'init' | 'close' | 'success';
+  type: 'init' | 'close' | 'success' | 'ready';
   payload: P;
 }
 
 const ModalCaptcha = (props: PopupProps) => {
   const { children, onFinish, onClose, ...restProps } = props;
+  const [loading, setLoading] = useState(true);
 
   const handleMessage = useCallback((e: WebViewMessageEvent) => {
     const message: Message = JSON.parse(e.nativeEvent.data);
+    if (message.type === 'ready') {
+      setLoading(false);
+    }
+
     if (message.type === 'success') {
       onFinish?.(message.payload);
     }
@@ -26,16 +32,22 @@ const ModalCaptcha = (props: PopupProps) => {
     }
   }, [onFinish, onClose]);
 
+  useEffect(() => {
+    setLoading(props.visible || false);
+  }, [props.visible]);
+
   return (
     <Modal animationType="fade" transparent onRequestClose={onClose} onDismiss={onClose} {...restProps}>
       <View style={styles.body}>
-        <WebView
-          webviewDebuggingEnabled
-          originWhitelist={['*']}
-          source={require('@/assets/html/captcha.html')}
-          onMessage={handleMessage}
-          containerStyle={styles.captchaContainer}
-        />
+        <Spin spinning={loading} style={{ flex: 0 }} contentContainerStyle={{ flex: 0, opacity: 1 }}>
+          <WebView
+            webviewDebuggingEnabled
+            originWhitelist={['*']}
+            source={require('@/assets/html/captcha.html')}
+            onMessage={handleMessage}
+            containerStyle={styles.captchaContainer}
+          />
+        </Spin>
       </View>
     </Modal>
   )

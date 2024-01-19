@@ -9,7 +9,7 @@ interface MemberStore {
   member: null | API.Member;
   init(): void;
   set(info: Partial<API.Member>): Promise<boolean>;
-  update(): Promise<API.Member>;
+  update(auth?: boolean): Promise<API.Member> | false;
 }
 
 const useMember = create<MemberStore>()((set, get) => ({
@@ -29,21 +29,27 @@ const useMember = create<MemberStore>()((set, get) => ({
       requestType: 'urlencoded'
     });
     if (success) {
-      await get().update();
+      await get().update(false);
     }
     return success;
   },
-  update: () => {
-    request.get<boolean>(MEMBER.authUsable).then(auth => {
-      set({ auth });
-    });
-    request.get<API.MemberState>(MEMBER.index).then(state => {
-      set({ state });
-    });
-    return request.get<API.Member>(MEMBER.member).then(member => {
-      set({ member });
-      return member;
-    });
+  update: (auth = true) => {
+    if (get().login) {
+      if (auth) {
+        request.get<boolean>(MEMBER.authUsable).then(auth => {
+          set({ auth });
+        });
+      }
+      request.get<API.MemberState>(MEMBER.index).then(state => {
+        set({ state });
+      });
+      return request.get<API.Member>(MEMBER.member).then(member => {
+        set({ member });
+        return member;
+      });
+    }
+
+    return false;
   }
 }));
 

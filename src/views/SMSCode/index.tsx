@@ -1,30 +1,18 @@
 import { useCallback, useEffect } from 'react';
 import { StyleSheet, View, SafeAreaView } from 'react-native';
-import { SMSCodeScreenProps } from '@/typings/screen';
-import Typography from '@/components/Typography';
-import Button from '@/components/Button';
-import Input from '@/components/Input';
-import { useRequest, useSetState, useTimer } from '@/hooks';
-import { SSO } from '@/services';
-import request from '@/utils/request';
+import { Typography, Button, Input } from '@/components';
+import { SMSCodeScreenProps } from '@/typings';
+import { useSetState, useTimer } from '@/hooks';
+import { useLogin } from '@/store';
 
 const SMSCode = ({ route, navigation }: SMSCodeScreenProps) => {
   const { phone, session } = route.params;
   const [count, timerActions] = useTimer(60);
+  const SMSLogin = useLogin(state => state.SMSLogin);
   const [state, setState] = useSetState({
     mobileVerifyCode: '',
     isAgreement: true,
     isPushUnion: false,
-  });
-  const [_, actions] = useRequest((data: any) => request({
-    url: SSO.login,
-    method: 'POST',
-    data,
-  }), {
-    manual: true,
-    onSuccess: () => {
-      navigation.getParent()?.goBack();
-    }
   });
 
   const handleResend = useCallback(() => {
@@ -32,10 +20,12 @@ const SMSCode = ({ route, navigation }: SMSCodeScreenProps) => {
   }, [timerActions]);
 
   const handleLogin = useCallback(() => {
-    actions.run({
+    SMSLogin({
       mobile: phone,
       ...state
-    })
+    }).then(() => {
+      navigation.getParent()?.goBack();
+    });
   }, [phone, state]);
 
   useEffect(() => {

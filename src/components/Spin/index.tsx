@@ -23,7 +23,7 @@ const Spin = (props: SpinProps) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    pointerEvents: 'none',
+    pointerEvents: 'box-none',
   },
   spin: {
     ...StyleSheet.absoluteFillObject,

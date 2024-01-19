@@ -1,17 +1,14 @@
 import { useCallback, useState } from 'react';
 import { StyleSheet, View, SafeAreaView, Image } from 'react-native';
 import { useBoolean } from '@/hooks';
-import { LOGIN_APP_KEY, LOGIN_CHECK_CHANNEL, LOGIN_SCENE } from '@/constants';
-import GlobalBack from '@/components/GlobalBack';
-import { LoginScreenProps } from '@/typings/screen';
-import Typography from '@/components/Typography';
-import Space from '@/components/Space';
-import request from '@/utils/request';
-import { SSO } from '@/services';
-import ModalCaptcha from '@/components/ModalCaptcha';
+import { LoginScreenProps } from '@/typings';
+import { Space, Typography, ModalCaptcha, GlobalBack } from '@/components';
 import LoginForm, { LoginState } from './LoginForm';
+import { useLogin } from '@/store';
+import { toast } from '@/utils';
 
-const Login = ({ route, navigation }: LoginScreenProps) => {
+const Login = ({ navigation }: LoginScreenProps) => {
+  const getSMSCode = useLogin(state => state.getSMSCode);
   const [state, setState] = useState<LoginState>({
     phone: '',
   });
@@ -24,18 +21,19 @@ const Login = ({ route, navigation }: LoginScreenProps) => {
   }, [navigation]);
 
   const handleFinish = useCallback((info: any) => {
-    if (info.pass) {
-      const token = `${LOGIN_APP_KEY}:${Date.now()}:${Math.random()}`;
-      request.get(`${SSO.sms}/${state.phone}/${state.type}`, {
-        token,
-        scene: LOGIN_SCENE,
-        session: info.rid,
-        checkChannel: LOGIN_CHECK_CHANNEL,
-      }).then(() => {
-        navigation.navigate('SMSCode', { phone: state.phone, session: info.rid });
-      });
-    }
     setVisible(false);
+    if (info.pass) {
+      const { type, phone } = state;
+      if (type === 1) {
+        getSMSCode({
+          phone,
+          session: info.rid,
+        }).then(() => {
+          toast('发送成功');
+          navigation.navigate('SMSCode', { phone: state.phone, session: info.rid });
+        });
+      }
+    }
   }, [state]);
 
   return (
