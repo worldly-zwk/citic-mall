@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { Alert } from '@/components';
 import { MEMBER, SSO } from '@/services';
 import request from '@/utils/request';
 
@@ -25,12 +26,14 @@ const useMember = create<MemberStore>()((set, get) => ({
     }
   },
   set: async (info) => {
+    const destroy = Alert.loading();
     const success = await request.put<boolean>(MEMBER.member, info, {
       requestType: 'urlencoded'
     });
     if (success) {
       await get().update(false);
     }
+    destroy();
     return success;
   },
   update: (auth = true) => {
@@ -48,7 +51,6 @@ const useMember = create<MemberStore>()((set, get) => ({
         return member;
       });
     }
-
     return false;
   }
 }));

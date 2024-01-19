@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { Alert } from '@/components';
 import { ORDER } from '@/services';
 import { request, toast } from '@/utils';
 import { OrderModel } from '@/typings';
@@ -58,19 +59,25 @@ const useCart = create<CartStore>((set, get) => ({
     return selected;
   },
   check: async (mode: OrderModel) => {
+    const destroy = Alert.loading();
     const check = await request.post<API.OrderCheck>(ORDER.check, {
       orderModel: mode
     });
     if (check.code === 1) {
       await useOrder.getState().init(mode);
+      destroy();
       return check;
     }
+    destroy();
     toast(check.message);
     return check;
   },
-  again: (orderSn: string) => request.get(ORDER.again, {
-    orderSn
-  }),
+  again: (orderSn: string) => {
+    const destroy = Alert.loading();
+    return request.get<boolean>(ORDER.again, {
+      orderSn
+    }).finally(destroy);
+  },
 }));
 
 export default useCart;

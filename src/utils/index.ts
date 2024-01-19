@@ -8,3 +8,4 @@ export * from './convert';
 export * from './function';
 export { default as toast } from './toast';
 export { default as request  } from './request';
+export { default as navigation  } from './navigation';

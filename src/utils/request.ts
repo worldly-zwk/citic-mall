@@ -1,7 +1,9 @@
 import { CHANNEL } from '@/constants';
 import { baseUrl } from '@/services';
+import { useMember } from '@/store';
 import { stringify } from './query';
 import toast from './toast';
+import navigation from './navigation';
 
 interface RequsetOptions<P> extends RequestInit {
   url: string;
@@ -98,6 +100,10 @@ async function request<T, P extends RecordAny = any>(options: RequsetOptions<P>)
     return result.data;
   } else {
     toast(result.message);
+    if (result.code === '501') {
+      useMember.setState({ login: false });
+      navigation.navigate('Login', { screen: 'Index' });
+    }
   }
 
   return Promise.reject(result);

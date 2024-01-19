@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { ORDER } from '@/services';
 import request from '@/utils/request';
 import { OrderModel } from '@/typings';
+import { Alert } from '@/components';
 
 interface OrderStore {
   tips: boolean;
@@ -52,13 +53,14 @@ const useOrder = create<OrderStore>((set, get) => ({
     const { order, orderModel, invoice } = get();
     const addressId = order?.addressVO?.id;
     const moneyPay = order?.moneyPay;
+    const destroy = Alert.loading();
     return request.post<API.OrderCommit>(ORDER.commit, {
       moneyPay,
       addressId,
       orderModel,
       invoice,
       ...values,
-    });
+    }).finally(destroy);
   }
 }));
 

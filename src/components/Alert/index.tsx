@@ -2,6 +2,7 @@ import RootSiblingsManager from 'react-native-root-siblings';
 import Alert, { AlertProps } from './Alert';
 import ActionSheet, { ActionSheetProps } from './ActionSheet';
 import Confirm, { ConfirmProps } from './Confirm';
+import Loading from './Loading';
 
 export default {
   alert: (options: AlertProps) => {
@@ -53,5 +54,12 @@ export default {
         }}
       />
     );
-  }
+  },
+  loading: () => {
+    const rootSibling = new RootSiblingsManager(
+      <Loading />
+    );
+
+    return rootSibling.destroy.bind(rootSibling);
+  },
 };

@@ -11,7 +11,6 @@ import Header from './Header';
 import Card from './Card';
 import GridIcon from './Icon';
 import Divider from './Divider';
-import Wallet from '../Wallet';
 
 const Member = ({ route, navigation }: MemberScreenProps) => {
   const [state] = useRequest<API.MemberRecommend>(PRODUCT.top);
