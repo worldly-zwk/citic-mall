@@ -1,12 +1,12 @@
-import { GestureResponderEvent, StyleSheet, TextStyle, View, ViewProps, ViewStyle } from 'react-native';
+import { GestureResponderEvent, StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
 import { NavigatorScreenParams } from '@react-navigation/native';
 import { RootStackParamList } from '@/typings/screen';
 import Typography from '../Typography';
 import CellGroup from './CellGroup';
-import Link from '../Link';
+import Link, { LinkProps } from '../Link';
 import Icon, { IconProps } from '../Icon';
 
-interface CellProps extends ViewProps {
+interface CellProps extends LinkProps {
   label: string;
   labelStyle?: TextStyle;
   description?: string;

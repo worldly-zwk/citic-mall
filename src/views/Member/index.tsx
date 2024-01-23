@@ -1,18 +1,18 @@
 import { useCallback, useMemo } from 'react';
-import { StyleSheet, ScrollView, View, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, ScrollView, View } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
-import { Space, Typography, GridProductList, Icon } from '@/components';
+import { Typography, GridProductList, Icon, Link } from '@/components';
 import { useRequest } from '@/hooks';
 import { useMember } from '@/store';
 import { PRODUCT } from '@/services';
 import { convertProduct } from '@/utils/convert';
-import { OrderStatus, MemberScreenProps, WalletTab, CollectionTab } from '@/typings';
+import { OrderStatus, WalletTab, CollectionTab } from '@/typings';
 import Header from './Header';
 import Card from './Card';
 import GridIcon from './Icon';
 import Divider from './Divider';
 
-const Member = ({ route, navigation }: MemberScreenProps) => {
+const Member = () => {
   const [state] = useRequest<API.MemberRecommend>(PRODUCT.top);
   const member = useMember(state => state.member);
   const memberState = useMember(state => state.state);
@@ -35,12 +35,10 @@ const Member = ({ route, navigation }: MemberScreenProps) => {
       <Header member={member} />
       <View style={styles.main}>
         <Card title="我的订单" extra={(
-          <TouchableWithoutFeedback onPress={() => navigation.navigate('OrderTabs')}>
-            <Space>
-              <Typography.Text size="small" color="disabled">查看全部订单</Typography.Text>
-              <Icon icon="arrow" />
-            </Space>
-          </TouchableWithoutFeedback>
+          <Link style={{ flexDirection: 'row' }} auth to={{ screen: 'OrderTabs' }}>
+            <Typography.Text size="small" color="disabled">查看全部订单</Typography.Text>
+            <Icon icon="arrow" />
+          </Link>
         )}>
           <GridIcon
             label="待付款"

@@ -1,33 +1,45 @@
 import { useCallback } from 'react';
-import { StyleSheet, SafeAreaView, ScrollView } from 'react-native';
-import { SettingsScreenProps } from '@/typings/screen';
+import { StyleSheet, ScrollView, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Alert, Cell, Link, Tag, Typography } from '@/components';
-import { useMember } from '@/store';
+import { SettingsScreenProps } from '@/typings';
+import { useLogin, useMember } from '@/store';
 
 const CellGroup = Cell.Group;
 
-const Settings = ({ route, navigation }: SettingsScreenProps) => {
-  const authMember = useMember(state => state.auth);
+const Settings = ({ navigation }: SettingsScreenProps) => {
+  const insets = useSafeAreaInsets();
+  const memberAuth = useMember(state => state.auth);
+  const memberLogin = useMember(state => state.login);
+  const memberLogout = useLogin(state => state.logout);
 
-  const handleLogOut = useCallback(() => {
+
+  const handleLogout = useCallback(() => {
     Alert.confirm({
       message: '确定要退出登录吗？',
-      okText: '确定退出'
-    })
-  }, []);
+      okText: '确定退出',
+      onOk: () => {
+        memberLogout().then(success => {
+          if (success) {
+            navigation.navigate('Index', { screen: 'Home' });
+          }
+        })
+      }
+    });
+  }, [memberLogout]);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView style={{ backgroundColor: '#f5f6fa' }} contentContainerStyle={styles.main}>
+    <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.main}>
         <CellGroup>
-          <Cell prefix={require('@/assets/images/icons/user.png')} label="个人信息" to={{ screen: 'ProfileInfo' }} />
+          <Cell auth prefix={require('@/assets/images/icons/user.png')} label="个人信息" to={{ screen: 'ProfileInfo' }} />
         </CellGroup>
         <CellGroup>
-          <Cell prefix={require('@/assets/images/icons/map.png')} label="地址管理" to={{ screen: 'Address' }} />
-          <Cell prefix={require('@/assets/images/icons/shield.png')} label="实名认证" contentStyle={{ justifyContent: 'flex-start' }} to={{ screen: 'RealNameAuth' }}>
-            <Tag color={authMember ? undefined : 'disabled'}>{authMember ? '已认证' : '未认证'}</Tag>
+          <Cell auth prefix={require('@/assets/images/icons/map.png')} label="地址管理" to={{ screen: 'Address' }} />
+          <Cell auth prefix={require('@/assets/images/icons/shield.png')} label="实名认证" contentStyle={{ justifyContent: 'flex-start' }} to={{ screen: 'RealNameAuth' }}>
+            <Tag color={memberAuth ? undefined : 'disabled'}>{memberAuth ? '已认证' : '未认证'}</Tag>
           </Cell>
-          <Cell prefix={require('@/assets/images/icons/lock.png')}  label="账号安全" to={{ screen: 'Security' }} />
+          <Cell auth prefix={require('@/assets/images/icons/lock.png')}  label="账号安全" to={{ screen: 'Security' }} />
         </CellGroup>
         <CellGroup>
           <Cell prefix={require('@/assets/images/icons/book.png')}  label="用户协议" to={{ screen: 'Agreement', params: { id: 63 } }} />
@@ -35,17 +47,20 @@ const Settings = ({ route, navigation }: SettingsScreenProps) => {
           <Cell prefix={require('@/assets/images/icons/book.png')} label="营业资质" isLink />
         </CellGroup>
       </ScrollView>
-      <Link style={styles.logout} onPress={handleLogOut}>
-        <Typography.Text size="large">退出登录</Typography.Text>
-      </Link>
-    </SafeAreaView>
+      {memberLogin && (
+        <View style={{ backgroundColor: '#fff', paddingBottom: insets.bottom }}>
+          <Link style={styles.logout} onPress={handleLogout}>
+            <Typography.Text size="large">退出登录</Typography.Text>
+          </Link>
+        </View>
+      )}
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff'
   },
   main: {
     rowGap: 12,

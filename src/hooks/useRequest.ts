@@ -1,9 +1,9 @@
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useMemo } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import request from "@/utils/request";
 import storage from "@/utils/storage";
 import { throttle, debounce } from "@/utils/function";
 import useSetState from "./useSetState";
-import { useFocusEffect } from "@react-navigation/native";
 
 type Service<T, P> = string | ((params?: P) => Promise<T>);
 

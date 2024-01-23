@@ -34,11 +34,9 @@ const ProfileInfo = () => {
     });
   }, []);
 
-  console.log(launchCamera);
-
   return (
     <View style={styles.container}>
-      <Link style={styles.head} onPress={() => launchImageLibrary({ mediaType: 'photo' }, console.log)}>
+      <Link style={styles.head} onPress={() => launchCamera({ mediaType: 'photo' }, console.log)}>
         <Avatar src={member?.headPortrait} style={styles.avatar} />
         <Text color="disabled" size="small">点击修改头像</Text>
       </Link>

@@ -13,6 +13,7 @@ interface LoginState {
 interface LoginStore {
   getSMSCode: (state: LoginState) => Promise<any>;
   SMSLogin: (data: any) => Promise<any>;
+  logout: () => Promise<boolean>;
 }
 
 const useLogin = create<LoginStore>()((set, get) => ({
@@ -28,10 +29,17 @@ const useLogin = create<LoginStore>()((set, get) => ({
   },
   SMSLogin: async (data) => {
     const destroy = Alert.loading();
-    const result = await request.post(SSO.smsLogin, data);
-    useMember.getState().init();
+    const success = await request.post(SSO.smsLogin, data);
+    if (success) {
+      useMember.setState({ login: true });
+      useMember.getState().init();
+    }
     destroy();
-    return result;
+    return success;
+  },
+  logout: () => {
+    const destroy = Alert.loading();
+    return request.get<boolean>(SSO.logout).finally(destroy);
   }
 }));
 

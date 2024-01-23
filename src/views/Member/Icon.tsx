@@ -11,7 +11,7 @@ interface CardProps extends LinkProps {
 
 const GridIcon = ({ label, image, count, showCount = true, ...restProps }: CardProps) => {
   return (
-    <Link style={styles.icon} {...restProps}>
+    <Link style={styles.icon} auth {...restProps}>
       <Image style={styles.image} source={image} />
       <Typography.Text style={styles.label} color="secondary">{label}</Typography.Text>
       {showCount && (

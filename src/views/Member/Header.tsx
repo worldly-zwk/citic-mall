@@ -14,7 +14,7 @@ const Header = ({ member }: CardProps) => {
 
   return (
     <ImageBackground style={styles.container} source={require('@/assets/images/view/user_mask.png')} resizeMode="stretch">
-      <Link style={styles.info} to={{ screen: 'ProfileInfo' }}>
+      <Link style={styles.info} auth to={{ screen: 'ProfileInfo' }}>
         <Avatar src={member?.headPortrait} style={styles.avatar} />
         <Typography.Text size="large" color="white">{member?.nickname || '登录/注册'}</Typography.Text>
         {member && (
@@ -35,7 +35,7 @@ const Header = ({ member }: CardProps) => {
         <Link to={{ screen: 'Settings' }}>
           <Icon icon="setting" size={24} />
         </Link>
-        <Link to={{ screen: 'Notice' }}>
+        <Link auth to={{ screen: 'Notice' }}>
           <Icon icon="messageWhite" size={24} />
         </Link>
       </View>

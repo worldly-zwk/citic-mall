@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { StyleSheet, Text, View, SafeAreaView, ScrollView } from "react-native";
-import SearchBar from "@/components/SearchBar";
+import { SearchBar } from "@/components";
 import { convertProduct } from "@/utils/convert";
 import { CACHE_KEY_HOME } from "@/constants";
 import { useRequest } from "@/hooks";

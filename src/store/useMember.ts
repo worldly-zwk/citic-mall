@@ -8,7 +8,7 @@ interface MemberStore {
   login: boolean;
   state: null | API.MemberState;
   member: null | API.Member;
-  init(): void;
+  init(): Promise<boolean>;
   set(info: Partial<API.Member>): Promise<boolean>;
   update(auth?: boolean): Promise<API.Member> | false;
 }
@@ -24,6 +24,7 @@ const useMember = create<MemberStore>()((set, get) => ({
     if (login) {
       get().update();
     }
+    return login;
   },
   set: async (info) => {
     const destroy = Alert.loading();

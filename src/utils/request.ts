@@ -82,7 +82,7 @@ function makeFetchOptions<P>(options: RequsetOptions<P>): RequestInit {
   return fetchInit;
 }
 
-async function request<T, P extends RecordAny = any>(options: RequsetOptions<P>){
+async function request<T = any, P extends RecordAny = any>(options: RequsetOptions<P>){
   const url = fetchWithParams(options);
   const init = makeFetchOptions(options);
   console.log(url);

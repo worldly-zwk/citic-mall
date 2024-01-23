@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://castatic.fengkongcloud.com/pr/v1.0.4/smcp.min.js"></script>
   <style>
+    .shumei_captcha_popup_wrapper .shumei_catpcha_header_wrapper {
+      display: none;
+    }
     .shumei_captcha_mask{
       background: transparent!important;
     }
@@ -21,15 +24,20 @@
       https: true,
       appendTo:'#root'
     }, function(SMCaptcha) {
-      SMCaptcha.onSuccess(function(data){
-        window.ReactNativeWebView.postMessage(JSON.stringify({ type: 'success', payload: data }));
-      });
-
       SMCaptcha.onReady(function(ele, param) {
         window.ReactNativeWebView.postMessage(JSON.stringify({ type: 'ready', payload: param }));
         if (param.type === 'init') {
           SMCaptcha.verify();
         }
+      });
+
+      SMCaptcha.onSuccess(function(data){
+        window.ReactNativeWebView.postMessage(JSON.stringify({ type: 'success', payload: data }));
+      });
+
+      
+      SMCaptcha.onError(function(errType, errMsg) {
+        window.ReactNativeWebView.postMessage(JSON.stringify({ type: 'error', payload: errMsg }));
       });
 
       SMCaptcha.onClose(function() {

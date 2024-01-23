@@ -15,7 +15,7 @@ const HorizontalProductList: FC<HorizontalProductListProps> = ({ items, style, .
     <View style={style}>
       <ScrollView horizontal {...restProps}>
         {items.map(({ id, name, image, price }, index) => (
-          <Link style={[styles.item, isTrue(isLastItem(index, items.length), styles.lastItem)]} to={{ screen: 'Product', params: { id } }} key={id}>
+          <Link push style={[styles.item, isTrue(isLastItem(index, items.length), styles.lastItem)]} to={{ screen: 'Product', params: { id } }} key={id}>
             <Image style={styles.image} source={{ uri: image }} resizeMode="contain" />
             <View>
               <Typography.Text style={styles.name} size="small" numberOfLines={1}>{name}</Typography.Text>

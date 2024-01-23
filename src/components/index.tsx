@@ -34,6 +34,7 @@ export { default as ModalCaptcha } from './ModalCaptcha';
 export { default as FlatStoreList } from './FlatStoreList';
 export { default as FlatProductList } from './FlatProductList';
 export { default as GridProductList } from './GridProductList';
+export { default as SwipeToDeleteView } from './SwipeToDeleteView';
 export { default as HorizontalProductList } from './HorizontalProductList';
 export { default as ProductSummaryInline } from './ProductSummaryInline';
 export { default as VisitedProductItem } from './VisitedProductItem';

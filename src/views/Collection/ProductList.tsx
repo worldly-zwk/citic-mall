@@ -1,7 +1,8 @@
 import { useCallback } from 'react';
 import { FlatList, ListRenderItemInfo, StyleSheet, View } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Empty, Spin, VisitedProductItem } from '@/components';
+import { Empty, Spin, SwipeToDeleteView, Typography, VisitedProductItem } from '@/components';
 import { useInfiniteScroll } from '@/hooks';
 import request from '@/utils/request';
 import { MEMBER } from '@/services';
@@ -20,7 +21,13 @@ const ProductList = () => {
 
   const renderItem = useCallback((info: ListRenderItemInfo<API.CollectionProduct>) => {
     return (
-      <VisitedProductItem data={info.item} />
+      <SwipeToDeleteView extra={(
+        <LinearGradient style={styles.delete} colors={['#ffaf31', '#ff8400']} end={{ x: 1, y: 0 }}>
+          <Typography.Text color="white">取消收藏</Typography.Text>
+        </LinearGradient>
+      )}>
+        <VisitedProductItem data={info.item} />
+      </SwipeToDeleteView>
     )
   }, []);
 
@@ -41,7 +48,6 @@ const ProductList = () => {
       data={state.data}
       renderItem={renderItem}
       ItemSeparatorComponent={() => <View style={styles.bordered} />}
-      // ListFooterComponent={<View style={{ height: insets.bottom }} />}
       keyExtractor={(item) => `${item.id}`}
       onEndReachedThreshold={0.1}
       onEndReached={actions.loadMore}
@@ -68,6 +74,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 12,
     borderBottomColor: '#eee',
     borderBottomWidth: StyleSheet.hairlineWidth,
+  },
+  delete: {
+    flex: 1,
+    justifyContent: 'center',
+    paddingHorizontal: 10,
   }
 })
 
