@@ -25,6 +25,7 @@ const WalletList = ({ service, contentContainerStyle }: ProductListProps) => {
     return (
       <Ticket
         ticket={info.item}
+        status="expired"
         disabled={info.item.state !== 1}
         extra={(
           <Link style={styles.button}>
@@ -43,7 +44,7 @@ const WalletList = ({ service, contentContainerStyle }: ProductListProps) => {
     return (
       <Spin spinning={state.loading}>
         <Empty
-          style={styles.empty}
+          fullscreen
           image={require('@/assets/images/empty/ticket.png')}
           title="您还未领取过该类型卡券"
         />
@@ -64,13 +65,6 @@ const WalletList = ({ service, contentContainerStyle }: ProductListProps) => {
 }
 
 const styles = StyleSheet.create({
-  empty: {
-    flex: 1,
-    margin: 10,
-    borderRadius: 6,
-    paddingTop: 42,
-    backgroundColor: '#fff',
-  },
   button: {
     width: 36,
   },

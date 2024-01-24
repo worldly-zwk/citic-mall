@@ -647,4 +647,8 @@ declare namespace API {
     timeName: string;
     content: string;
   }
+
+  interface PromotionCoupon {
+    
+  }
 }

@@ -14,6 +14,7 @@ interface CartStore {
   update: (id: number, count: number) => Promise<number>;
   checkedSeller: (id: number, checked: boolean) => Promise<boolean>;
   checkedProduct: (id: number, checked: boolean) => Promise<boolean>;
+  checkedAll: (checked: boolean) => Promise<boolean>;
   check: (type: OrderModel) => Promise<API.OrderCheck>;
   again: (orderSn: string) => Promise<boolean>;
 }
@@ -54,6 +55,13 @@ const useCart = create<CartStore>((set, get) => ({
   },
   checkedProduct: async (id: number, checked: boolean) => {
     const selected = await request.put<boolean>(`${ORDER.cartProductChecked}/${id}`, undefined, {
+      params: { checked }
+    });
+    get().fetch();
+    return selected;
+  },
+  checkedAll: async (checked: boolean) => {
+    const selected = await request.put<boolean>(ORDER.cartAllChecked, undefined, {
       params: { checked }
     });
     get().fetch();

@@ -63,6 +63,8 @@ export type RootStackParamList = {
   Wallet: {
     tab: number;
   };
+  CouponList: undefined;
+  RedEnvelopeList: undefined;
   Collection: {
     tab: number;
   },
@@ -72,6 +74,9 @@ export type RootStackParamList = {
   ContactForm: undefined;
   Notice: undefined;
   NoticeDetails: {
+    id: number;
+  };
+  Store: {
     id: number;
   };
 }
@@ -120,6 +125,8 @@ export type RealNameAuthScreenProps = NativeStackScreenProps<RootStackParamList,
 export type RealNameAuthFormScreenProps = NativeStackScreenProps<RootStackParamList, 'RealNameAuthForm'>;
 export type AgreementScreenProps = NativeStackScreenProps<RootStackParamList, 'Agreement'>;
 export type WalletScreenProps = NativeStackScreenProps<RootStackParamList, 'Wallet'>;
+export type CouponListScreenProps = NativeStackScreenProps<RootStackParamList, 'CouponList'>;
+export type RedEnvelopeListScreenProps = NativeStackScreenProps<RootStackParamList, 'RedEnvelopeList'>;
 export type CollectionScreenProps = NativeStackScreenProps<RootStackParamList, 'Collection'>;
 export type HistoryScreenProps = NativeStackScreenProps<RootStackParamList, 'History'>;
 export type AfterSalesScreenProps = NativeStackScreenProps<RootStackParamList, 'AfterSales'>;
@@ -127,4 +134,5 @@ export type ContactScreenProps = NativeStackScreenProps<RootStackParamList, 'Con
 export type ContactFormScreenProps = NativeStackScreenProps<RootStackParamList, 'ContactForm'>;
 export type NoticeScreenProps = NativeStackScreenProps<RootStackParamList, 'Notice'>;
 export type NoticeDetailsScreenProps = NativeStackScreenProps<RootStackParamList, 'NoticeDetails'>;
+export type StoreScreenProps = NativeStackScreenProps<RootStackParamList, 'Store'>;
 

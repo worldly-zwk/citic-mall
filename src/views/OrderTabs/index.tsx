@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { Tabs } from '@/components';
 import { OrderTabsScreenProps } from '@/typings';
@@ -6,7 +5,7 @@ import { ORDER_TABS } from '@/constants';
 import OrderList from './components/List';
 
 
-const OrderTabs = ({ route, navigation }: OrderTabsScreenProps) => {
+const OrderTabs = ({ route }: OrderTabsScreenProps) => {
   const { params } = route;
 
   return (

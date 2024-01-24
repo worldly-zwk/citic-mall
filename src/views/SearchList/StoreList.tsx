@@ -1,3 +1,4 @@
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { FlatStoreList } from '@/components';
 import { useInfiniteScroll } from '@/hooks';
 import { PRODUCT } from '@/services';
@@ -10,6 +11,7 @@ interface StoreListProps {
 
 const StoreList = (props: StoreListProps) => {
   const { sort, keyword } = props;
+  const insets = useSafeAreaInsets();
   const [state, actions] = useInfiniteScroll(async (index: number) => {
     const result = await request.get<API.Store[]>(PRODUCT.sellerlist, {
       sort,
@@ -28,6 +30,7 @@ const StoreList = (props: StoreListProps) => {
     <FlatStoreList
       data={state.data}
       onEndReached={actions.loadMore}
+      contentContainerStyle={{ paddingBottom: insets.bottom }}
     />
   )
 }

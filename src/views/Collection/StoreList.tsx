@@ -1,4 +1,3 @@
-import { StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Empty, FlatStoreList, Spin } from '@/components';
 import { useInfiniteScroll } from '@/hooks';
@@ -22,7 +21,7 @@ const StoreList = () => {
     return (
       <Spin spinning={state.loading}>
         <Empty
-          style={styles.empty}
+          fullscreen
           image={require('@/assets/images/empty/collection.png')}
           title="暂无收藏记录哦"
         />
@@ -39,16 +38,5 @@ const StoreList = () => {
     />
   )
 }
-
-const styles = StyleSheet.create({
-  empty: {
-    flex: 1,
-    margin: 10,
-    borderRadius: 6,
-    paddingTop: 30,
-    marginBottom: 0,
-    backgroundColor: '#fff',
-  }
-})
 
 export default StoreList;

@@ -5,6 +5,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import NavigatorScreen from '@/navigation';
 import { useMember } from '@/store';
 import { navigationRef } from '@/utils/navigation';
+import { LINKING } from '@/constants';
 
 function App(): JSX.Element {
   const init = useMember(state => state.init);
@@ -16,12 +17,11 @@ function App(): JSX.Element {
   return (
     <SafeAreaProvider>
       <RootSiblingParent>
-        <NavigationContainer ref={navigationRef}>
+        <NavigationContainer linking={LINKING} ref={navigationRef}>
           <NavigatorScreen />
         </NavigationContainer>
       </RootSiblingParent>
     </SafeAreaProvider>
-    
   );
 }
 

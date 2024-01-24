@@ -1,4 +1,5 @@
 export * from './cacheKey';
+export * from './linking';
 export * from './view';
 
 export const CHANNEL = 'ZXYJ';

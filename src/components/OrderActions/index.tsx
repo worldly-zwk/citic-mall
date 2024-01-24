@@ -12,6 +12,8 @@ interface AddressCardProps extends LinkProps {
     status?: OrderStatus;
     orderSn?: string;
     buyAgain?: boolean;
+    return?: boolean;
+    cancel?: boolean;
   }
   buttonStyle?: StyleProp<ViewStyle>;
 }
@@ -44,6 +46,7 @@ const OrderActions = ({ order, buttonStyle }: AddressCardProps) => {
 
   return (
     <Space size={12} align="center">
+      {order.return && <Button size="small" type="secondary" round style={buttonStyle}>申请退款</Button>}
       {order.status === OrderStatus.REVIEW && <Button size="small" round style={buttonStyle}>评价晒单</Button>}
       {(isFinish && order.buyAgain) && <Button size="small" type="secondary" round onPress={handleBuyAgain} style={buttonStyle}>再次购买</Button>}
     </Space>

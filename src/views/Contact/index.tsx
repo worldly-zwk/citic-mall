@@ -50,8 +50,7 @@ const Contact = ({ route, navigation }: ContactScreenProps) => {
     if (!state.data?.length) {
       return (
         <Empty
-          style={styles.empty}
-          image={require('@/assets/images/empty/contact.png')}
+          fullscreen
           title="暂无常用联系人信息"
           description="快去添加一位吧～"
         />
@@ -94,13 +93,6 @@ const styles = StyleSheet.create({
   main: {
     rowGap: 12,
     padding: 12,
-  },
-  empty: {
-    flex: 1,
-    margin: 12,
-    paddingTop: 42,
-    borderRadius: 6,
-    backgroundColor: '#fff'
   },
   contact: {
     borderRadius: 6,

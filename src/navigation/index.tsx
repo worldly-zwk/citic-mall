@@ -35,7 +35,10 @@ import Cart from '@/views/Cart';
 import ProductComment from '@/views/ProductComment';
 import Notice from '@/views/Notice';
 import NoticeDetails from '@/views/NoticeDetails';
+import Store from '@/views/Store';
 import { useMember } from '@/store';
+import CouponList from '@/views/CouponList';
+import RedEnvelopeList from '@/views/RedEnvelopeList';
 
 
 const { Navigator, Screen } = createNativeStackNavigator<RootStackParamList>();
@@ -86,6 +89,7 @@ const NavigatorScreen = () => {
       <Screen name="CategoryTabs" component={CategoryTabs} options={{ title: '' }} />
       <Screen name="Search" component={Search} options={{ headerShown: false }} />
       <Screen name="SearchList" component={SearchList} options={{ headerShown: false }} />
+      <Screen name="Store" component={Store} options={{ headerShown: false }} />
       <Screen name="Settings" component={Settings} options={{ title: '设置' }} />
       <Screen name="Agreement" component={Agreement} options={{ title: '加载中...' }} />
       <Screen name="Login" component={LoginScreen} options={{ presentation: 'transparentModal', headerShown: false }} />
@@ -109,6 +113,8 @@ const NavigatorScreen = () => {
           <Screen name="RealNameAuthForm" component={RealNameAuthForm} options={{ title: '实名认证' }} />
           <Screen name="Security" component={Security} options={{ title: '安全信息' }} />
           <Screen name="Wallet" component={Wallet} options={{ title: '卡券包' }} />
+          <Screen name="CouponList" component={CouponList} options={{ title: '领券中心' }} />
+          <Screen name="RedEnvelopeList" component={RedEnvelopeList} options={{ title: '抢红包' }} />
           <Screen name="Collection" component={Collection} options={{ title: '我的收藏' }} />
           <Screen name="History" component={History} options={{ title: '浏览历史' }} />
           <Screen name="AfterSales" component={AfterSales} options={{ title: '退款/售后' }} />

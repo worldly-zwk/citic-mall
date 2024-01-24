@@ -6,6 +6,7 @@ export default {
   cartUpdate: '/order/cart/update',
   cartSellerChecked: '/order/cart/seller/checked',
   cartProductChecked: '/order/cart/product/checked',
+  cartAllChecked: '/order/cart/all/checked',
   again: '/order/buyagain',
   count: '/order/cart/count',
   check: '/order/v2/order/check',

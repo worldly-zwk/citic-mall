@@ -1,9 +1,9 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Divider, GridProductList, OrderActions, Typography } from '@/components';
 import { OrderDetailsScreenProps, OrderStatus } from '@/typings';
-import { useRequest, useTimer, useTimerWithClock } from '@/hooks';
+import { useRequest, useTimerWithClock } from '@/hooks';
 import { ORDER, PRODUCT } from '@/services';
 import { convertProduct } from '@/utils/convert';
 import OrderState from './components/State';
@@ -57,7 +57,16 @@ const OrderDetails = ({ route, navigation }: OrderDetailsScreenProps) => {
         </View>
       </ScrollView>
       <View style={[styles.toolbar, { paddingBottom: insets.bottom + 12 }]}>
-        <OrderActions order={{ orderSn: order?.orderSn, type: order?.orderType, status: order?.orderStatus, buyAgain: order?.canBuyAgain  }} />
+        <OrderActions
+          order={{
+            orderSn: order?.orderSn,
+            type: order?.orderType,
+            status: order?.orderStatus,
+            buyAgain: order?.canBuyAgain,
+            return: order?.canReturnOrder,
+            cancel: order?.canCancellationOrder,
+          }}
+        />
       </View>
     </View>
   )

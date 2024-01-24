@@ -8,7 +8,7 @@ interface StoreListProps extends Omit<FlatListProps<API.Store>, 'renderItem'> {
 const FlatStoreList = (props: StoreListProps) => {
   const renderItem = useCallback(({ item }: ListRenderItemInfo<API.Store>) => {
     return (
-      <Link style={styles.item} key={item.id}>
+      <Link style={styles.item} key={item.id} to={{ screen: 'Store', params: { id: item.id } }}>
         <Space size={12}>
           <Image style={styles.logo} source={{ uri: item.sellerLogo }} />
           <View style={styles.content}>
@@ -20,7 +20,7 @@ const FlatStoreList = (props: StoreListProps) => {
         {!!item?.productList?.length && (
           <Space size={10} style={{ marginTop: 12 }}>
             {item.productList?.map(info => (
-              <Link style={styles.wares} to={{ screen: 'Product', params: { id: info.id } }}>
+              <Link style={styles.wares} to={{ screen: 'Product', params: { id: info.id } }} key={info.id}>
                 <Image style={styles.waresImage} source={{ uri: info.masterImg }} />
                 <View style={styles.waresPrice}>
                   <Typography.Text primary>¥{info.mallPcPrice}</Typography.Text>

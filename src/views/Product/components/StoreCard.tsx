@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Image, StyleSheet, View } from "react-native";
-import { Skeleton, Typography } from "@/components";
+import { Link, Skeleton, Typography } from "@/components";
 
 interface StoreCardProps {
   data?: API.ProductInfo;
@@ -9,8 +9,8 @@ interface StoreCardProps {
 
 const StoreCard: FC<StoreCardProps> = ({ data, loading }) => {
   return (
-    <Skeleton style={styles.container} text={{ rows: 2 }} avatar={true} loading={loading}>
-      <View style={styles.container}>
+    <Skeleton style={styles.container} text={{ rows: 3 }} avatar={true} loading={loading}>
+      <Link style={styles.container} disabled={!data?.sellerId} to={{ screen: 'Store', params: { id: data?.sellerId as number } }}>
         <View>
           <Image style={styles.avatar} source={{ uri: data?.sellerLogo }} />
         </View>
@@ -19,7 +19,7 @@ const StoreCard: FC<StoreCardProps> = ({ data, loading }) => {
             <Typography.Text style={styles.desc} size="small" color="disabled" numberOfLines={2}>{data?.sellerNotice}</Typography.Text>
             <Image style={styles.tag} source={require('@/assets/images/tag/store.png')} />
         </View>
-        </View>
+      </Link>
     </Skeleton>
   )
 }

@@ -20,7 +20,7 @@ interface TicketProps extends ViewProps {
 }
 
 const Ticket = (props: TicketProps) => {
-  const { style, ticket, status = 'expired', disabled, extra, ...restProps } = props;
+  const { style, ticket, status, disabled, extra, ...restProps } = props;
 
   const ticketType = ticket.ticketType === 1 ? '满减券' : '现金券';
   const containerStyle = [styles.container, style, { opacity: disabled ? .7 : 1 }];
@@ -36,7 +36,7 @@ const Ticket = (props: TicketProps) => {
           <Text size="mini" color={colorPrimary}>{ticket?.minAmount ? `满${ticket.minAmount}元可用` : '无门槛现金券'}</Text>
         </View>
         <View style={styles.content}>
-          <Typography tag={<Tag style={{ borderColor: colorTag }} textColor={colorPrimary}>{ticketType}</Tag>}>
+          <Typography tag={<Tag style={{ borderColor: colorTag }} textColor={disabled ? '#dbdbdb' : 'secondary'}>{ticketType}</Tag>}>
             <Text indent={7} strong="600" numberOfLines={1} color={disabled ? '#dbdbdb' : undefined}>{ticket?.name}</Text>
           </Typography>
           <Text size="small" color={colorDisabled}>{ticket?.useScope}</Text>
@@ -54,10 +54,12 @@ const Ticket = (props: TicketProps) => {
 const styles = StyleSheet.create({
   container: {
     height: 100,
-    padding: 7,
+    padding: 6,
   },
   ticket: {
     flex: 1,
+    borderRadius: 4,
+    overflow: 'hidden',
   },
   money: {
     width: '24.8%',

@@ -1,12 +1,9 @@
-import { Image, StyleSheet, View } from 'react-native';
-import Typography from '@/components/Typography';
-import Space from '@/components/Space';
-import InputNumber from '@/components/InputNumber';
-import { isTrue } from '@/utils/type';
-import Checkbox from '@/components/Checkbox';
-import { useCart } from '@/store';
 import { ReactNode, useCallback } from 'react';
-import Link from '@/components/Link';
+import { Image, StyleSheet, View } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
+import { Typography, Space, InputNumber, Checkbox, Link, SwipeToDeleteView } from '@/components';
+import { isTrue } from '@/utils/type';
+import { useCart } from '@/store';
 
 interface CartCardProps {
   id: number;
@@ -42,18 +39,24 @@ const CartCard = (props: CartCardProps) => {
       </View>
       <View>
         {items?.map((item, index) => (
-          <Space key={item.productId} style={styles.item} align="center">
-            <Checkbox style={styles.checkbox} checked={item.selected} onChange={checked => actions.checkedProduct(item.cartId, checked)} />
-            <Link style={[styles.cartItem, isTrue((index + 1) < items.length, styles.borderd)]} to={{ screen: 'Product', params: { id: item.productId } }}>
-              <Image style={styles.image} source={{ uri: item.image }} />
-              <View style={{ flex: 1 }}>
-                <Typography.Text numberOfLines={2}>{item.productName}</Typography.Text>
-                <Typography.Text size="small" color="secondary" style={styles.norm}>{item.specification}</Typography.Text>
-                <Typography.Price style={styles.price}>{item.money}</Typography.Price>
-                <InputNumber style={styles.numeric} value={item.number} />
-              </View>
-            </Link>
-          </Space>
+          <SwipeToDeleteView key={item.productId} extra={(
+            <LinearGradient style={styles.delete} colors={['#ffaf31', '#ff8400']} end={{ x: 1, y: 0 }}>
+              <Typography.Text color="white">删除</Typography.Text>
+            </LinearGradient>
+          )}>
+            <Space style={styles.item} align="center">
+              <Checkbox style={styles.checkbox} checked={item.selected} onChange={checked => actions.checkedProduct(item.cartId, checked)} />
+              <Link style={[styles.cartItem, isTrue((index + 1) < items.length, styles.borderd)]} to={{ screen: 'Product', params: { id: item.productId } }}>
+                <Image style={styles.image} source={{ uri: item.image }} />
+                <View style={{ flex: 1 }}>
+                  <Typography.Text numberOfLines={2}>{item.productName}</Typography.Text>
+                  <Typography.Text size="small" color="secondary" style={styles.norm}>{item.specification}</Typography.Text>
+                  <Typography.Price style={styles.price}>{item.money}</Typography.Price>
+                  <InputNumber style={styles.numeric} value={item.number} />
+                </View>
+              </Link>
+            </Space>
+          </SwipeToDeleteView>
         ))}
       </View>
     </View>
@@ -105,6 +108,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 0,
     bottom: 0,
+  },
+  delete: {
+    flex: 1,
+    borderRadius: 2,
+    justifyContent: 'center',
+    paddingHorizontal: 10,
   },
   borderd: {
     borderBottomColor: '#eee',

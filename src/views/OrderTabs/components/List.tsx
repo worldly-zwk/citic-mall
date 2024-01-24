@@ -37,7 +37,7 @@ const OrderList = ({ status }: ProductListProps) => {
     return (
       <Spin spinning={state.loading}>
         <Empty
-          style={styles.empty}
+          fullscreen
           image={require('@/assets/images/empty/order.png')}
           title="没有相关订单"
         />
@@ -61,14 +61,6 @@ const styles = StyleSheet.create({
     gap: 10,
     padding: 10,
   },
-  empty: {
-    flex: 1,
-    margin: 12,
-    marginBottom: 0,
-    borderRadius: 6,
-    paddingTop: 42,
-    backgroundColor: '#fff'
-  }
 })
 
 export default OrderList;

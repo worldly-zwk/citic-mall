@@ -35,7 +35,7 @@ const ProductList = () => {
     return (
       <Spin spinning={state.loading}>
         <Empty
-          style={styles.empty}
+          fullscreen
           image={require('@/assets/images/empty/collection.png')}
           title="暂无收藏记录哦"
         />
@@ -60,14 +60,6 @@ const styles = StyleSheet.create({
   container: {
     margin: 12,
     borderRadius: 6,
-    backgroundColor: '#fff',
-  },
-  empty: {
-    flex: 1,
-    margin: 10,
-    borderRadius: 6,
-    paddingTop: 30,
-    marginBottom: 0,
     backgroundColor: '#fff',
   },
   bordered: {
