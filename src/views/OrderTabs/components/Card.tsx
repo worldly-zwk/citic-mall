@@ -12,11 +12,11 @@ const OrderCard = ({ data, ...restProps }: AddressCardProps) => {
   return (
     <Link style={styles.container} to={{ screen: 'OrderDetails', params: { id: data.orderSn } }} {...restProps}>
       <Space style={styles.header} align="center" justify="space-between">
-        <Space size={4} align="center">
+        <Link style={styles.title} to={{ screen: 'Store', params: { id: data.sellerId } }}>
           <Icon icon="shop" />
           <Text strong>{data.sellerName}</Text>
           <Icon icon="arrow" />
-        </Space>
+        </Link>
         <Text size="small" primary>{data.orderStatusName}</Text>
       </Space>
       <View style={styles.content}>
@@ -41,6 +41,11 @@ const styles = StyleSheet.create({
   },
   header: {
     marginBottom: 12,
+  },
+  title: {
+    gap: 4,
+    alignItems: 'center',
+    flexDirection: 'row',
   },
   content: {
     gap: 8

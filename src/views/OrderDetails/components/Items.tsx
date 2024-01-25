@@ -13,13 +13,13 @@ interface OrderItemsProps {
 const OrderItems = ({ seller, items, loading }: OrderItemsProps) => {
   return (
     <Card contentStyle={styles.container}>
-      <Space size={4} style={styles.header}>
+      <Link style={styles.header} to={{ screen: 'Store', params: { id: seller?.sellerId as number } }}>
         <Icon icon="shop" />
         <Skeleton loading={loading} style={{ width: 100, padding: 0 }}>
           <Text strong>{seller?.sellerName}</Text>
         </Skeleton>
         <Icon icon="arrow" />
-      </Space>
+      </Link>
       <Skeleton loading={loading} avatar={{ size: 70 }} text={{ rows: 3 }}>
         {items?.map((item) => {
           return (
@@ -51,7 +51,9 @@ const styles = StyleSheet.create({
     paddingVertical: 0,
   },
   header: {
+    gap: 4,
     height: 44,
+    flexDirection: 'row',
     alignItems: 'center',
   },
   item: {

@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { FlatList, ListRenderItemInfo, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
-import { Empty, Spin, Ticket, Typography } from '@/components';
+import { Empty, Spin, Ticket, TicketStatusType, Typography } from '@/components';
 import { PROMOTION } from '@/services';
 import { useInfiniteScroll } from '@/hooks';
 import { request } from '@/utils';
@@ -10,7 +10,7 @@ import { request } from '@/utils';
 const CouponList = () => {
   const insets = useSafeAreaInsets();
   const [state, actions] = useInfiniteScroll(async (index: number) => {
-    const result = await request.get<API.Ticket[]>(PROMOTION.coupons, {
+    const result = await request.get<API.PromotionTicket[]>(PROMOTION.coupons, {
       pageIndex: index
     });
     return {
@@ -19,14 +19,28 @@ const CouponList = () => {
     }
   });
 
-  const renderItem = useCallback((info: ListRenderItemInfo<API.Ticket>) => {
+  const renderItem = useCallback((info: ListRenderItemInfo<API.PromotionTicket>) => {
+    let status: TicketStatusType | undefined;
+    const { couponType, isReceive, memberReceivedNum } = info.item;
+    const disabled = isReceive !== 2 && memberReceivedNum <= 0;
+    if(isReceive === 1){
+      status = 'soldOut';
+    }
+    if(memberReceivedNum > 0) {
+      status = 'have';
+    };
     return (
       <Ticket
-        ticket={info.item}
-        extra={info.item.state === 1 ? (
+        ticket={{
+          ...info.item,
+          type: couponType,
+        }}
+        status={status}
+        disabled={disabled}
+        extra={!disabled ? (
           <TouchableWithoutFeedback>
             <LinearGradient style={styles.button} colors={['#ffaf31', '#ff8400']} end={{ x: 1, y: 0 }}>
-              <Typography.Text size="small" color="white" align="center">立即领取</Typography.Text>
+              <Typography.Text size="small" color="white" align="center">{memberReceivedNum > 0 ? '去使用' : '立即领取'}</Typography.Text>
             </LinearGradient>
           </TouchableWithoutFeedback>
         ) : null}

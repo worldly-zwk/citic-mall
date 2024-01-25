@@ -22,7 +22,7 @@ const Product = ({ route, navigation }: ProductScreenProps) => {
   const { id } = route.params;
   const [count, setCount] = useState(1);
   const [mode, setMode] = useState<AddCartMode | null>(null);
-  const [visible, setVisible] = useBoolean();
+  const [visible, normActions] = useBoolean();
   const [state, actions] = useProduct(id);
   const cartActions = useCart(state => ({
     add: state.add,
@@ -56,12 +56,12 @@ const Product = ({ route, navigation }: ProductScreenProps) => {
 
   const handleOpenPopup = useCallback((mode: AddCartMode) => {
     setMode(mode);
-    setVisible(true);
+    normActions.setTrue();
   }, []);
 
   const handleClose = useCallback(() => {
     setMode(null);
-    setVisible(false);
+    normActions.setFalse();
   }, []);
 
   const handleAddCart = useCallback(() => {
@@ -72,7 +72,7 @@ const Product = ({ route, navigation }: ProductScreenProps) => {
       isBuyNow: AddCartMode.ADD,
     }).then(success => {
       if (success) {
-        setVisible(false);
+        normActions.setFalse();
         toast('加入购物车成功');
       }
     });
@@ -90,7 +90,7 @@ const Product = ({ route, navigation }: ProductScreenProps) => {
       const check = await cartActions.check(OrderModel.ORDINARY);
 
       if (check.code === 1) {
-        setVisible(false);
+        normActions.setFalse();
         navigation.navigate('Order');
       }
     }
@@ -114,7 +114,7 @@ const Product = ({ route, navigation }: ProductScreenProps) => {
           promotions={state.activity}
           count={count}
           services={services}
-          onClickNorm={() => setVisible(true)}
+          onClickNorm={normActions.setTrue}
         />
         <FeedbackCard id={id} data={state.comment} />
         <StoreCard loading={state.loading} data={state.info} />

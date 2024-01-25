@@ -15,7 +15,7 @@ interface OrderInfoProps {
 
 const OrderInfo = ({ loading, order }: OrderInfoProps) => {
   const invoice = order?.invoiceVo;
-  const [visible, setVisible] = useBoolean(false);
+  const [visible, actions] = useBoolean(false);
 
   const renderInvoice = () => {
     if (invoice?.invoiceType) {
@@ -25,7 +25,7 @@ const OrderInfo = ({ loading, order }: OrderInfoProps) => {
           <Text color="secondary">发票抬头：{invoice.invoiceTitle}</Text>
           <Space align="center" size={12}>
             <Text color="secondary">发票内容：商品明细</Text>
-            <TouchableWithoutFeedback onPress={() => setVisible(true)}>
+            <TouchableWithoutFeedback onPress={actions.setTrue}>
               <Tag style={styles.bordered} textColor="#50abff">查看发票明细</Tag>
             </TouchableWithoutFeedback>
           </Space>
@@ -47,7 +47,7 @@ const OrderInfo = ({ loading, order }: OrderInfoProps) => {
           {renderInvoice()}
         </Skeleton>
       </Card>
-      <Popup visible={visible} title="发票信息" style={styles.popup} bodyStyle={{ paddingVertical: 0 }} onClose={setVisible}>
+      <Popup visible={visible} title="发票信息" style={styles.popup} bodyStyle={{ paddingVertical: 0 }} onClose={actions.setFalse}>
         <CellGroup>
           <Cell label="发票类型" style={styles.cell}>
             <Text color="secondary">{invoice?.invoiceProperty ? '电子发票' : '纸质发票'}</Text>

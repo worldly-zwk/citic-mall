@@ -648,7 +648,22 @@ declare namespace API {
     content: string;
   }
 
-  interface PromotionCoupon {
-    
+  interface PromotionTicket {
+    id: number;
+    name: string;
+    value: number;
+    minAmount: number;
+    useTimeScope: string;
+    couponType: number;
+    useScope: string;
+    isReceive: number;
+    isCurrency: number | null;
+    bindType: number | null;
+    memberReceivedNum: number;
+    personLimitNum: number;
+    totalLimitNum: number;
+    receivedNum: number;
+    sendStartTime: string;
+    sellerId: number;
   }
 }

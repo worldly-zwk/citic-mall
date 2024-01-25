@@ -14,8 +14,8 @@ interface GoodsCardProps {
 }
 
 const GoodsCard: FC<GoodsCardProps> = ({ info, count, services, coupons, promotions, onClickNorm }) => {
-  const [visible, setVisible] = useBoolean();
-  const [visiblePromotion, setVisiblePromotion] = useBoolean();
+  const [visible, actions] = useBoolean();
+  const [visiblePromotion, actionPromotions] = useBoolean();
   const normContent = useMemo(() => {
     let name = '默认';
     if (info?.normName) {
@@ -42,7 +42,7 @@ const GoodsCard: FC<GoodsCardProps> = ({ info, count, services, coupons, promoti
             </Item>
           )}
           {!!promotions?.length && (
-            <Item contentStyle={styles.promotionContent} label="促销" onPress={() => setVisiblePromotion(true)}>
+            <Item contentStyle={styles.promotionContent} label="促销" onPress={actionPromotions.setTrue}>
               {promotions.map(({ id, title, detailedInformation }) => (
                 <Space size={4} align="center" key={id}>
                   <Tag>{title}</Tag>
@@ -57,7 +57,7 @@ const GoodsCard: FC<GoodsCardProps> = ({ info, count, services, coupons, promoti
         <Item style={styles.bordered} label="规格" onPress={onClickNorm}>
           <Typography.Text numberOfLines={1}>{normContent}</Typography.Text>
         </Item>
-        <Item label="服务" contentStyle={styles.serviceContent} onPress={() => setVisible(true)}>
+        <Item label="服务" contentStyle={styles.serviceContent} onPress={actions.setTrue}>
           {services?.map(({ title }) => (
             <View style={styles.serviceLabel} key={title}>
               <View style={styles.dot} />
@@ -66,7 +66,7 @@ const GoodsCard: FC<GoodsCardProps> = ({ info, count, services, coupons, promoti
           ))}
         </Item>
       </View>
-      <Popup title="促销" visible={visiblePromotion} onClose={setVisiblePromotion}>
+      <Popup title="促销" visible={visiblePromotion} onClose={actionPromotions.setFalse}>
         {promotions?.map(({ title, detailedInformation }) => (
           <View style={styles.item} key={title}>
             <View style={styles.title}>
@@ -77,7 +77,7 @@ const GoodsCard: FC<GoodsCardProps> = ({ info, count, services, coupons, promoti
           </View>
         ))}
       </Popup>
-      <Popup title="服务" visible={visible} onClose={setVisible}>
+      <Popup title="服务" visible={visible} onClose={actions.setFalse}>
         {services?.map(({ title, desc }) => (
           <View style={styles.item} key={title}>
             <View style={styles.title}>

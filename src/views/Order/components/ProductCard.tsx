@@ -8,7 +8,7 @@ const { Text } = Typography;
 
 const ProductCard = () => {
   const orderProduct = useOrder(state => state.order?.productVOList);
-  const [visible, setVisible] = useBoolean(false);
+  const [visible, actions] = useBoolean(false);
 
   const items = useMemo<API.OrderInitProduct[]>(() =>{
     if (orderProduct?.length) {
@@ -30,7 +30,7 @@ const ProductCard = () => {
                 </View>
               ))}
             </ScrollView>
-            <Link style={styles.more} onPress={() => setVisible(true)}>
+            <Link style={styles.more} onPress={actions.setTrue}>
               <Icon icon="arrow" />
             </Link>
           </Space>
@@ -44,7 +44,7 @@ const ProductCard = () => {
           )}
           bodyStyle={{ padding: 0 }}
           visible={visible}
-          onClose={setVisible}
+          onClose={actions.setFalse}
         >
           <ScrollView style={styles.list}>
             {orderProduct?.map(sellerInfo => {

@@ -8,13 +8,25 @@ const { Text, Price } = Typography;
 
 const sealStatusEnum = {
   used: require('@/assets/images/view/seal_used.png'),
+  have: require('@/assets/images/view/seal_have.png'),
   soldOut: require('@/assets/images/view/seal_sold-out.png'),
   expired: require('@/assets/images/view/seal_expired.png'),
 }
 
+export type TicketStatusType = keyof typeof sealStatusEnum;
+
+export interface Ticket {
+  type: number;
+  name: string;
+  value: number;
+  minAmount: number;
+  useScope: string;
+  useTimeScope: string;
+}
+
 interface TicketProps extends ViewProps {
-  ticket: API.Ticket;
-  status?: keyof typeof sealStatusEnum;
+  ticket: Ticket;
+  status?: TicketStatusType;
   disabled?: boolean;
   extra?: ReactNode;
 }
@@ -22,7 +34,7 @@ interface TicketProps extends ViewProps {
 const Ticket = (props: TicketProps) => {
   const { style, ticket, status, disabled, extra, ...restProps } = props;
 
-  const ticketType = ticket.ticketType === 1 ? '满减券' : '现金券';
+  const ticketType = ticket.type === 1 ? '满减券' : '现金券';
   const containerStyle = [styles.container, style, { opacity: disabled ? .7 : 1 }];
   const colorTag = disabled ? '#dbdbdb' : '#999';
   const colorPrimary = disabled ? '#dbdbdb' : 'primary';
@@ -40,11 +52,11 @@ const Ticket = (props: TicketProps) => {
             <Text indent={7} strong="600" numberOfLines={1} color={disabled ? '#dbdbdb' : undefined}>{ticket?.name}</Text>
           </Typography>
           <Text size="small" color={colorDisabled}>{ticket?.useScope}</Text>
-          <Text size="small" color={colorDisabled}>{ticket?.useStartTime.slice(0,10).replace(/-/ig,'.')} ~ {ticket?.useEndTime.slice(0,10).replace(/-/ig,'.')}</Text>
-          {status && (
-            <Image style={styles.seal} source={sealStatusEnum[status]} />
-          )}
+          <Text size="small" color={colorDisabled}>{ticket?.useTimeScope}</Text>
         </View>
+        {status && (
+          <Image style={styles.seal} source={sealStatusEnum[status]} />
+        )}
         {extra}
       </Space>
     </ImageBackground>
@@ -80,7 +92,7 @@ const styles = StyleSheet.create({
     width: 50,
     height: 37,
     bottom: 0,
-    right: 0,
+    right: 44,
   },
 })
 

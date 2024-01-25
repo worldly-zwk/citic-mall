@@ -31,10 +31,10 @@ const CartCard = (props: CartCardProps) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <Checkbox checked={checked} onChange={handleChange} />
-        <Space size={2} align="center">
+        <Link style={styles.title} to={{ screen: 'Store', params: { id } }}>
           <Typography.Text strong>{title}</Typography.Text>
           <Image style={styles.arrow} source={require('@/assets/images/icons/arrow.png')} />
-        </Space>
+        </Link>
         {extra}
       </View>
       <View>
@@ -75,6 +75,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     borderBottomColor: '#f5f6fa',
     borderBottomWidth: StyleSheet.hairlineWidth,
+  },
+  title: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 2,
   },
   arrow: {
     width: 16,

@@ -1,9 +1,11 @@
 import { useCallback } from 'react';
 import { FlatList, ListRenderItemInfo, StyleProp, StyleSheet, ViewStyle } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { Empty, Spin, Ticket, Link, Typography } from '@/components';
+import { Empty, Spin, Ticket, Link, Typography, TicketStatusType } from '@/components';
 import { useInfiniteScroll } from '@/hooks';
 import request from '@/utils/request';
+
+const ticketStateEnum: (TicketStatusType | undefined)[] = [,,'used','expired'];
 
 interface ProductListProps {
   service: string;
@@ -17,15 +19,20 @@ const WalletList = ({ service, contentContainerStyle }: ProductListProps) => {
     });
     return {
       data: result || [],
-      count: (result as any)?.total,
+      count: result?.total || 0,
     }
   });
 
   const renderItem = useCallback((info: ListRenderItemInfo<API.Ticket>) => {
+    const { ticketType, useStartTime, useEndTime } = info.item;
     return (
       <Ticket
-        ticket={info.item}
-        status="expired"
+        ticket={{
+          ...info.item,
+          type: ticketType,
+          useTimeScope: `${useStartTime.slice(0,10).replace(/-/ig,'.')}} ~ ${useEndTime.slice(0,10).replace(/-/ig,'.')}`
+        }}
+        status={ticketStateEnum[info.item.state]}
         disabled={info.item.state !== 1}
         extra={(
           <Link style={styles.button}>

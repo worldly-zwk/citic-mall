@@ -13,15 +13,15 @@ const Login = ({ navigation }: LoginScreenProps) => {
     phone: '',
   });
 
-  const [visible, setVisible] = useBoolean(false);
+  const [visible, actions] = useBoolean(false);
 
   const handleSubmit = useCallback((values: LoginState) => {
     setState(values);
-    setVisible(true);
+    actions.setTrue();
   }, [navigation]);
 
   const handleFinish = useCallback((info: any) => {
-    setVisible(false);
+    actions.setFalse();
     if (info.pass) {
       const { type, phone } = state;
       if (type === 1) {
@@ -48,7 +48,7 @@ const Login = ({ navigation }: LoginScreenProps) => {
           <LoginForm onSubmit={handleSubmit} />
         </View>
       </View>
-      <ModalCaptcha visible={visible} onFinish={handleFinish} onClose={setVisible} />
+      <ModalCaptcha visible={visible} onFinish={handleFinish} onClose={actions.setFalse} />
     </SafeAreaView>
   )
 }

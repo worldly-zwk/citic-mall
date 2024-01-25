@@ -94,8 +94,8 @@ async function request<T = any, P extends RecordAny = any>(options: RequsetOptio
   const result: RequsetResponse<T & { total?: number }> = await response.json();
 
   if (result.code === '200' && result.success) {
-    if (result.total) {
-      result.total = result.total;
+    if (result.data && !result.data?.total) {
+      result.data.total = result.total;
     }
     return result.data;
   } else {

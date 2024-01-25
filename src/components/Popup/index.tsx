@@ -1,17 +1,19 @@
 import { ReactNode } from 'react';
 import { Modal, ModalProps, StyleProp, StyleSheet, TouchableWithoutFeedback, View, ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { RootSiblingParent } from 'react-native-root-siblings';
 import Typography from '../Typography';
 
 interface PopupProps extends ModalProps {
   title?: string;
   header?: ReactNode;
+  headerStyle?: StyleProp<ViewStyle>;
   bodyStyle?: StyleProp<ViewStyle>;
   onClose?: () => void;
 }
 
 const Popup = (props: PopupProps) => {
-  const { title, header, style, bodyStyle, children, onClose, ...restProps } = props;
+  const { title, header, style, headerStyle, bodyStyle, children, onClose, ...restProps } = props;
   const insets = useSafeAreaInsets();
 
   return (
@@ -19,15 +21,17 @@ const Popup = (props: PopupProps) => {
       <TouchableWithoutFeedback onPress={onClose}>
         <View style={styles.mask}></View>
       </TouchableWithoutFeedback>
-      <View style={[styles.popup, style]}>
-        {header}
-        {(!header && title) && (
-          <View style={styles.header}>
-            <Typography.Text style={styles.title} size="large">{title}</Typography.Text>
-          </View>
-        )}
-        <View style={[styles.body, { paddingBottom: insets.bottom }, bodyStyle]}>{children}</View>
-      </View>
+      <RootSiblingParent>
+        <View style={[styles.popup, style]}>
+          {header}
+          {(!header && title) && (
+            <View style={[styles.header, headerStyle]}>
+              <Typography.Text style={styles.title} size="large">{title}</Typography.Text>
+            </View>
+          )}
+          <View style={[styles.body, { paddingBottom: insets.bottom }, bodyStyle]}>{children}</View>
+        </View>
+      </RootSiblingParent>
     </Modal>
   )
 }

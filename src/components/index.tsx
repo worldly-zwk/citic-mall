@@ -41,3 +41,5 @@ export { default as VisitedProductItem } from './VisitedProductItem';
 
 export * from './Link';
 export * from './Form';
+
+export * from './Ticket';

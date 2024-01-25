@@ -14,7 +14,7 @@ interface NoticeProps extends ViewProps {
 
 const Notice = (props: NoticeProps) => {
   const { extra, children, showIcon, closeIcon, ...restProps } = props;
-  const [visible, setVisible] = useBoolean(true);
+  const [visible, actions] = useBoolean(true);
 
   if (!visible) {
     return null;
@@ -32,7 +32,7 @@ const Notice = (props: NoticeProps) => {
       </View>
       {(extra || closeIcon) && (
         <View style={styles.extra}>
-          {closeIcon ? <Link onPress={setVisible}><Icon icon="closedNotice" /></Link> : extra}
+          {closeIcon ? <Link onPress={actions.setFalse}><Icon icon="closedNotice" /></Link> : extra}
         </View>
       )}
     </View>

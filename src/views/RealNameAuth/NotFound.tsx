@@ -10,7 +10,7 @@ interface NotFoundProps {
 
 const NotFound = (props: NotFoundProps) => {
   const insets = useSafeAreaInsets();
-  const [visible, setVisible] = useBoolean(false);
+  const [visible, actions] = useBoolean(false);
 
   return (
     <Empty
@@ -21,11 +21,11 @@ const NotFound = (props: NotFoundProps) => {
     >
       <View style={[styles.main, { paddingBottom: insets.bottom + 98 }]}>
         <Button to={{ screen: 'RealNameAuthForm' }}>添加实名认证</Button>
-        <Link style={styles.link} onPress={() => setVisible(true)}>
+        <Link style={styles.link} onPress={actions.setTrue}>
           <Typography.Text color="#4dafea" size="small">了解实名认证</Typography.Text>
         </Link>
       </View>
-      <Popup title="为什么要进行实名认证" visible={visible} onClose={setVisible} bodyStyle={{ rowGap: 12 }}>
+      <Popup title="为什么要进行实名认证" visible={visible} bodyStyle={{ rowGap: 12 }} onClose={actions.setFalse}>
         {AUTH_RULES.map((text, index) => (
           <Space size={8} key={index}>
             <Typography.Text size="small" color="secondary" style={styles.text}>{index + 1}、</Typography.Text>

@@ -19,6 +19,7 @@ const Loading = () => {
 
 const styles = StyleSheet.create({
   container: {
+    zIndex: 100,
     alignItems: 'center',
     justifyContent: 'center',
   },
