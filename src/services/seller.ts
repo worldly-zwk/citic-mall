@@ -1,3 +1,5 @@
 export default {
-  list: '/product/search/sellerlist',
+  index: '/shop/index',
+  allGoods: '/shop/allgoods',
+  cates: '/shop/sellercates'
 }

@@ -1,45 +1,37 @@
-import { useCallback } from 'react';
-import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
-import { Button, Form, Input } from '@/components';
+import { useCallback, useRef } from 'react';
+import { SafeAreaView, StyleSheet, View } from 'react-native';
+import { Alert, Button, Form, FormInstance, Input } from '@/components';
 import { ContactFormScreenProps } from '@/typings';
+import { request } from '@/utils';
+import { MEMBER } from '@/services';
 
 
-const ContactForm = ({ route, navigation }: ContactFormScreenProps) => {
+const ContactForm = ({ navigation }: ContactFormScreenProps) => {
+  const formRef = useRef<FormInstance>()
 
   const handleFinish = useCallback(() => {
-    // const values = formRef.current?.getValues();
-    // submitAddress({
-    //   ...values,
-    //   townId: 0,
-    //   cityId: 72,
-    //   areaId: 2799,
-    //   provinceId: 1,
-    //   state: values.state ? 1 : 2
-    // }).then(address => {
-    //   if (params?.source) {
-    //     orderUpdate({ addressId: address.id });
-    //     navigation.navigate(params.source);
-    //   } else {
-    //     navigation.goBack();
-    //   }
-    // })
+    const values = formRef.current?.getFieldsValue();
+    if (values) {
+      const destroy = Alert.loading();
+      request.post(MEMBER.thirdAuth, values).then(() => {
+        navigation.goBack();
+      }).finally(destroy);
+    }
   }, []);
   
 
   return (
     <View style={styles.container}>
-      <ScrollView contentContainerStyle={styles.main}>
-        <Form>
-          <View style={styles.card}>
-            <Form.Item name="idCardName" style={styles.formItem}>
-              <Input size="middle" placeholder="请输入真实姓名" />
-            </Form.Item>
-            <Form.Item name="idCardNo" style={styles.formItem}>
-              <Input size="middle" bordered={false} placeholder="请输入姓名对应的身份证号" />
-            </Form.Item>
-          </View>
-        </Form>
-      </ScrollView>
+      <Form style={styles.container} layout="horizontal" labelWidth={86} ref={formRef}>
+        <View style={{ paddingLeft: 12, backgroundColor: 'white' }}>
+          <Form.Item name="idCardName" label="联系人" style={styles.formItem}>
+            <Input size="middle" bordered={false} placeholder="请输入联系人姓名" />
+          </Form.Item>
+          <Form.Item name="idCardNo" label="身份证号码" style={styles.formItem}>
+            <Input size="middle" bordered={false} placeholder="请输入证件号码" />
+          </Form.Item>
+        </View>
+      </Form>
       <SafeAreaView style={styles.buttonContainer}>
         <Button style={styles.button} onPress={handleFinish}>保存</Button>
       </SafeAreaView>
@@ -50,15 +42,6 @@ const ContactForm = ({ route, navigation }: ContactFormScreenProps) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  main: {
-    rowGap: 12,
-    padding: 12,
-  },
-  card: {
-    borderRadius: 6,
-    paddingHorizontal: 12,
-    backgroundColor: '#fff',
   },
   formItem: {
     marginBottom: 0,

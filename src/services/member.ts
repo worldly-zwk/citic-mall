@@ -4,7 +4,9 @@ export default {
   member: '/member',
   address: '/member/memberaddress',
   defaultAddress: '/member/memberaddress/default',
+  auth: '/member/memberauth',
   auths: '/member/memberauths',
+  thirdAuth: '/member/third/memberauth',
   authUsable: '/member/memberauth/usable',
   password: '/member/password',
   sendbindemail: '/member/sendbindemail',
@@ -15,5 +17,6 @@ export default {
   collectionSeller: '/member/membercollectionsellers',
   isCollectionProduct: '/member/membercollectionproducts/collection',
   isCollectionSeller: '/member/membercollectionsellers/collection',
-  logs: '/member/productlooklogs'
+  logs: '/member/productlooklogs',
+  bindEmail: '/member/sendbindemail',
 }

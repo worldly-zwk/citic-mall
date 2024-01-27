@@ -1,36 +1,30 @@
-import { useCallback } from 'react';
+import { useCallback, useRef } from 'react';
 import { Image, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
-import { Button, Form, Input, Notice, Space, Typography } from '@/components';
+import { Alert, Button, Form, FormInstance, Input, Notice, Space, Typography } from '@/components';
 import { RealNameAuthFormScreenProps } from '@/typings';
 import { AUTH_RULES } from '@/constants';
+import { request } from '@/utils';
+import { MEMBER } from '@/services';
 
 
-const RealNameAuthForm = ({ route, navigation }: RealNameAuthFormScreenProps) => {
+const RealNameAuthForm = ({ navigation }: RealNameAuthFormScreenProps) => {
+  const formRef = useRef<FormInstance>();
 
   const handleFinish = useCallback(() => {
-    // const values = formRef.current?.getValues();
-    // submitAddress({
-    //   ...values,
-    //   townId: 0,
-    //   cityId: 72,
-    //   areaId: 2799,
-    //   provinceId: 1,
-    //   state: values.state ? 1 : 2
-    // }).then(address => {
-    //   if (params?.source) {
-    //     orderUpdate({ addressId: address.id });
-    //     navigation.navigate(params.source);
-    //   } else {
-    //     navigation.goBack();
-    //   }
-    // })
+    const values = formRef.current?.getFieldsValue();
+    if (values) {
+      const destroy = Alert.loading();
+      request.post(MEMBER.auth, values).then(() => {
+        navigation.goBack();
+      }).finally(destroy);
+    }
   }, []);
   
 
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.main}>
-        <Form style={{ rowGap: 12 }}>
+        <Form style={{ rowGap: 12 }} ref={formRef}>
           <View style={styles.card}>
             <View style={styles.head}>
               <Typography.Text strong>身份信息(必填)</Typography.Text>

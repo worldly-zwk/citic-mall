@@ -1,7 +1,7 @@
-import { ReactNode } from 'react';
-import { Modal, ModalProps, StyleProp, StyleSheet, TouchableWithoutFeedback, View, ViewStyle } from 'react-native';
+import { ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
+import { Animated, LayoutChangeEvent, ModalProps, StyleProp, StyleSheet, TouchableWithoutFeedback, View, ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { RootSiblingParent } from 'react-native-root-siblings';
+import { RootSiblingPortal } from 'react-native-root-siblings';
 import Typography from '../Typography';
 
 interface PopupProps extends ModalProps {
@@ -13,16 +13,59 @@ interface PopupProps extends ModalProps {
 }
 
 const Popup = (props: PopupProps) => {
-  const { title, header, style, headerStyle, bodyStyle, children, onClose, ...restProps } = props;
+  const {
+    title,
+    style,
+    header,
+    headerStyle,
+    bodyStyle,
+    children,
+    visible,
+    onClose,
+  } = props;
   const insets = useSafeAreaInsets();
+  const [open, setOpen] = useState(visible);
+  const [containerHeight, setContainerHeight] = useState(0);
+  const value = useMemo(() => new Animated.Value(0), []);
+
+  const translateY = value.interpolate({
+    inputRange: [0, 1],
+    outputRange: [containerHeight, 0]
+  });
+
+  const handleLayout = useCallback((e: LayoutChangeEvent) => {
+    setContainerHeight(e.nativeEvent.layout.height);
+  }, []);
+
+  useEffect(() => {
+    if (visible) {
+      setOpen(visible);
+      Animated.timing(value, {
+        toValue: 1,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    } else {
+      Animated.timing(value, {
+        toValue: 0,
+        duration: 300,
+        useNativeDriver: true,
+      }).start(() => {
+        setOpen(visible);
+      });
+    }
+  }, [visible]);
 
   return (
-    <Modal animationType="fade" transparent onRequestClose={onClose} onDismiss={onClose} {...restProps}>
-      <TouchableWithoutFeedback onPress={onClose}>
-        <View style={styles.mask}></View>
-      </TouchableWithoutFeedback>
-      <RootSiblingParent>
-        <View style={[styles.popup, style]}>
+    <RootSiblingPortal>
+      <View style={[StyleSheet.absoluteFillObject, { display: open ? 'flex' : 'none' }]}>
+        <TouchableWithoutFeedback onPress={onClose}>
+          <Animated.View style={[styles.mask, { opacity: value }]} />
+        </TouchableWithoutFeedback>
+        <Animated.View
+          style={[styles.popup, style, { opacity: value, transform: [{translateY}] }]}
+          onLayout={handleLayout}
+        >
           {header}
           {(!header && title) && (
             <View style={[styles.header, headerStyle]}>
@@ -30,19 +73,15 @@ const Popup = (props: PopupProps) => {
             </View>
           )}
           <View style={[styles.body, { paddingBottom: insets.bottom }, bodyStyle]}>{children}</View>
-        </View>
-      </RootSiblingParent>
-    </Modal>
+        </Animated.View>
+      </View>
+    </RootSiblingPortal>
   )
 }
 
 const styles = StyleSheet.create({
   mask: {
-    position: 'absolute',
-    bottom: 0,
-    top: 0,
-    left: 0,
-    right: 0,
+    ...StyleSheet.absoluteFillObject,
     backgroundColor: 'rgba(0, 0, 0, .5)'
   },
   popup: {

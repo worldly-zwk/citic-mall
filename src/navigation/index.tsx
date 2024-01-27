@@ -112,6 +112,9 @@ const NavigatorScreen = () => {
           <Screen name="RealNameAuth" component={RealNameAuth} options={{ title: '实名认证' }} />
           <Screen name="RealNameAuthForm" component={RealNameAuthForm} options={{ title: '实名认证' }} />
           <Screen name="Security" component={Security} options={{ title: '安全信息' }} />
+          <Screen name="SecurityEmail" component={Security.Email} options={{ title: '' }} />
+          <Screen name="SecurityPhone" component={Security.Phone} options={{ title: '' }} />
+          <Screen name="SecurityPassword" component={Security.Password} options={{ title: '登录密码修改' }} />
           <Screen name="Wallet" component={Wallet} options={{ title: '卡券包' }} />
           <Screen name="CouponList" component={CouponList} options={{ title: '领券中心' }} />
           <Screen name="RedEnvelopeList" component={RedEnvelopeList} options={{ title: '抢红包' }} />

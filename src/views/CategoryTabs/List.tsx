@@ -1,7 +1,7 @@
+import { Spin, FlatProductList } from '@/components';
 import { useInfiniteScroll } from '@/hooks';
 import { PRODUCT } from '@/services';
 import request from '@/utils/request';
-import FlatProductList from '@/components/FlatProductList';
 
 interface ProductListProps {
   id: string;
@@ -21,6 +21,12 @@ const ProductList = ({ id, setTitle }: ProductListProps) => {
       count: result.count,
     }
   });
+
+  if (!state.data?.length) {
+    return (
+      <Spin spinning={state.loading} />
+    )
+  }
 
   return (
     <FlatProductList

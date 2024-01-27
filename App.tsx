@@ -16,11 +16,11 @@ function App(): JSX.Element {
 
   return (
     <SafeAreaProvider>
-      <RootSiblingParent>
-        <NavigationContainer linking={LINKING} ref={navigationRef}>
+      <NavigationContainer linking={LINKING} ref={navigationRef}>
+        <RootSiblingParent>
           <NavigatorScreen />
-        </NavigationContainer>
-      </RootSiblingParent>
+        </RootSiblingParent>
+      </NavigationContainer>
     </SafeAreaProvider>
   );
 }

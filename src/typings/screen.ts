@@ -57,6 +57,9 @@ export type RootStackParamList = {
   RealNameAuth: undefined;
   RealNameAuthForm: undefined;
   Security: undefined;
+  SecurityEmail: undefined;
+  SecurityPhone: undefined;
+  SecurityPassword: undefined;
   Agreement: {
     id: number;
   };
@@ -123,6 +126,7 @@ export type AddressScreenProps = NativeStackScreenProps<RootStackParamList, 'Add
 export type AddressFormScreenProps = NativeStackScreenProps<RootStackParamList, 'AddressForm'>;
 export type RealNameAuthScreenProps = NativeStackScreenProps<RootStackParamList, 'RealNameAuth'>;
 export type RealNameAuthFormScreenProps = NativeStackScreenProps<RootStackParamList, 'RealNameAuthForm'>;
+export type SecurityEmailScreenProps = NativeStackScreenProps<RootStackParamList, 'SecurityEmail'>;
 export type AgreementScreenProps = NativeStackScreenProps<RootStackParamList, 'Agreement'>;
 export type WalletScreenProps = NativeStackScreenProps<RootStackParamList, 'Wallet'>;
 export type CouponListScreenProps = NativeStackScreenProps<RootStackParamList, 'CouponList'>;
