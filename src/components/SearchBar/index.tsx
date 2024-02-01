@@ -1,10 +1,11 @@
 import { ReactNode, useCallback } from 'react';
-import { Image, StyleSheet, TextInput, TextInputProps, TouchableWithoutFeedback, View } from 'react-native';
+import { Image, StyleProp, StyleSheet, TextInput, TextInputProps, TouchableWithoutFeedback, View, ViewStyle } from 'react-native';
 import GlobalBack from '../GlobalBack';
 import Link from '../Link';
 
 interface SearchBarProps extends TextInputProps {
   back?: boolean;
+  style?: StyleProp<ViewStyle>;
   extra?: ReactNode;
   editable?: boolean;
   onPress?: () => void;
@@ -12,7 +13,7 @@ interface SearchBarProps extends TextInputProps {
 }
 
 const SearchBar = (props: SearchBarProps) => {
-  const { back, extra, editable = false, onPress, ...restProps } = props;
+  const { back, style, extra, editable = false, onPress, ...restProps } = props;
 
   const renderExtra = useCallback(() => {
     if (typeof extra === 'undefined') {
@@ -26,7 +27,7 @@ const SearchBar = (props: SearchBarProps) => {
   }, [extra]);
 
   return (
-    <View style={styles.searchBar}>
+    <View style={[styles.searchBar, style]}>
       {back && (
         <GlobalBack style={styles.back} />
       )}

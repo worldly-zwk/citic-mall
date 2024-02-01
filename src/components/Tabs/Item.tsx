@@ -1,15 +1,6 @@
-import { FC, Key, PropsWithChildren, ReactNode } from 'react';
-import { ViewStyle } from 'react-native';
+import { FC } from 'react';
+import { TabsItemProps } from '@/typings';
 
-export interface TabItemProps {
-  key: Key;
-  title: string;
-  value: Key;
-  style?: ViewStyle;
-  forceRender?: boolean;
-  children?: ReactNode;
-}
-
-const TabItem: FC<PropsWithChildren<TabItemProps>> = () => null;
+const TabItem: FC<TabsItemProps> = () => null;
 
 export default TabItem;

@@ -1,8 +1,9 @@
 import { Children, Key, PropsWithChildren, isValidElement, useEffect, useMemo, useRef } from 'react';
 import { StyleSheet, View, ScrollView, TouchableWithoutFeedback, ViewStyle, StyleProp, Animated, LayoutRectangle } from 'react-native';
 import { useControllableValue, useUpdate } from '@/hooks';
+import { TabOptions, TabsItemProps } from '@/typings';
 import Typography from '../Typography';
-import TabItem, { TabItemProps } from './Item';
+import TabItem from './Item';
 import { useLinePosition, useScrollTabToCenter } from './hooks';
 import TabPanel from './Panel';
 
@@ -23,11 +24,11 @@ const Tabs = (props: PropsWithChildren<TabsProps>) => {
   const tabSizesRef = useRef(new Map<Key, LayoutRectangle>());
   const activeIndexRef = useRef(0);
   
-  const tabs = useMemo<TabItemProps[]>(() => {
+  const tabs = useMemo<TabOptions[]>(() => {
     const childrens = Children.toArray(children);
     if (childrens.length) {
       return childrens.map((child, index) => {
-        if (isValidElement<TabItemProps>(child)) {
+        if (isValidElement<TabsItemProps>(child)) {
           const { props, key } = child;
           const { value } = props;
           return {
@@ -36,7 +37,7 @@ const Tabs = (props: PropsWithChildren<TabsProps>) => {
           }
         }
         return null;
-      }).filter((tab): tab is TabItemProps => !!tab);
+      }).filter((tab): tab is TabOptions => !!tab);
     }
 
     return [];

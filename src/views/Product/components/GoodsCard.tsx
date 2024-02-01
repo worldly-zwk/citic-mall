@@ -1,12 +1,13 @@
 import { FC, useMemo } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { Tag, Space, Popup, Typography } from '@/components';
+import { ScrollView, StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
+import { Tag, Space, Popup, Typography, Ticket } from '@/components';
 import { useBoolean } from '@/hooks';
 import Item from './Item';
+import LinearGradient from 'react-native-linear-gradient';
 
 interface GoodsCardProps {
   info?: API.ProductGoods;
-  coupons?: any[];
+  coupons?: API.PromotionTicket[];
   promotions?: API.ProductPromotion[];
   count: number;
   services?: Record<'title' | 'desc', string>[];
@@ -15,7 +16,8 @@ interface GoodsCardProps {
 
 const GoodsCard: FC<GoodsCardProps> = ({ info, count, services, coupons, promotions, onClickNorm }) => {
   const [visible, actions] = useBoolean();
-  const [visiblePromotion, actionPromotions] = useBoolean();
+  const [visibleCoupon, actionCoupon] = useBoolean();
+  const [visiblePromotion, actionPromotion] = useBoolean();
   const normContent = useMemo(() => {
     let name = '默认';
     if (info?.normName) {
@@ -32,17 +34,14 @@ const GoodsCard: FC<GoodsCardProps> = ({ info, count, services, coupons, promoti
       {isVisibleVoucher && (
         <View style={styles.list}>
           {!!coupons?.length && (
-            <Item label="领券">
-              {coupons.map(({ title, detailedInformation }) => (
-                <View>
-                  <Tag>{title}</Tag>
-                  <Typography.Text>{detailedInformation}</Typography.Text>
-                </View>
+            <Item label="领券" contentStyle={{ alignItems: 'center', gap: 6 }} onPress={actionCoupon.setTrue}>
+              {coupons.map(({ id, value, minAmount }) => (
+                <Tag key={id}>{minAmount ? `满${minAmount}减${value}券` : `${value}元券`}</Tag>
               ))}
             </Item>
           )}
           {!!promotions?.length && (
-            <Item contentStyle={styles.promotionContent} label="促销" onPress={actionPromotions.setTrue}>
+            <Item contentStyle={styles.promotionContent} label="促销" onPress={actionPromotion.setTrue}>
               {promotions.map(({ id, title, detailedInformation }) => (
                 <Space size={4} align="center" key={id}>
                   <Tag>{title}</Tag>
@@ -66,7 +65,33 @@ const GoodsCard: FC<GoodsCardProps> = ({ info, count, services, coupons, promoti
           ))}
         </Item>
       </View>
-      <Popup title="促销" visible={visiblePromotion} onClose={actionPromotions.setFalse}>
+      <Popup
+        title="优惠券"
+        visible={visibleCoupon}
+        onClose={actionCoupon.setFalse}
+        bodyStyle={{ padding: 0 }}
+      >
+        <ScrollView style={{ height: 300 }} contentContainerStyle={{ padding: 4 }}>
+          {coupons?.map((ticket) => {
+            const isHave = ticket.memberReceivedNum > 0;
+            return (
+              <Ticket
+                key={ticket.id}
+                ticket={{ ...ticket, type: ticket.couponType }}
+                status={isHave ? 'have' : undefined}
+                extra={ticket.isReceive === 2 ? (
+                  <TouchableWithoutFeedback>
+                    <LinearGradient style={styles.couponButton} colors={['#ffaf31', '#ff8400']} end={{ x: 1, y: 0 }}>
+                      <Typography.Text size="small" color="white" align="center">立即领取</Typography.Text>
+                    </LinearGradient>
+                  </TouchableWithoutFeedback>
+                ) : null}
+              />
+            )
+          })}
+        </ScrollView>
+      </Popup>
+      <Popup title="促销" visible={visiblePromotion} onClose={actionPromotion.setFalse}>
         {promotions?.map(({ title, detailedInformation }) => (
           <View style={styles.item} key={title}>
             <View style={styles.title}>
@@ -141,6 +166,11 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     flexWrap: 'nowrap',
     gap: 6,
+  },
+  couponButton: {
+    width: 36,
+    padding: 10,
+    justifyContent: 'center',
   }
 })
 

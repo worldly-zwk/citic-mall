@@ -1,9 +1,6 @@
-import { FC, PropsWithChildren } from 'react';
+import { FC } from 'react';
+import { TabsItemProps } from '@/typings';
 
-export interface SearchBarProps {
-  title: string;
-}
-
-const SideBarItem: FC<PropsWithChildren<SearchBarProps>> = () => null;
+const SideBarItem: FC<TabsItemProps> = () => null;
 
 export default SideBarItem;

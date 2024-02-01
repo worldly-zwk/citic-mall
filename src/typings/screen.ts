@@ -34,6 +34,7 @@ export type RootStackParamList = {
     id: string;
   },
   OrderInvoice: undefined,
+  OrderCoupon: undefined,
   OrderPayment: {
     orderSn: string;
   },
@@ -115,6 +116,7 @@ export type SMSCodeScreenProps = NativeStackScreenProps<LoginStackParamList, 'SM
 export type SettingsScreenProps = NativeStackScreenProps<RootStackParamList, 'Settings'>;
 export type OrderScreenProps = NativeStackScreenProps<RootStackParamList, 'Order'>;
 export type OrderTabsScreenProps = NativeStackScreenProps<RootStackParamList, 'OrderTabs'>;
+export type OrderCouponScreenProps = NativeStackScreenProps<RootStackParamList, 'OrderCoupon'>;
 export type OrderDetailsScreenProps = NativeStackScreenProps<RootStackParamList, 'OrderDetails'>;
 export type OrderInvoiceScreenProps = NativeStackScreenProps<RootStackParamList, 'OrderInvoice'>;
 export type OrderPaymentScreenProps = NativeStackScreenProps<RootStackParamList, 'OrderPayment'>;

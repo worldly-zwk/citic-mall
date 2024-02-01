@@ -337,6 +337,7 @@ declare namespace API {
 
   interface OrderInit {
     addressVO?: Address;
+    couponVOS?: OrderSellerCoupon[];
     couponPlatformVOS: any[];
     crossBorderModel: number;
     einvoice: number;
@@ -379,6 +380,27 @@ declare namespace API {
     productName: string;
     specInfo: string;
     status: number;
+  }
+
+  interface OrderCoupon {
+    canUse: number;
+    useCouponValue: number;
+    couponValue: number;
+    couponSn: string;
+    bindType: number;
+    couponType: number;
+    useStartTime: string;
+    useEndTime: string;
+    couponName: string;
+    selected: number;
+    sureIsChecked: boolean;
+    minAmount: number;
+    useScope: string;
+  }
+  
+  interface OrderSellerCoupon {
+    sellerId: number;
+    orderCouponList: OrderCoupon[];
   }
 
   interface OrderProduct {
@@ -665,5 +687,218 @@ declare namespace API {
     receivedNum: number;
     sendStartTime: string;
     sellerId: number;
+  }
+
+  interface Seller {
+    id: number;
+    memberId: number;
+    name: string;
+    sellerName: string;
+    sellerLogo: string;
+    sellerType: number;
+    isSelf: number;
+    isOverseas: number;
+    provinceId: number;
+    cityId: number;
+    areaId: number;
+    addAll: string;
+    refundStreetInfo: string;
+    refundAddressAll: string;
+    refundZipCode: string;
+    refundName: string;
+    sellerGrade: number;
+    scoreService: string;
+    scoreDeliverGoods: string;
+    scoreDescription: string;
+    productNumber: number;
+    productSales: number;
+    collectionNumber: number;
+    saleMoney: number;
+    orderCount: number;
+    orderCountOver: number;
+    sellerKeyword: string;
+    sellerDes: string;
+    auditStatus: number;
+    status: number;
+    frozenTime: string;
+    isHide: number;
+    auditOpinion: string;
+    auditId: number;
+    auditName: string;
+    auditTime: string;
+    createId: number;
+    createName: string;
+    createTime: string;
+    updateId: number;
+    updateName: string;
+    updateTime: string;
+    operationDockingMan: string;
+    isCrossBorder: number;
+    supplierType: number;
+    extInfo: string;
+  }
+  
+  interface SellerRecommend {
+    id: number;
+    sellerId: number;
+    dataType: number;
+    refId: number;
+    title: string;
+    image: string;
+    linkUrl: string;
+    orderNo: number;
+    isDelete: number;
+    remark: string;
+    createUserId: number;
+    createUserName: string;
+    createTime: string;
+    updateUserId: number;
+    updateUserName: string;
+    updateTime: string;
+    deviceFlg: number;
+    productName: string;
+    product?: Product;
+  }
+  
+  interface SellerSetting {
+    id: number;
+    sellerId: number;
+    scalingType: number;
+    scaling: number;
+    isLongTerm: number;
+    startTime: string;
+    endTime: string;
+    settlementType: number;
+    createId: number;
+    createName: string;
+    createTime: string;
+    updateId: number;
+    updateName: string;
+    updateTime: string;
+    imGroupId: string;
+    isOpenImRobot: number;
+    imTitle: string;
+    department: number;
+  }
+  
+  interface SellerIndex {
+    id: number;
+    sellerId: number;
+    logo: string;
+    backImage: string;
+    customerService: string;
+    phone: string;
+    notice: string;
+    detail: string;
+    isDelete: number;
+    remark: string;
+    createUserId: number;
+    createUserName: string;
+    createTime: string;
+    updateUserId: number;
+    updateUserName: string;
+    updateTime: string;
+    sellerName: string;
+    createSellerTime: string;
+    brandNames: string[];
+  }
+  
+  interface SellerFloor {
+    id: number;
+    sellerId: number;
+    name: string;
+    orderNo: number;
+    status: number;
+    remark: string;
+    createUserId: number;
+    createUserName: string;
+    createTime: string;
+    updateUserId: number;
+    updateUserName: string;
+    updateTime: string;
+    deviceFlg: number;
+    datas: SellerFloorData[];
+    dataCount: number;
+  }
+
+  interface SellerFloorData {
+    id: number;
+    sellerId: number;
+    indexFloorId: number;
+    dataType: number;
+    refId: number;
+    title: string;
+    image: string;
+    linkUrl: string;
+    orderNo: number;
+    remark: string;
+    createUserId: number;
+    createUserName: string;
+    createTime: string;
+    updateUserId: number;
+    updateUserName: string;
+    updateTime: string;
+    product: Product;
+    productName: string;
+    msellerIndexFloorName: string;
+  }
+  
+  interface SellerCate {
+    id: number;
+    sellerId: number;
+    pid: number;
+    name: string;
+    path: string;
+    sort: number;
+    createId: number;
+    createTime: string;
+    status: number;
+    childs: SellerCate[];
+  }
+
+  interface SellerQualification {
+    id: number;
+    sellerId: number;
+    qualificationName: string;
+    startTime: string;
+    endTime: string;
+    qualificationImg: string;
+    applyType: number;
+    auditStatus: number;
+    auditOpinion: string;
+    lastAuditUserId: number;
+    lastAuditUserName: string;
+    lastAuditTime: string;
+    isDelete: number;
+    createUserId: number;
+    createUserName: string;
+    createTime: string;
+    updateUserId: number;
+    updateUserName: string;
+    updateTime: string;
+  }
+  
+  interface SellerIndex {
+    sellerInfo: Seller;
+    bannerList: any[];
+    recommendList: SellerRecommend[];
+    sellerSetting: SellerSetting;
+    sellerScoreAvg: number;
+    productsCountAll: number;
+    mSellerIndex: SellerIndex;
+    mSellerIndexFloorlist: SellerFloor[];
+    cateList: SellerCate[];
+    collectionSellerCount: number;
+    collected: string;
+    sellerId: number;
+    isExistNotice: boolean;
+    isExistBanner: boolean;
+    isExistIndexFloor: boolean;
+    license: string;
+    permit: string;
+    shareSellerUrl: string;
+    customerServicehHref: string;
+    mSellerQualificationList: SellerQualification[];
+    sellerMsgNoticeList: any[];
   }
 }

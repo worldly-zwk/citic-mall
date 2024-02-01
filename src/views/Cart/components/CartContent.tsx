@@ -1,4 +1,4 @@
-import { StyleSheet, View } from 'react-native';
+import { Image, StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import { useCart } from '@/store';
 import CartNotFound from './NotFound';
 import CartCard from './CartCard';
@@ -20,6 +20,11 @@ const CartContent = () => {
             title={sellerCart.sellerName}
             items={sellerCart.ordinaryCart.productList}
             checked={sellerCart.selected}
+            extra={sellerCart.coupon && (
+              <TouchableWithoutFeedback onPress={console.log}>
+                <Image style={styles.tag} source={require('@/assets/images/tag/coupon.png')} />
+              </TouchableWithoutFeedback>
+            )}
           />
         )
       })}
@@ -33,6 +38,10 @@ const styles = StyleSheet.create({
     marginTop: 12,
     paddingHorizontal: 12,
   },
+  tag: {
+    width: 56,
+    height: 16,
+  }
 })
 
 export default CartContent;

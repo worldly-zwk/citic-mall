@@ -39,6 +39,7 @@ import Store from '@/views/Store';
 import { useMember } from '@/store';
 import CouponList from '@/views/CouponList';
 import RedEnvelopeList from '@/views/RedEnvelopeList';
+import OrderCoupon from '@/views/OrderCoupon';
 
 
 const { Navigator, Screen } = createNativeStackNavigator<RootStackParamList>();
@@ -97,6 +98,7 @@ const NavigatorScreen = () => {
         <>
           <Screen name="Order" component={Order} options={{ title: '提交订单' }} />
           <Screen name="OrderTabs" component={OrderTabs} options={{ title: '我的订单' }} />
+          <Screen name="OrderCoupon" component={OrderCoupon} options={{ title: '优惠券' }} />
           <Screen name="OrderDetails" component={OrderDetails} options={{ title: '订单详情' }} />
           <Screen name="OrderInvoice" component={OrderInvoice} options={{ title: '发票信息' }} />
           <Screen name="OrderPayment" component={OrderPayment} options={screenOrderPaymentOptions} />

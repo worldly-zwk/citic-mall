@@ -1,14 +1,14 @@
 import { FC, ReactNode, cloneElement, isValidElement, useRef } from 'react';
 import { StyleProp, StyleSheet, View, ViewProps, ViewStyle } from 'react-native';
 
-export interface TabItemProps {
+export interface TabsPanelProps {
   style?: StyleProp<ViewStyle>;
   visible?: boolean;
   forceRender?: boolean;
   children?: ReactNode;
 }
 
-const TabPanel: FC<TabItemProps> = (props) => {
+const TabPanel: FC<TabsPanelProps> = (props) => {
   const { visible, children, forceRender, style, ...restProps } = props;
   const visibleRef = useRef(visible);
 

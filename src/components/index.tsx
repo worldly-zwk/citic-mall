@@ -38,6 +38,7 @@ export { default as SwipeToDeleteView } from './SwipeToDeleteView';
 export { default as HorizontalProductList } from './HorizontalProductList';
 export { default as ProductSummaryInline } from './ProductSummaryInline';
 export { default as VisitedProductItem } from './VisitedProductItem';
+export { default as CheckTicket } from './CheckTicket';
 
 export * from './Link';
 export * from './Form';

@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import { Image, ImageBackground, StyleSheet, View, ViewProps } from 'react-native';
+import { Ticket as TicketInfo } from '@/typings';
 import Typography from '../Typography';
 import Space from '../Space';
 import Tag from '../Tag';
@@ -15,17 +16,8 @@ const sealStatusEnum = {
 
 export type TicketStatusType = keyof typeof sealStatusEnum;
 
-export interface Ticket {
-  type: number;
-  name: string;
-  value: number;
-  minAmount: number;
-  useScope: string;
-  useTimeScope: string;
-}
-
 interface TicketProps extends ViewProps {
-  ticket: Ticket;
+  ticket: TicketInfo;
   status?: TicketStatusType;
   disabled?: boolean;
   extra?: ReactNode;

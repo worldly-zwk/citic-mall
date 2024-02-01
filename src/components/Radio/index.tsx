@@ -1,5 +1,6 @@
 import InternalRadio from './Radio';
 import RadioGroup from './Group';
+export * from './Radio';
 
 type RadioType = typeof InternalRadio & {
   Group: typeof RadioGroup;

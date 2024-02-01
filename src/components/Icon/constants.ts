@@ -1,6 +1,7 @@
 export const ICON_MAP = {
   edit: require('@/assets/images/icons/edit.png'),
   shop: require('@/assets/images/icons/shop.png'),
+  store: require('@/assets/images/icons/store.png'),
   arrow: require('@/assets/images/icons/arrow.png'),
   delete: require('@/assets/images/icons/delete.png'),
   setting: require('@/assets/images/icons/setting.png'),
@@ -17,4 +18,6 @@ export const ICON_MAP = {
   radioChecked: require('@/assets/images/icons/checkbox-checked.png'),
   star: require('@/assets/images/icons/star.png'),
   starGrey: require('@/assets/images/icons/star-grey.png'),
+  category: require('@/assets/images/icons/category.png'),
+  customerServiceGray: require('@/assets/images/icons/customer-service-gray.png')
 }

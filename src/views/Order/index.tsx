@@ -27,7 +27,20 @@ const Order = ({ route, navigation }: OrderScreenProps) => {
     return '不开发票';
   }, [orderStore.invoice]);
 
-  console.log(invoiceName, orderStore.invoice);
+  const couponText = useMemo(() => {
+    const { items, couponSn, couponDis } = orderStore.coupon;
+
+    if (items.length) {
+      if (couponSn.length) {
+        return <Typography.Text color="primary">- ¥{couponDis}</Typography.Text>
+      }
+
+      return <Typography.Text>未使用</Typography.Text>;
+    }
+
+    return <Typography.Text>无可用</Typography.Text>;
+    
+  }, [orderStore.coupon]);
 
   const handleFinish = useCallback(() => {
     orderStore.finish({
@@ -59,8 +72,8 @@ const Order = ({ route, navigation }: OrderScreenProps) => {
             </Cell>
           </CellGroup>
           <CellGroup>
-            <Cell label="优惠券" labelStyle={styles.label} isLink>
-              <Typography.Text>无可用</Typography.Text>
+            <Cell label="优惠券" labelStyle={styles.label} to={{ screen: 'OrderCoupon' }}>
+              {couponText}
             </Cell>
             <Cell label="红包" labelStyle={styles.label} isLink>
               <Typography.Text>无可用</Typography.Text>
@@ -77,7 +90,7 @@ const Order = ({ route, navigation }: OrderScreenProps) => {
       <View style={styles.toolbar}>
         <Space align="flex-end">
           <Typography.Text size="large">实付款：</Typography.Text>
-          <Typography.Price style={{ marginBottom: 2 }}>{orderStore.order?.moneyPay.toFixed(2)}</Typography.Price>
+          <Typography.Price style={{ marginBottom: 2 }}>{orderStore.moneyPay.toFixed(2)}</Typography.Price>
         </Space>
         <Button style={styles.submit} onPress={handleFinish}>提交订单</Button>
       </View>

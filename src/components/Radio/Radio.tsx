@@ -4,12 +4,13 @@ import Typography from "../Typography";
 import Space from "../Space";
 import Icon from "../Icon";
 
-interface RadioGroupProps extends ViewProps {
+export interface RadioProps extends ViewProps {
   checked?: boolean;
+  disabled?: boolean;
   onPress?: () => void;
 }
 
-const Radio = (props: RadioGroupProps) => {
+const Radio = (props: RadioProps) => {
   const { checked, onPress, children, ...restProps } = props;
 
   return (

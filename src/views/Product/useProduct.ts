@@ -9,7 +9,7 @@ function useProduct(id: number) {
   const [activityState, { run: activityRun }] = useRequest<API.ProductPromotion[]>(`${PRODUCT.activity}/${id}`, {
     manual: true,
   });
-  const [ticketState, { run: ticketRun }] = useRequest<API.ProductPromotion[]>(`${PRODUCT.ticket}/${id}`, {
+  const [ticketState, { run: ticketRun }] = useRequest<API.PromotionTicket[]>(`${PRODUCT.ticket}/${id}`, {
     manual: true,
   });
 

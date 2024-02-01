@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { ReactNode, useMemo } from 'react';
 import { StyleSheet, View, ViewProps, ViewStyle } from 'react-native';
 import Typography from '../Typography';
 
@@ -13,7 +13,7 @@ type ColorPresetsKeys = keyof typeof colorPresets;
 interface TagProps extends ViewProps {
   color?: LiteralUnion<ColorPresetsKeys>;
   textColor?: LiteralUnion<ColorPresetsKeys>;
-  children?: string;
+  children?: ReactNode;
 }
 
 const Tag = (props: TagProps) => {

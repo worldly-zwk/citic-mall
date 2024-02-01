@@ -1,3 +1,5 @@
+import { StyleProp, ViewStyle } from 'react-native';
+
 export * from './screen';
 
 export interface ProductItem {
@@ -7,7 +9,14 @@ export interface ProductItem {
   image: string;
 }
 
-export interface SideBar {
+export interface TabsItemProps {
+  title: string;
+  value: string | number;
+  style?: StyleProp<ViewStyle>;
+  children?: React.ReactNode;
+}
+
+export interface TabOptions {
   key: string | number;
   title: string;
   value: string | number;
@@ -83,4 +92,13 @@ export enum NoticeTab {
   ACTIVITY,
   SYSTEM,
   PLATFORM
+}
+
+export interface Ticket {
+  type: number;
+  name: string;
+  value: number;
+  minAmount: number;
+  useScope: string;
+  useTimeScope: string;
 }

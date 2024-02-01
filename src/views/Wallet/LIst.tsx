@@ -30,7 +30,7 @@ const WalletList = ({ service, contentContainerStyle }: ProductListProps) => {
         ticket={{
           ...info.item,
           type: ticketType,
-          useTimeScope: `${useStartTime.slice(0,10).replace(/-/ig,'.')}} ~ ${useEndTime.slice(0,10).replace(/-/ig,'.')}`
+          useTimeScope: `${useStartTime.slice(0,10).replace(/-/ig,'.')} ~ ${useEndTime.slice(0,10).replace(/-/ig,'.')}`
         }}
         status={ticketStateEnum[info.item.state]}
         disabled={info.item.state !== 1}
