@@ -11,7 +11,7 @@ const CellGroup = Cell.Group;
 
 const invoicePropertyTextEnum: RecordAny =['普票', '电子'];
 
-const Order = ({ route, navigation }: OrderScreenProps) => {
+const Order = ({ navigation }: OrderScreenProps) => {
   const orderStore = useOrder();
   const [remark, setRemark] = useState('');
 
@@ -49,17 +49,17 @@ const Order = ({ route, navigation }: OrderScreenProps) => {
       if (goJumpPayfor) {
         navigation.navigate('OrderPayment', { orderSn });
       } else {
-        // TODO 支付成功页
+        navigation.navigate('OrderResult', { orderSn });
       }
     })
   }, [remark]);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       {orderStore.tips && (
         <Notice closeIcon>订单中含有不支持7天无理由退货的商品，请确认相关商品信息后提交订单</Notice>
       )}
-      <ScrollView style={styles.main} contentContainerStyle={{ rowGap: 12 }}>
+      <ScrollView contentContainerStyle={styles.main}>
         <AddressCard />
         <ProductCard />
         <View style={styles.form}>
@@ -75,7 +75,7 @@ const Order = ({ route, navigation }: OrderScreenProps) => {
             <Cell label="优惠券" labelStyle={styles.label} to={{ screen: 'OrderCoupon' }}>
               {couponText}
             </Cell>
-            <Cell label="红包" labelStyle={styles.label} isLink>
+            <Cell label="红包" labelStyle={styles.label} to={{ screen: 'OrderRedEnvelope' }}>
               <Typography.Text>无可用</Typography.Text>
             </Cell>
           </CellGroup>
@@ -87,26 +87,26 @@ const Order = ({ route, navigation }: OrderScreenProps) => {
           <SummaryCard />
         </View>
       </ScrollView>
-      <View style={styles.toolbar}>
-        <Space align="flex-end">
-          <Typography.Text size="large">实付款：</Typography.Text>
-          <Typography.Price style={{ marginBottom: 2 }}>{orderStore.moneyPay.toFixed(2)}</Typography.Price>
-        </Space>
-        <Button style={styles.submit} onPress={handleFinish}>提交订单</Button>
-      </View>
-    </SafeAreaView>
+      <SafeAreaView style={{ backgroundColor: 'white' }}>
+        <View style={styles.toolbar}>
+          <Space align="flex-end">
+            <Typography.Text size="large">实付款：</Typography.Text>
+            <Typography.Price style={{ marginBottom: 2 }}>{orderStore.moneyPay.toFixed(2)}</Typography.Price>
+          </Space>
+          <Button style={styles.submit} onPress={handleFinish}>提交订单</Button>
+        </View>
+      </SafeAreaView>
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
   },
   main: {
-    flex: 1,
+    rowGap: 12,
     padding: 12,
-    backgroundColor: '#f5f6fa',
   },
   label: {
     color: '#666'

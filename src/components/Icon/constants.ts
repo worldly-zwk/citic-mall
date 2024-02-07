@@ -1,4 +1,5 @@
 export const ICON_MAP = {
+  dot: require('@/assets/images/icons/dot.png'),
   edit: require('@/assets/images/icons/edit.png'),
   shop: require('@/assets/images/icons/shop.png'),
   store: require('@/assets/images/icons/store.png'),
@@ -19,5 +20,8 @@ export const ICON_MAP = {
   star: require('@/assets/images/icons/star.png'),
   starGrey: require('@/assets/images/icons/star-grey.png'),
   category: require('@/assets/images/icons/category.png'),
-  customerServiceGray: require('@/assets/images/icons/customer-service-gray.png')
+  customerServiceGray: require('@/assets/images/icons/customer-service-gray.png'),
+  sorter: require('@/assets/images/icons/sorter.png'),
+  sorterAsc: require('@/assets/images/icons/sorter-asc.png'),
+  sorterDesc: require('@/assets/images/icons/sorter-desc.png'),
 }

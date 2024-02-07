@@ -8,7 +8,7 @@ import Typography from '../Typography';
 import ButtonGroup from './Group';
 
 type ButtonSize = 'small' | 'large';
-type ButtonType = 'primary' | 'secondary';
+type ButtonType = 'primary' | 'secondary' | 'fillMist';
 
 interface ButtonProps extends PropsWithChildren {
   to?: NavigatorScreenParams<RootStackParamList>;
@@ -51,7 +51,7 @@ const Button = (props: ButtonProps) => {
     if (!type) {
       Object.assign(linear, {
         colors: ['#ffaf31', '#ff8400'],
-        end: { x: 1, y: 0 }
+        end: { x: 1, y: 1 }
       });
     }
     return Object.assign(linear, linearGradient);
@@ -103,6 +103,9 @@ const styles = StyleSheet.create({
   secondary: {
     borderColor: '#bbb',
     borderWidth: 1
+  },
+  fillMist: {
+    backgroundColor: '#f5f6fa'
   },
   small: {
     paddingVertical: 5,

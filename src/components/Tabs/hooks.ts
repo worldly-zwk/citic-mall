@@ -1,38 +1,5 @@
 import { Key, MutableRefObject, useCallback, useEffect, useMemo, useRef } from 'react';
-import { Animated, Dimensions, LayoutRectangle, NativeScrollEvent, NativeSyntheticEvent, ScrollView, ViewStyle } from 'react-native';
-
-interface LinePositionOptions {
-  tabSizes: Map<Key, LayoutRectangle>;
-  activeKey: string | number;
-}
-
-export function useLinePosition(options: LinePositionOptions): ViewStyle {
-  const { tabSizes, activeKey } = options;
-  const lineAnim = useMemo(() => new Animated.Value(0), []);
-
-  useEffect(() => {
-    const layout = tabSizes.get(activeKey);
-    if (layout) {
-      lineAnim.setValue(layout.x + layout?.width / 2 - 7);
-    }
-  }, [tabSizes.size]);
-
-  useEffect(() => {
-    const layout = tabSizes.get(activeKey);
-    if (layout) {
-      const toValue = layout.x + layout?.width / 2 - 7;
-      Animated.timing(lineAnim, {
-        toValue,
-        duration: 300,
-        useNativeDriver: true
-      }).start();
-    }
-  }, [activeKey]);
-
-  return {
-    transform: [{ translateX: lineAnim }]
-  }
-}
+import { Animated, Dimensions, LayoutRectangle, NativeScrollEvent, NativeSyntheticEvent, ScrollView } from 'react-native';
 
 interface ScrollTabToCenterOptions {
   scrollable?: boolean;

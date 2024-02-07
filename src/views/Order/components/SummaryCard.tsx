@@ -13,16 +13,6 @@ const SummaryCard = () => {
         <Typography.Text color="secondary">商品总金额</Typography.Text>
         <Typography.Text color="secondary">¥{order?.moneyProduct || 0}</Typography.Text>
       </Space>
-      {!!orderCoupon?.couponDis && (
-        <Space align="center" style={styles.item}>
-          <Typography.Text color="secondary">优惠券</Typography.Text>
-          <Typography.Text color="primary">- ¥{orderCoupon?.couponDis || 0}</Typography.Text>
-        </Space>
-      )}
-      <Space align="center" style={styles.item}>
-        <Typography.Text color="secondary">运费</Typography.Text>
-        <Typography.Text color="primary">+ ¥{order?.moneyLogistics || 0}</Typography.Text>
-      </Space>
       {!!order?.fullDis && (
         <Space align="center" style={styles.item}>
           <Typography.Text color="secondary">满减</Typography.Text>
@@ -41,6 +31,16 @@ const SummaryCard = () => {
           <Typography.Text color="primary">- ¥{order?.staffDis || 0}</Typography.Text>
         </Space>
       )}
+      {!!orderCoupon?.couponDis && (
+        <Space align="center" style={styles.item}>
+          <Typography.Text color="secondary">优惠券</Typography.Text>
+          <Typography.Text color="primary">- ¥{orderCoupon?.couponDis || 0}</Typography.Text>
+        </Space>
+      )}
+      <Space align="center" style={styles.item}>
+        <Typography.Text color="secondary">运费</Typography.Text>
+        <Typography.Text color="primary">+ ¥{order?.moneyLogistics || 0}</Typography.Text>
+      </Space>
     </View>
   )
 }

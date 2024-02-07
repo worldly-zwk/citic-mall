@@ -1,7 +1,6 @@
 import { FC, memo, useMemo, useState } from "react";
 import { StyleSheet, TouchableWithoutFeedback, View, useWindowDimensions } from "react-native";
-import Typography from "@/components/Typography";
-import RenderHTML from "react-native-render-html";
+import { Typography, RichText } from "@/components";
 import Descriptions from "./Descriptions";
 
 enum KeyEnum {
@@ -53,7 +52,7 @@ const Introduce: FC<IntroduceProps> = ({ data, richText = '' }) => {
       </TouchableWithoutFeedback>
      </View>
      <View style={{ display: activeKey === KeyEnum.INTRO ? 'flex' : 'none' }}>
-      <RenderHTML contentWidth={width} source={{ html: richText }} ignoredDomTags={['input', 'map', 'area']} />
+      <RichText contentWidth={width} source={{ html: richText }} />
      </View>
      <View style={[styles.table ,{ display: activeKey === KeyEnum.SPEC ? 'flex' : 'none' }]}>
       <Descriptions items={basis} />

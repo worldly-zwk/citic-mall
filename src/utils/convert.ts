@@ -5,6 +5,7 @@ export function convertProduct(info: API.Product): ProductItem {
     id: info.id,
     name: info.name1,
     image: info.masterImg,
-    price: info.mallPcPrice
+    price: info.mallPcPrice,
+    marketPrice: info.marketPrice,
   }
 }

@@ -6,6 +6,7 @@ import { AutoHeightImage, Card, Link, Space, Spin, Tag, Typography } from '@/com
 import { NoticeScreenProps, NoticeTab, WalletTab } from '@/typings';
 import { useRequest } from '@/hooks';
 import { HOME } from '@/services';
+import { pickText } from '@/utils';
 
 interface NotificationListProps {
   tab: NoticeTab;
@@ -29,7 +30,7 @@ const NoticeList = (props: NotificationListProps) => {
       return (
         <View style={{ gap: 12 }}>
           <AutoHeightImage source={{ uri: item.h5Image }} />
-          <Typography.Text size="small" numberOfLines={2} style={styles.text}>{item.content}</Typography.Text>
+          <Typography.Text size="small" numberOfLines={2} style={styles.text}>{pickText(item.content)}</Typography.Text>
         </View>
       )
     }
@@ -44,7 +45,7 @@ const NoticeList = (props: NotificationListProps) => {
     }
 
     if (tab === NoticeTab.PLATFORM) {
-      return <Typography.Text size="small" numberOfLines={2} style={styles.text}>{item.content}</Typography.Text>
+      return <Typography.Text size="small" numberOfLines={2} style={styles.text}>{pickText(item.content)}</Typography.Text>
     }
 
   }, []);

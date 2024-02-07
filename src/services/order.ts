@@ -16,4 +16,5 @@ export default {
   list: '/order/list',
   recharges: '/order/recharge/list',
   detail: '/order/detail',
+  payResult: '/pay/query/pay/results'
 }

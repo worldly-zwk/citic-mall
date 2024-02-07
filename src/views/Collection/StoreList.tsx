@@ -7,7 +7,7 @@ import request from '@/utils/request';
 const StoreList = () => {
   const insets = useSafeAreaInsets();
   const [state, actions] = useInfiniteScroll(async (index: number) => {
-    const result = await request.get<API.Store[]>(MEMBER.collectionSeller, {
+    const result = await request.get<API.CollectionStore[]>(MEMBER.collectionSeller, {
       pageIndex: index
     });
     return {
@@ -15,7 +15,6 @@ const StoreList = () => {
       count: result?.total || 0
     }
   });
-
 
   if (!state.data?.length) {
     return (
@@ -29,10 +28,10 @@ const StoreList = () => {
     )
   }
 
-
   return (
     <FlatStoreList
       data={state.data}
+      rowKey="sellerId"
       onEndReached={actions.loadMore}
       contentContainerStyle={{ paddingBottom: insets.bottom }}
     />

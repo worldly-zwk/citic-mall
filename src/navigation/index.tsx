@@ -40,6 +40,8 @@ import { useMember } from '@/store';
 import CouponList from '@/views/CouponList';
 import RedEnvelopeList from '@/views/RedEnvelopeList';
 import OrderCoupon from '@/views/OrderCoupon';
+import OrderRedEnvelope from '@/views/OrderRedEnvelope';
+import OrderResult from '@/views/OrderResult';
 
 
 const { Navigator, Screen } = createNativeStackNavigator<RootStackParamList>();
@@ -101,7 +103,9 @@ const NavigatorScreen = () => {
           <Screen name="OrderCoupon" component={OrderCoupon} options={{ title: '优惠券' }} />
           <Screen name="OrderDetails" component={OrderDetails} options={{ title: '订单详情' }} />
           <Screen name="OrderInvoice" component={OrderInvoice} options={{ title: '发票信息' }} />
+          <Screen name="OrderRedEnvelope" component={OrderRedEnvelope} options={{ title: '红包' }} />
           <Screen name="OrderPayment" component={OrderPayment} options={screenOrderPaymentOptions} />
+          <Screen name="OrderResult" component={OrderResult} options={{ headerLeft: () => null, title: '支付结果' }} />
           <Screen name="ProfileInfo" component={ProfileInfo} options={{ title: '个人信息' }} />
           <Screen name="Nickname" component={Nickname} options={{ title: '' }} />
           <Screen name="Staff" component={Staff} options={{ title: '' }} />

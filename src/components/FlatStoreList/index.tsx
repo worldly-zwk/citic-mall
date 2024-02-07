@@ -2,13 +2,14 @@ import { useCallback } from 'react';
 import { FlatList, FlatListProps, Image, ListRenderItemInfo, StyleSheet, View } from 'react-native';
 import { Typography, Space, Link } from '@/components';
 
-interface StoreListProps extends Omit<FlatListProps<API.Store>, 'renderItem'> {
+interface StoreListProps<T extends API.Store> extends Omit<FlatListProps<T>, 'renderItem'> {
+  rowKey?: keyof T;
 }
 
-const FlatStoreList = (props: StoreListProps) => {
-  const renderItem = useCallback(({ item }: ListRenderItemInfo<API.Store>) => {
+const FlatStoreList = <T extends API.Store>({ rowKey = 'id', ...restProps }: StoreListProps<T>) => {
+  const renderItem = useCallback(({ item }: ListRenderItemInfo<T>) => {
     return (
-      <Link style={styles.item} key={item.id} to={{ screen: 'Store', params: { id: item.id } }}>
+      <Link style={styles.item} key={item.id} to={{ screen: 'Store', params: { id: item[rowKey] as number } }}>
         <Space size={12}>
           <Image style={styles.logo} source={{ uri: item.sellerLogo }} />
           <View style={styles.content}>
@@ -37,9 +38,9 @@ const FlatStoreList = (props: StoreListProps) => {
     <FlatList
       style={styles.container}
       renderItem={renderItem}
-      keyExtractor={(item) => `${item.id}`}
+      keyExtractor={(item) => `${item[rowKey]}`}
       onEndReachedThreshold={0.1}
-      {...props}
+      {...restProps}
     />
   )
 }

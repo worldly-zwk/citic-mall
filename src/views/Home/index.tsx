@@ -29,11 +29,10 @@ const Home = ({ navigation }: HomeScreenProps) => {
   return (
     <SafeAreaView style={styles.container}>
       <SearchBar onPress={() => navigation.navigate('Search')} />
-      {/* <Link to={{ screen: 'Login', params: { id: '98400' } }}>98400</Link> */}
       <ScrollView style={styles.main}>
         <Carousel banners={data?.banners} />
         <View style={styles.section}>
-          <Nav items={data?.channels} />
+          <Nav items={data?.channels} news={data?.msgIndexList} />
           <Recommend title={recommendState.data?.heardTitle} items={recommends} />
           <Floor items={data?.floors} collection={{ title: data?.floorBlockName, subtitle: data?.floorBlockViceName }} />
         </View>

@@ -35,7 +35,11 @@ export type RootStackParamList = {
   },
   OrderInvoice: undefined,
   OrderCoupon: undefined,
+  OrderRedEnvelope: undefined,
   OrderPayment: {
+    orderSn: string;
+  },
+  OrderResult: {
     orderSn: string;
   },
   ProfileInfo: undefined;
@@ -117,6 +121,8 @@ export type SettingsScreenProps = NativeStackScreenProps<RootStackParamList, 'Se
 export type OrderScreenProps = NativeStackScreenProps<RootStackParamList, 'Order'>;
 export type OrderTabsScreenProps = NativeStackScreenProps<RootStackParamList, 'OrderTabs'>;
 export type OrderCouponScreenProps = NativeStackScreenProps<RootStackParamList, 'OrderCoupon'>;
+export type OrderRedEnvelopeScreenProps = NativeStackScreenProps<RootStackParamList, 'OrderRedEnvelope'>;
+export type OrderResultScreenProps = NativeStackScreenProps<RootStackParamList, 'OrderResult'>;
 export type OrderDetailsScreenProps = NativeStackScreenProps<RootStackParamList, 'OrderDetails'>;
 export type OrderInvoiceScreenProps = NativeStackScreenProps<RootStackParamList, 'OrderInvoice'>;
 export type OrderPaymentScreenProps = NativeStackScreenProps<RootStackParamList, 'OrderPayment'>;

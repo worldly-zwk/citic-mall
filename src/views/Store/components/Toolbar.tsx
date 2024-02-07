@@ -1,9 +1,11 @@
 import { StyleSheet } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Icon, Link, Space, Typography } from '@/components';
 
 const Toolbar = () => {
+  const insets = useSafeAreaInsets();
   return (
-    <Space style={styles.container}>
+    <Space style={[styles.container, { paddingBottom: insets.bottom + 12 }]}>
       <Link style={[styles.item, styles.bordered]}>
         <Icon icon="store" size={24} />
         <Typography.Text size="small">店铺信息</Typography.Text>

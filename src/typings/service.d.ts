@@ -20,10 +20,18 @@ declare namespace API {
     floorBlockName: string;
     floorBlockViceName: string;
     floors: Floor[];
-    msgIndexList: any[];
+    msgIndexList: HomeMessage[];
     productList: Product[];
     templatesUnder: any[];
     templatesUp: any[];
+  }
+
+  interface HomeMessage {
+    title: string;
+    type: string;
+    startTime: string;
+    appUrl: string;
+    msgNoticeId: number;
   }
 
   interface Banner {
@@ -287,6 +295,7 @@ declare namespace API {
     productName: string;
     productStock: number;
     productGoodsId: number;
+    tags?: string[];
   }
 
   interface AddCartParams {
@@ -598,6 +607,10 @@ declare namespace API {
     productType: number;
   }
 
+  interface CollectionStore extends Store {
+    sellerId: number;
+  }
+
   interface History {
     yesterdayList: Omit<CollectionProduct, 'id'>[];
     yesterday: string;
@@ -877,6 +890,15 @@ declare namespace API {
     updateUserName: string;
     updateTime: string;
   }
+
+  interface SellerNotice {
+    id: number;
+    sellerId: number;
+    msgTitle: string;
+    msgTip: string;
+    msgContent: string;
+    timeName: string;
+  }
   
   interface SellerIndex {
     sellerInfo: Seller;
@@ -899,6 +921,33 @@ declare namespace API {
     shareSellerUrl: string;
     customerServicehHref: string;
     mSellerQualificationList: SellerQualification[];
-    sellerMsgNoticeList: any[];
+    sellerMsgNoticeList: SellerNotice[];
+  }
+
+  interface SellerPageResponse {
+    isExistNotice: boolean;
+    isExistBanner: boolean;
+    isExistIndexFloor: boolean;
+    pager: {
+      pageIndex: number;
+      pageSize: number;
+      rowsCount: number;
+      sortby: string;
+      start: number;
+    };
+    sort: number;
+  }
+
+  interface SellerProductPageResponse extends SellerPageResponse {
+    products: Product[];
+  }
+
+  interface SellerFloorPageResponse extends SellerPageResponse {
+    floordatas: SellerFloorData[];
+  }
+
+  interface PayResult {
+    state: number;
+    message: string;
   }
 }

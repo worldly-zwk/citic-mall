@@ -4,4 +4,5 @@ export default {
   redEnvelopes: '/promotion/ticket/couponplatforms',
   bindingCoupon: '/promotion/couponusers/bindings',
   bindingRedEnvelope: '/promotion/couponplatformusers/bindings',
+  orderAfterCheck: '/promotion/actafterorder/check'
 }

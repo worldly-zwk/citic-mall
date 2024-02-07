@@ -9,24 +9,27 @@ interface TabsProps extends ViewProps {
 }
 
 const Tabs = (props: TabsProps) => {
+  const { style, ...restProps } = props;
   const { tabs, activeKey, setActiveKey } = useTabs(props);
 
   return (
-    <View {...props}>
-      <ScrollView style={{ height: 50 }} contentContainerStyle={styles.container} horizontal>
-        {tabs.map(({ key, title }) => {
-          const isCurrent = activeKey === key;
-          return (
-            <Link
-              style={[styles.tab, isTrue(isCurrent, styles.active)]}
-              onPress={() => setActiveKey(key)}
-              key={key}
-            >
-              <Typography.Text color={isCurrent ? 'primary' : 'white'}>{title}</Typography.Text>
-            </Link>
-          )
-        })}
-      </ScrollView>
+    <View style={[{ flex: 1 }, style]} {...restProps}>
+      <View>
+        <ScrollView style={{ height: 58, flex: 0 }} contentContainerStyle={styles.tabs} horizontal>
+          {tabs.map(({ key, title }) => {
+            const isCurrent = activeKey === key;
+            return (
+              <Link
+                style={styles.tab}
+                onPress={() => setActiveKey(key)}
+                key={key}
+              >
+                <Typography.Text color={isCurrent ? 'primary' : 'secondary'} strong={isCurrent}>{title}</Typography.Text>
+              </Link>
+            )
+          })}
+        </ScrollView>
+      </View>
       <View style={styles.main}>
         {tabs.map(({ key, children }) => (
           <View style={[styles.content, isTrue(activeKey !== key, styles.hidden)]} key={key}>{children}</View>
@@ -37,27 +40,20 @@ const Tabs = (props: TabsProps) => {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    height: 50,
-    padding: 10,
-    columnGap: 10,
+  tabs: {
+    height: 58,
+    alignItems: 'center',
   },
   tab: {
-    height: 30,
     paddingHorizontal: 10,
-    borderRadius: 30,
-    justifyContent: 'center',
-  },
-  active: {
-    backgroundColor: '#fff',
   },
   main: {
-    minHeight: 100,
-    backgroundColor: 'green',
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10
+    flex: 1,
+    flexDirection: 'row',
   },
-  content: {},
+  content: {
+    flex: 1,
+  },
   hidden: {
     display: 'none'
   }

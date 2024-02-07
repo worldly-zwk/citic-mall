@@ -21,6 +21,8 @@ export { default as Space } from './Space';
 export { default as Spin } from './Spin';
 export { default as Tabs } from './Tabs';
 export { default as Tag } from './Tag';
+export { default as SortBar } from './SortBar';
+export { default as RichText } from './RichText';
 export { default as Typography } from './Typography';
 export { default as AutoHeightImage  } from './AutoHeightImage';
 
@@ -42,5 +44,6 @@ export { default as CheckTicket } from './CheckTicket';
 
 export * from './Link';
 export * from './Form';
+export * from './SortBar';
 
 export * from './Ticket';

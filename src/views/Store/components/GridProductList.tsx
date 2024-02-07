@@ -1,25 +1,40 @@
-import { Image, StyleSheet, View, ViewProps } from 'react-native';
-import { ProductItem } from '@/typings';
-import { Link, Typography } from '@/components';
+import { useCallback } from 'react';
+import { FlatList, FlatListProps, Image, ListRenderItemInfo, StyleSheet } from 'react-native';
+import { Link, Space, Typography } from '@/components';
+import { OSS_DOMAIN } from '@/constants';
+import { isTrue } from '@/utils';
 
-interface GridProductListProps extends ViewProps {
-  items?: ProductItem[];
+interface GridProductListProps extends Omit<FlatListProps<API.Product>, 'renderItem'> {
+  
 }
 
 
-const GridProductList = ({ items, style, ...restProps }: GridProductListProps) => {
+const GridProductList = (props: GridProductListProps) => {
+  const renderItem = useCallback((info: ListRenderItemInfo<API.Product>) => {
+    const { id, name1, masterImg, mallPcPrice, marketPrice } = info.item;
+    const isLineEnd = (info.index + 1) % 2 === 0;
+    return (
+      <Link style={[styles.item, isTrue(isLineEnd, styles.lineEnd)]} to={{ screen: 'Product', params: { id } }} push>
+        <Image style={styles.image} source={{ uri: `${OSS_DOMAIN}${masterImg}` }} />
+        <Typography>
+          <Typography.Text style={styles.name} numberOfLines={2} lineBreakMode="tail" strong="500">{name1}</Typography.Text>
+          <Space size={6} align="baseline">
+            <Typography.Text size="large" primary strong>¥{mallPcPrice}</Typography.Text>
+            {marketPrice && (
+              <Typography.Text size="small" color="#bbb" delete>¥{marketPrice}</Typography.Text>
+            )}
+          </Space>
+        </Typography>
+      </Link>
+    )
+  }, []);
+
   return (
-    <View {...restProps} style={[styles.container, style]}>
-      {items?.map(({ id, name, price, image }) => (
-        <Link style={styles.item} key={id} to={{ screen: 'Product', params: { id } }}>
-          <Image style={styles.image} source={{ uri: image }} />
-          <Typography style={styles.content}>
-            <Typography.Text style={styles.name} numberOfLines={2} lineBreakMode="tail">{name}</Typography.Text>
-            <Typography.Text size="large" primary>¥{price}</Typography.Text>
-          </Typography>
-        </Link>
-      ))}
-    </View>
+    <FlatList
+      {...props}
+      numColumns={2}
+      renderItem={renderItem}
+    />
   )
 }
 
@@ -32,6 +47,9 @@ const styles = StyleSheet.create({
   item: {
     width: '50%',
     padding: 10,
+    borderColor: '#eee',
+    borderRightWidth: StyleSheet.hairlineWidth,
+    borderBottomWidth: StyleSheet.hairlineWidth,
   },
   image: {
     width: '100%',
@@ -39,15 +57,12 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     marginBottom: 6,
   },
-  content: {
-    paddingLeft: 4,
-    paddingRight: 4,
-    paddingBottom: 14,
-  },
   name: {
-    height: 48,
-    lineHeight: 24,
+    height: 42,
     marginBottom: 4,
+  },
+  lineEnd: {
+    borderRightWidth: 0
   }
 });
 

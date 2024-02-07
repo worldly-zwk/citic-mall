@@ -15,3 +15,7 @@ export function maskMiddle(text: string): string {
 
   return `${text.slice(0, middle)}****${text.slice(-middle)}`;
 }
+
+export function pickText(html: string): string {
+  return html.replace(/<[^>]+>/g,'').replace(/&nbsp;/ig,'').replace(/[\t\n]/ig,'');
+}

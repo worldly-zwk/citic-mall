@@ -1,7 +1,7 @@
 import { ReactNode, useCallback } from 'react';
 import { Image, StyleSheet, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { Typography, Space, InputNumber, Checkbox, Link, SwipeToDeleteView } from '@/components';
+import { Typography, Space, InputNumber, Checkbox, Link, SwipeToDeleteView, Tag } from '@/components';
 import { isTrue } from '@/utils/type';
 import { useCart } from '@/store';
 
@@ -53,6 +53,11 @@ const CartCard = (props: CartCardProps) => {
                 <View style={{ flex: 1 }}>
                   <Typography.Text numberOfLines={2}>{item.productName}</Typography.Text>
                   <Typography.Text size="small" color="secondary" style={styles.norm}>{item.specification}</Typography.Text>
+                  {!!item.tags?.length && (
+                    <Space size={6}>
+                      {item.tags?.map((text, index) => <Tag key={index}>{text}</Tag>)}
+                    </Space>
+                  )}
                   <Typography.Price style={styles.price}>{item.money}</Typography.Price>
                   <InputNumber style={styles.numeric} value={item.number} />
                 </View>

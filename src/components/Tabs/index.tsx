@@ -1,10 +1,10 @@
 import { Children, Key, PropsWithChildren, isValidElement, useEffect, useMemo, useRef } from 'react';
 import { StyleSheet, View, ScrollView, TouchableWithoutFeedback, ViewStyle, StyleProp, Animated, LayoutRectangle } from 'react-native';
-import { useControllableValue, useUpdate } from '@/hooks';
+import { useControllableValue, useUpdate, useLinePosition } from '@/hooks';
 import { TabOptions, TabsItemProps } from '@/typings';
 import Typography from '../Typography';
 import TabItem from './Item';
-import { useLinePosition, useScrollTabToCenter } from './hooks';
+import { useScrollTabToCenter } from './hooks';
 import TabPanel from './Panel';
 
 interface TabsProps {
