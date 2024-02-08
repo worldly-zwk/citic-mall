@@ -15,11 +15,11 @@ interface ProductListProps {
 
 const OrderList = ({ status }: ProductListProps) => {
   const insets = useSafeAreaInsets();
-  const [state, actions] = useInfiniteScroll(async (index: number) => {
+  const [state, actions] = useInfiniteScroll(async (params) => {
     const service = status === 4 ? ORDER.recharges : ORDER.list;
     const result = await request.get<API.BasePageListResponse<API.Order>>(service, {
       orderStatus: status,
-      pageIndex: index
+      ...params
     });
     return {
       data: result.list,

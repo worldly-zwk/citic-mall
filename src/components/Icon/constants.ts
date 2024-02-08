@@ -24,4 +24,8 @@ export const ICON_MAP = {
   sorter: require('@/assets/images/icons/sorter.png'),
   sorterAsc: require('@/assets/images/icons/sorter-asc.png'),
   sorterDesc: require('@/assets/images/icons/sorter-desc.png'),
+  customerServiceBlue: require('@/assets/images/icons/customer-service-blue.png'),
+  QRCode: require('@/assets/images/icons/QR-code.png'),
+  shieldStar: require('@/assets/images/icons/shield-star.png'),
+  certificate: require('@/assets/images/icons/certificate.png'),
 }

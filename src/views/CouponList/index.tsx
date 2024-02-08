@@ -9,10 +9,8 @@ import { request } from '@/utils';
 
 const CouponList = () => {
   const insets = useSafeAreaInsets();
-  const [state, actions] = useInfiniteScroll(async (index: number) => {
-    const result = await request.get<API.PromotionTicket[]>(PROMOTION.coupons, {
-      pageIndex: index
-    });
+  const [state, actions] = useInfiniteScroll(async (params) => {
+    const result = await request.get<API.PromotionTicket[]>(PROMOTION.coupons, params);
     return {
       data: result || [],
       count: (result as any)?.total,

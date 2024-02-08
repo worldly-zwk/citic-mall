@@ -87,6 +87,9 @@ export type RootStackParamList = {
   Store: {
     id: number;
   };
+  StoreInfo: {
+    id: number;
+  };
 }
 
 export  type RootTabParamList = {
@@ -147,4 +150,5 @@ export type ContactFormScreenProps = NativeStackScreenProps<RootStackParamList, 
 export type NoticeScreenProps = NativeStackScreenProps<RootStackParamList, 'Notice'>;
 export type NoticeDetailsScreenProps = NativeStackScreenProps<RootStackParamList, 'NoticeDetails'>;
 export type StoreScreenProps = NativeStackScreenProps<RootStackParamList, 'Store'>;
+export type StoreInfoScreenProps = NativeStackScreenProps<RootStackParamList, 'StoreInfo'>;
 

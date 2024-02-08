@@ -1,9 +1,9 @@
-
 import { useMemo } from 'react';
 import { Image, StyleSheet, View } from 'react-native';
 import Swiper from 'react-native-swiper';
-import { Icon, Link, Space, Typography } from '@/components';
+import { Icon, Typography } from '@/components';
 import { isTrue } from '@/utils';
+import GridProductItem from './GridProductItem';
 
 interface StoreHomeProps {
   notice?: string;
@@ -58,21 +58,9 @@ const StoreHome = (props: StoreHomeProps) => {
       )}
       <View style={styles.items}>
         {items?.map((item, index) => {
-          const isLineEnd = (index + 1) % 2 === 0;
-          const { id, name1, masterImg, mallPcPrice, marketPrice } = item.product;
+          const isLineLast = (index + 1) % 2 === 0;
           return (
-            <Link style={[styles.item, isTrue(isLineEnd, styles.lineEnd)]} key={id} to={{ screen: 'Product', params: { id } }} push>
-              <Image style={styles.image} source={{ uri: masterImg }} />
-              <Typography>
-                <Typography.Text style={styles.name} numberOfLines={2} lineBreakMode="tail" strong="500">{name1}</Typography.Text>
-                <Space size={6} align="baseline">
-                  <Typography.Text size="large" primary strong>¥{mallPcPrice}</Typography.Text>
-                  {marketPrice && (
-                    <Typography.Text size="small" color="#bbb" delete>¥{marketPrice}</Typography.Text>
-                  )}
-                </Space>
-              </Typography>
-            </Link>
+            <GridProductItem key={item.id} data={item.product} style={isTrue(isLineLast, styles.lineLast)} />
           )
         })}
       </View>
@@ -120,24 +108,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'space-between',
   },
-  item: {
-    width: '50%',
-    padding: 10,
-    borderColor: '#eee',
-    borderRightWidth: StyleSheet.hairlineWidth,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-  },
-  image: {
-    width: '100%',
-    aspectRatio: 1,
-    resizeMode: 'contain',
-    marginBottom: 6,
-  },
-  name: {
-    height: 42,
-    marginBottom: 4,
-  },
-  lineEnd: {
+  lineLast: {
     borderRightWidth: 0
   }
 })

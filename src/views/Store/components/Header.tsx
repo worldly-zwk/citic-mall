@@ -1,26 +1,28 @@
-import { Image, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { GlobalBack, Space, Typography } from '@/components';
+import { GlobalBack, Link, Typography } from '@/components';
+import StoreAvatar from './StoreAvatar';
 
 interface StoreMetaProps {
+  id: number;
   logo?: string;
   name?: string;
   collectionCount?: number;
 }
 
-const StoreHeader = ({ logo, name, collectionCount }: StoreMetaProps) => {
+const StoreHeader = ({ id, logo, name, collectionCount }: StoreMetaProps) => {
   const insets = useSafeAreaInsets();
 
   return (
     <View style={{ paddingTop: insets.top }}>
-      <Space style={styles.container}>
+      <Link style={styles.container} to={{ screen: 'StoreInfo', params: { id } }}>
         <GlobalBack />
-        <Image style={styles.logo} source={{ uri: logo }} />
+        <StoreAvatar avatar={logo} style={styles.logo} />
         <View>
           <Typography.Text style={styles.name} size="large" strong>{name}</Typography.Text>
           <Typography.Text size="mini" color="secondary">{collectionCount || 0}人关注</Typography.Text>
         </View>
-      </Space>
+      </Link>
     </View>
   )
 }
@@ -28,13 +30,11 @@ const StoreHeader = ({ logo, name, collectionCount }: StoreMetaProps) => {
 const styles = StyleSheet.create({
   container: {
     height: 58,
+    flexDirection: 'row',
     alignItems: 'center',
     paddingLeft: 8,
   },
   logo: {
-    width: 40,
-    height: 40,
-    resizeMode: 'contain',
     marginHorizontal: 8,
   },
   name: {

@@ -9,10 +9,8 @@ import { request } from '@/utils';
 
 const RedEnvelopeList = () => {
   const insets = useSafeAreaInsets();
-  const [state, actions] = useInfiniteScroll(async (index: number) => {
-    const result = await request.get<API.PromotionTicket[]>(PROMOTION.redEnvelopes, {
-      pageIndex: index
-    });
+  const [state, actions] = useInfiniteScroll(async (params) => {
+    const result = await request.get<API.PromotionTicket[]>(PROMOTION.redEnvelopes, params);
     return {
       data: result || [],
       count: (result as any)?.total,

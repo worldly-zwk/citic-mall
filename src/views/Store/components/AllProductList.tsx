@@ -1,11 +1,11 @@
 
-import { StyleSheet, View } from 'react-native';
+import { Key, useCallback, useRef, useState } from 'react';
+import { FlatList, StyleSheet, View } from 'react-native';
 import { request } from '@/utils';
 import { SELLER } from '@/services';
+import { SortBar, SortOption } from '@/components';
 import { useInfiniteScroll } from '@/hooks';
 import GridProductList from './GridProductList';
-import { SortBar, SortOption } from '@/components';
-import { Key, useState } from 'react';
 
 const sorters: SortOption[] = [
   {
@@ -31,24 +31,29 @@ interface AllProductListProps {
 }
 
 const AllProductList = ({ id }: AllProductListProps) => {
+  const listRef = useRef<FlatList>(null);
   const [sort, setSort] = useState<Key>(0);
-  const [state, actions] = useInfiniteScroll(async (index: number) => {
-    const result = await request.get<API.SellerProductPageResponse>(`${SELLER.moreProduct}/${id}`, {
-      pageIndex: index,
-      sort: 0,
-    });
+  const [state, actions] = useInfiniteScroll(async (params) => {
+    const result = await request.get<API.SellerProductPageResponse>(`${SELLER.moreProduct}/${id}`, params);
     return {
       data: result.products || [],
       count: result.pager.rowsCount || 0,
     }
+  }, {
+    defaultParams: { sort }
   });
 
-  console.log(sort);
+  const handleSortChange = useCallback((value: Key) => {
+    setSort(value);
+    actions.run({ sort: value });
+    listRef.current?.scrollToIndex({ index: 0, animated: false });
+  }, [actions]);
 
   return (
     <View style={styles.container}>
-      <SortBar options={sorters} onChange={setSort} />
+      <SortBar options={sorters} onChange={handleSortChange} />
       <GridProductList
+        ref={listRef}
         data={state.data || []}
         onEndReached={actions.loadMore}
       />

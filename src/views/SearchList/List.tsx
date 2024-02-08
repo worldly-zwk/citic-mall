@@ -10,11 +10,11 @@ interface ListProps {
 
 const List = (props: ListProps) => {
   const { sort, keyword } = props;
-  const [state, actions] = useInfiniteScroll(async (index: number) => {
+  const [state, actions] = useInfiniteScroll(async (params) => {
     const result = await request.get<API.CatalogProductList>(PRODUCT.list, {
       sort,
       keyword,
-      pageIndex: index
+      ...params,
     });
     return {
       data: result.productList || [],

@@ -14,11 +14,11 @@ interface ProductCommentListProps {
 
 const CommentList = ({ id, grade, onLoad }: ProductCommentListProps) => {
   const insets = useSafeAreaInsets();
-  const [state, actions] = useInfiniteScroll(async (index: number) => {
+  const [state, actions] = useInfiniteScroll(async (params) => {
     const values: API.ProductCommentParams = {
       productId: id,
-      pageIndex: index,
       pageSize: 20,
+      ...params
     };
 
     if (!['all', 'image'].includes(grade)) {

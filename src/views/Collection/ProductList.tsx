@@ -9,10 +9,8 @@ import { MEMBER } from '@/services';
 
 const ProductList = () => {
   const insets = useSafeAreaInsets();
-  const [state, actions] = useInfiniteScroll(async (index: number) => {
-    const result = await request.get<API.CollectionProduct[]>(MEMBER.collectionProduct, {
-      pageIndex: index
-    });
+  const [state, actions] = useInfiniteScroll(async (params) => {
+    const result = await request.get<API.CollectionProduct[]>(MEMBER.collectionProduct, params);
     return {
       data: result || [],
       count: result?.total || 0,

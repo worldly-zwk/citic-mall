@@ -9,11 +9,11 @@ interface ProductListProps {
 }
 
 const ProductList = ({ id, setTitle }: ProductListProps) => {
-  const [state, actions] = useInfiniteScroll(async (index: number) => {
+  const [state, actions] = useInfiniteScroll(async (params) => {
     const result = await request.get<API.CatalogProductList>(`${PRODUCT.catalog}/${id}`, {
       self: 0,
       store: 1,
-      pageIndex: index
+      ...params,
     });
     setTitle?.(result.heardTitle);
     return {

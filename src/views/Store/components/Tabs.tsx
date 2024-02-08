@@ -20,9 +20,9 @@ const Tabs = (props: TabsProps) => {
             const isCurrent = activeKey === key;
             return (
               <Link
+                key={key} 
                 style={styles.tab}
                 onPress={() => setActiveKey(key)}
-                key={key}
               >
                 <Typography.Text color={isCurrent ? 'primary' : 'secondary'} strong={isCurrent}>{title}</Typography.Text>
               </Link>

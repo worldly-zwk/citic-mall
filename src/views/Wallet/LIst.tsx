@@ -13,10 +13,8 @@ interface ProductListProps {
 }
 
 const WalletList = ({ service, contentContainerStyle }: ProductListProps) => {
-  const [state, actions] = useInfiniteScroll(async (index: number) => {
-    const result = await request.get<API.Ticket[]>(service, {
-      pageIndex: index
-    });
+  const [state, actions] = useInfiniteScroll(async (params) => {
+    const result = await request.get<API.Ticket[]>(service, params);
     return {
       data: result || [],
       count: result?.total || 0,

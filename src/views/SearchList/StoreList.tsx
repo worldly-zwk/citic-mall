@@ -12,11 +12,11 @@ interface StoreListProps {
 const StoreList = (props: StoreListProps) => {
   const { sort, keyword } = props;
   const insets = useSafeAreaInsets();
-  const [state, actions] = useInfiniteScroll(async (index: number) => {
+  const [state, actions] = useInfiniteScroll(async (params) => {
     const result = await request.get<API.Store[]>(PRODUCT.sellerlist, {
       sort,
       keyword,
-      pageIndex: index
+      ...params
     });
     return {
       data: result || [],

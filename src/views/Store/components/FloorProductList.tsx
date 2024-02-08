@@ -11,10 +11,10 @@ interface FloorProductListProps {
 }
 
 const FloorProductList = ({ id, floorId }: FloorProductListProps) => {
-  const [state, actions] = useInfiniteScroll(async (index: number) => {
+  const [state, actions] = useInfiniteScroll(async (params) => {
     const result = await request.get<API.SellerFloorPageResponse>(`${SELLER.floorMoreProduct}/${id}`, {
       floorId,
-      pageIndex: index,
+      ...params
     });
     return {
       data: result.floordatas.map((floorInfo) => floorInfo.product),

@@ -6,10 +6,8 @@ import request from '@/utils/request';
 
 const StoreList = () => {
   const insets = useSafeAreaInsets();
-  const [state, actions] = useInfiniteScroll(async (index: number) => {
-    const result = await request.get<API.CollectionStore[]>(MEMBER.collectionSeller, {
-      pageIndex: index
-    });
+  const [state, actions] = useInfiniteScroll(async (params) => {
+    const result = await request.get<API.CollectionStore[]>(MEMBER.collectionSeller, params);
     return {
       data: result || [],
       count: result?.total || 0
