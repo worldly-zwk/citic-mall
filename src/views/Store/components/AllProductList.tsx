@@ -3,7 +3,7 @@ import { Key, useCallback, useRef, useState } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 import { request } from '@/utils';
 import { SELLER } from '@/services';
-import { SortBar, SortOption } from '@/components';
+import { Empty, SortBar, SortOption } from '@/components';
 import { useInfiniteScroll } from '@/hooks';
 import GridProductList from './GridProductList';
 
@@ -56,6 +56,7 @@ const AllProductList = ({ id }: AllProductListProps) => {
         ref={listRef}
         data={state.data || []}
         onEndReached={actions.loadMore}
+        ListEmptyComponent={<Empty fullscreen title="空空如也" />}
       />
     </View>
   )

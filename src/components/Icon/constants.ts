@@ -28,4 +28,5 @@ export const ICON_MAP = {
   QRCode: require('@/assets/images/icons/QR-code.png'),
   shieldStar: require('@/assets/images/icons/shield-star.png'),
   certificate: require('@/assets/images/icons/certificate.png'),
+  search: require('@/assets/images/icons/search.png'),
 }

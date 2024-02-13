@@ -43,6 +43,7 @@ import OrderCoupon from '@/views/OrderCoupon';
 import OrderRedEnvelope from '@/views/OrderRedEnvelope';
 import OrderResult from '@/views/OrderResult';
 import StoreInfo from '@/views/StoreInfo';
+import StoreSearch from '@/views/StoreSearch';
 
 
 const { Navigator, Screen } = createNativeStackNavigator<RootStackParamList>();
@@ -95,6 +96,8 @@ const NavigatorScreen = () => {
       <Screen name="SearchList" component={SearchList} options={{ headerShown: false }} />
       <Screen name="Store" component={Store} options={{ headerShown: false }} />
       <Screen name="StoreInfo" component={StoreInfo} options={{ title: '店铺详情' }} />
+      <Screen name="StoreSearch" component={StoreSearch} options={{ headerShown: false }} />
+      <Screen name="StoreSearchList" component={StoreSearch.List} options={{ headerShown: false }} />
       <Screen name="Settings" component={Settings} options={{ title: '设置' }} />
       <Screen name="Agreement" component={Agreement} options={{ title: '加载中...' }} />
       <Screen name="Login" component={LoginScreen} options={{ presentation: 'transparentModal', headerShown: false }} />

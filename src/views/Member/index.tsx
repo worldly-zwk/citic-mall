@@ -41,28 +41,35 @@ const Member = () => {
           </Link>
         )}>
           <GridIcon
+            badge
             label="待付款"
             image={require('@/assets/images/icons/folder.png')}
             to={{ screen: 'OrderTabs', params: { tab: OrderStatus.PAYMENT } }}
             showCount={false}
+            count={memberState?.unPayment}
           />
           <GridIcon
+            badge
             label="待发货"
             image={require('@/assets/images/icons/collect.png')}
             to={{ screen: 'OrderTabs', params: { tab: OrderStatus.SHIPMENT } }}
             showCount={false}
+            count={memberState?.unDelivery}
           />
           <GridIcon
+            badge
             label="待收货"
             image={require('@/assets/images/icons/drawer.png')}
             to={{ screen: 'OrderTabs', params: { tab: OrderStatus.DELIVERY } }}
             showCount={false}
+            count={memberState?.unReceive}
           />
           <GridIcon
             label="待评价"
             image={require('@/assets/images/icons/comment.png')}
             to={{ screen: 'OrderTabs', params: { tab: OrderStatus.REVIEW } }}
             showCount={false}
+            count={memberState?.unEvaluate}
           />
           <GridIcon
             label="退款/售后"

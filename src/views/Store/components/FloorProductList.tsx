@@ -1,16 +1,17 @@
 
 import { StyleSheet } from 'react-native';
+import { Empty } from '@/components';
 import { request } from '@/utils';
 import { SELLER } from '@/services';
 import { useInfiniteScroll } from '@/hooks';
-import GridProductList from './GridProductList';
+import GridProductList, { GridProductListProps } from './GridProductList';
 
-interface FloorProductListProps {
+interface FloorProductListProps extends Omit<GridProductListProps, 'id' | 'data'> {
   id: number;
   floorId: number;
 }
 
-const FloorProductList = ({ id, floorId }: FloorProductListProps) => {
+const FloorProductList = ({ id, floorId, ...restProps }: FloorProductListProps) => {
   const [state, actions] = useInfiniteScroll(async (params) => {
     const result = await request.get<API.SellerFloorPageResponse>(`${SELLER.floorMoreProduct}/${id}`, {
       floorId,
@@ -22,8 +23,18 @@ const FloorProductList = ({ id, floorId }: FloorProductListProps) => {
     }
   });
 
+  if (!state.data?.length) {
+    return (
+      <Empty
+        fullscreen
+        title="空空如也"
+      />
+    )
+  }
+
   return (
     <GridProductList
+      {...restProps}
       style={styles.container}
       data={state.data || []}
       onEndReached={actions.loadMore}

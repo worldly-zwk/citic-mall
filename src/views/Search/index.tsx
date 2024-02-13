@@ -1,10 +1,10 @@
 import { useCallback, useState } from 'react';
-import { NativeSyntheticEvent, SafeAreaView, StyleSheet, TextInputSubmitEditingEventData, TouchableWithoutFeedback, View } from 'react-native';
+import { NativeSyntheticEvent, StyleSheet, TextInputSubmitEditingEventData, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Link, SearchBar, Typography } from '@/components';
 import { useRequest } from '@/hooks';
 import { PRODUCT } from '@/services';
-import SearchBar from '@/components/SearchBar';
-import Typography from '@/components/Typography';
-import { SearchScreenProps, SearchTypeEnum } from '@/typings/screen';
+import { SearchScreenProps, SearchTypeEnum } from '@/typings';
 import Section from './Section';
 import SuggestPanel from './SuggestPanel';
 
@@ -55,9 +55,9 @@ const Search = ({ navigation }: SearchScreenProps) => {
       <SearchBar
         editable
         extra={(
-          <TouchableWithoutFeedback onPress={navigation.goBack}>
+          <Link onPress={navigation.goBack}>
             <Typography.Text color="secondary">取消</Typography.Text>
-          </TouchableWithoutFeedback>
+          </Link>
         )}
         onChangeText={(text) => {
           setValue(text);

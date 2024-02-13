@@ -1,28 +1,37 @@
 import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { GlobalBack, Link, Typography } from '@/components';
+import { Button, GlobalBack, Icon, Link, Typography } from '@/components';
 import StoreAvatar from './StoreAvatar';
 
-interface StoreMetaProps {
-  id: number;
-  logo?: string;
-  name?: string;
-  collectionCount?: number;
+interface StoreHeaderProps {
+  data: {
+    id: number;
+    logo?: string;
+    name?: string;
+    collected?: boolean;
+    collectionCount?: number;
+  };
+  onSearch?: () => void;
+  onCollection?: () => void;
 }
 
-const StoreHeader = ({ id, logo, name, collectionCount }: StoreMetaProps) => {
+const StoreHeader = ({ data, onSearch, onCollection }: StoreHeaderProps) => {
+  const { id, logo, name, collected, collectionCount } = data;
   const insets = useSafeAreaInsets();
 
   return (
     <View style={{ paddingTop: insets.top }}>
-      <Link style={styles.container} to={{ screen: 'StoreInfo', params: { id } }}>
+      <View style={styles.container}>
         <GlobalBack />
-        <StoreAvatar avatar={logo} style={styles.logo} />
-        <View>
-          <Typography.Text style={styles.name} size="large" strong>{name}</Typography.Text>
-          <Typography.Text size="mini" color="secondary">{collectionCount || 0}人关注</Typography.Text>
-        </View>
-      </Link>
+        <Link style={styles.store} to={{ screen: 'StoreInfo', params: { id } }}>
+          <StoreAvatar avatar={logo} style={styles.logo} />
+          <View style={{ flex: 1 }}>
+            <Typography.Text style={styles.name} size="large" strong numberOfLines={1}>{name}</Typography.Text>
+            <Typography.Text size="mini" color="secondary">{collectionCount || 0}人关注</Typography.Text>
+          </View>
+        </Link>
+        <Button size="small" type={collected ? 'disabled' : undefined} onPress={onCollection}>{collected ? '已关注' : '+ 关注'}</Button>
+      </View>
     </View>
   )
 }
@@ -32,7 +41,12 @@ const styles = StyleSheet.create({
     height: 58,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingLeft: 8,
+    paddingHorizontal: 8,
+  },
+  store: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   logo: {
     marginHorizontal: 8,

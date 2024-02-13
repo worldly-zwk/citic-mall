@@ -8,7 +8,7 @@ import Typography from '../Typography';
 import ButtonGroup from './Group';
 
 type ButtonSize = 'small' | 'large';
-type ButtonType = 'primary' | 'secondary' | 'fillMist';
+type ButtonType = 'primary' | 'secondary' | 'fillMist' | 'disabled';
 
 interface ButtonProps extends PropsWithChildren {
   to?: NavigatorScreenParams<RootStackParamList>;
@@ -69,7 +69,7 @@ const Button = (props: ButtonProps) => {
 
   let buttonChildren = (
     <View style={[buttonStyle, styles[type as ButtonType], style]}>
-      <Typography.Text size={size} color={disabled ? 'white' : type} style={textStyle}>{children}</Typography.Text>
+      <Typography.Text size={size} color={(disabled || type === 'disabled') ? 'white' : type} style={textStyle}>{children}</Typography.Text>
     </View>
   );
 

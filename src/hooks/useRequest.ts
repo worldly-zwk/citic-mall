@@ -13,6 +13,7 @@ interface Options<T, P> {
   defaultParams?: P;
   throttleWait?: number;
   debounceWait?: number;
+  refreshOnScreenFocus?: boolean;
   onSuccess?: (result: T) => void;
   onFail?: () => void;
 }

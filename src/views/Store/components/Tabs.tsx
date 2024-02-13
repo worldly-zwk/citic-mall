@@ -1,4 +1,4 @@
-import { StyleSheet, View, ScrollView, ViewProps } from 'react-native';
+import { StyleSheet, View, ScrollView, ViewProps, ViewStyle, StyleProp } from 'react-native';
 import { Link, Typography } from '@/components';
 import { TabsItemProps } from '@/typings';
 import { useTabs } from '@/hooks';
@@ -6,10 +6,11 @@ import { isTrue } from '@/utils';
 
 interface TabsProps extends ViewProps {
   activeKey?: any;
+  contentContainerStyle?: StyleProp<ViewStyle>;
 }
 
 const Tabs = (props: TabsProps) => {
-  const { style, ...restProps } = props;
+  const { style, contentContainerStyle, ...restProps } = props;
   const { tabs, activeKey, setActiveKey } = useTabs(props);
 
   return (
@@ -30,7 +31,7 @@ const Tabs = (props: TabsProps) => {
           })}
         </ScrollView>
       </View>
-      <View style={styles.main}>
+      <View style={[styles.main, contentContainerStyle]}>
         {tabs.map(({ key, children }) => (
           <View style={[styles.content, isTrue(activeKey !== key, styles.hidden)]} key={key}>{children}</View>
         ))}

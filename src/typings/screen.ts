@@ -86,10 +86,19 @@ export type RootStackParamList = {
   };
   Store: {
     id: number;
+    tab?: string | number;
   };
   StoreInfo: {
     id: number;
   };
+  StoreSearch: {
+    id: number;
+  };
+  StoreSearchList: {
+    id: number;
+    cateId?: number;
+    keyword?: string;
+  }
 }
 
 export  type RootTabParamList = {
@@ -151,4 +160,6 @@ export type NoticeScreenProps = NativeStackScreenProps<RootStackParamList, 'Noti
 export type NoticeDetailsScreenProps = NativeStackScreenProps<RootStackParamList, 'NoticeDetails'>;
 export type StoreScreenProps = NativeStackScreenProps<RootStackParamList, 'Store'>;
 export type StoreInfoScreenProps = NativeStackScreenProps<RootStackParamList, 'StoreInfo'>;
+export type StoreSearchScreenProps = NativeStackScreenProps<RootStackParamList, 'StoreSearch'>;
+export type StoreSearchListScreenProps = NativeStackScreenProps<RootStackParamList, 'StoreSearchList'>;
 

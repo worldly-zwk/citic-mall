@@ -1,5 +1,5 @@
 import { Key, PropsWithChildren, useRef } from 'react';
-import { Animated, LayoutRectangle, StyleSheet, View } from 'react-native';
+import { Animated, LayoutRectangle, StyleSheet, View, ViewProps } from 'react-native';
 import { useControllableValue, useLinePosition, useUpdate } from '@/hooks';
 import Typography from '../Typography';
 import Link from '../Link';
@@ -10,14 +10,14 @@ export interface SortOption {
   value: Key | [Key, Key];
 }
 
-interface SortBarProps {
+interface SortBarProps extends ViewProps {
   options: SortOption[];
   value?: Key;
   onChange?: (value: Key) => void;
 }
 
 const SortBar = (props: PropsWithChildren<SortBarProps>) => {
-  const { options } = props;
+  const { options, style, ...restProps } = props;
   const defaultValue = options[0]?.value;
   const update = useUpdate();
   const tabSizesRef = useRef(new Map<Key, LayoutRectangle>());
@@ -32,7 +32,7 @@ const SortBar = (props: PropsWithChildren<SortBarProps>) => {
   });
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, style]} {...restProps}>
       {options.map(({ label, value }) => {
         const isArray = Array.isArray(value);
         const isActive = isArray ? value.includes(activeKey) : value === activeKey;

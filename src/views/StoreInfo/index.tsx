@@ -52,16 +52,18 @@ const StoreInfo = ({ route }: StoreInfoScreenProps) => {
             <Icon icon="certificate" />
           </Cell>
         </CellGroup>
-        <Card style={styles.card}>
-          <Text>授权品牌</Text>
-          <View style={styles.brandNameContainer}>
-            {mSellerIndex?.brandNames.map((brandName, index) => (
-              <View style={styles.brandName} key={`${brandName}_${index}`}>
-                <Text size="small" color="secondary">{brandName}</Text>
-              </View>
-            ))}
-          </View>
-        </Card>
+        {!!mSellerIndex?.brandNames.length && (
+           <Card style={styles.card}>
+            <Text>授权品牌</Text>
+            <View style={styles.brandNameContainer}>
+              {mSellerIndex?.brandNames.map((brandName, index) => (
+                <View style={styles.brandName} key={`${brandName}_${index}`}>
+                  <Text size="small" color="secondary">{brandName}</Text>
+                </View>
+              ))}
+            </View>
+          </Card>
+        )}
       </View>
     </ScrollView>
   )

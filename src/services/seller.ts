@@ -3,5 +3,6 @@ export default {
   allGoods: '/shop/allgoods',
   cates: '/shop/sellercates',
   moreProduct: '/shop/moreproduct',
-  floorMoreProduct: '/shop/morefloorproduct'
+  floorMoreProduct: '/shop/morefloorproduct',
+  searchProduct: '/shop/products',
 }

@@ -1,18 +1,26 @@
-import { Image, ImageSourcePropType, StyleSheet, View, ViewProps } from 'react-native';
+import { Image, ImageSourcePropType, StyleSheet } from 'react-native';
 import Typography from '@/components/Typography';
-import { Link, LinkProps } from '@/components';
+import { Badge, Link, LinkProps } from '@/components';
 
 interface CardProps extends LinkProps {
   label: string;
   image: ImageSourcePropType;
-  count?: string | number;
+  count?: number;
+  badge?: boolean;
   showCount?: boolean;
 }
 
-const GridIcon = ({ label, image, count, showCount = true, ...restProps }: CardProps) => {
+const GridIcon = ({ label, image, count, badge, showCount = true, ...restProps }: CardProps) => {
   return (
     <Link style={styles.icon} auth {...restProps}>
-      <Image style={styles.image} source={image} />
+      {badge ? (
+        <Badge count={count} offset={[-2, -2]}>
+          <Image style={styles.image} source={image} />
+        </Badge>
+      ) : (
+        <Image style={styles.image} source={image} />
+      )}
+      
       <Typography.Text style={styles.label} color="secondary">{label}</Typography.Text>
       {showCount && (
         <Typography.Text size="large" strong="500">{count || '--'}</Typography.Text>

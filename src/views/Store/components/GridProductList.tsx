@@ -4,7 +4,7 @@ import { OSS_DOMAIN } from '@/constants';
 import { isTrue } from '@/utils';
 import GridProductItem from './GridProductItem';
 
-interface GridProductListProps extends Omit<FlatListProps<API.Product>, 'renderItem'> { }
+export interface GridProductListProps extends Omit<FlatListProps<API.Product>, 'renderItem'> { }
 
 const GridProductList = forwardRef<FlatList<API.Product>, GridProductListProps >((props, ref) => {
   const renderItem = useCallback((info: ListRenderItemInfo<API.Product>) => {

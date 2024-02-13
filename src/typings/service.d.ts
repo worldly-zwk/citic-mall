@@ -794,7 +794,7 @@ declare namespace API {
     department: number;
   }
   
-  interface SellerIndex {
+  interface MSellerIndex {
     id: number;
     sellerId: number;
     logo: string;
@@ -907,7 +907,7 @@ declare namespace API {
     sellerSetting: SellerSetting;
     sellerScoreAvg: number;
     productsCountAll: number;
-    mSellerIndex: SellerIndex;
+    mSellerIndex: MSellerIndex;
     mSellerIndexFloorlist: SellerFloor[];
     cateList: SellerCate[];
     collectionSellerCount: number;

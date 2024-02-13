@@ -1,5 +1,7 @@
 import { FC, useMemo } from "react";
 import { Image, ImageSourcePropType } from "react-native";
+import Badge from "../Badge";
+import { useCart } from "@/store";
 
 interface BottomTabBarProps {
   name: string;
@@ -35,6 +37,7 @@ const tabBarConfig: TabBarConfig = {
 };
 
 const BottomTabBarIcon: FC<BottomTabBarProps> = ({ name, focused }) => {
+  const count = useCart(state => state.count);
   const source = useMemo(() => {
     const info = tabBarConfig[name];
 
@@ -44,6 +47,14 @@ const BottomTabBarIcon: FC<BottomTabBarProps> = ({ name, focused }) => {
 
     return info.source;
   }, [focused]);
+
+  if (name === 'Cart') {
+    return (
+      <Badge count={count} offset={[-2, -8]}>
+        <Image source={source} style={{ width: 30, height: 30 }} />
+      </Badge>
+    )
+  }
 
 
   return (
