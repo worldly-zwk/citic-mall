@@ -69,17 +69,21 @@ const useCart = create<CartStore>((set, get) => ({
   },
   check: async (mode: OrderModel) => {
     const destroy = Alert.loading();
-    const check = await request.post<API.OrderCheck>(ORDER.check, {
-      orderModel: mode
-    });
-    if (check.code === 1) {
-      await useOrder.getState().init(mode);
+    try {
+      const check = await request.post<API.OrderCheck>(ORDER.check, {
+        orderModel: mode
+      });
+      if (check.code === 1) {
+        await useOrder.getState().init(mode).finally(destroy);
+        return check;
+      }
       destroy();
-      return check;
-    }
-    destroy();
     toast(check.message);
     return check;
+    } catch {
+      destroy();
+    }
+    return Promise.reject(false);
   },
   again: (orderSn: string) => {
     const destroy = Alert.loading();

@@ -1,6 +1,6 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { StyleSheet, ScrollView, View, Image, SafeAreaView } from 'react-native';
-import { Typography, Form, Button, InputNumber, Popup, Radio } from '@/components';
+import { Typography, Form, Button, InputNumber, Popup, Radio, Link, Icon } from '@/components';
 import { useBoolean } from '@/hooks';
 import { useCart } from '@/store';
 import { normNameToMap, normMapToName, toast } from '@/utils';
@@ -13,6 +13,7 @@ import StoreCard from './components/StoreCard';
 import SuggestCard from './components/SuggestCard';
 import Introduce from './components/Introduce';
 import ToolBar from './components/Toolbar';
+import Tabs from './components/Tabs';
 import useProduct from './useProduct';
 
 const FormItem = Form.Item;
@@ -101,7 +102,20 @@ const Product = ({ route, navigation }: ProductScreenProps) => {
       return handleAddCart();
     }
     return handleBuyNow();
-  }, [mode]);
+  }, [mode, handleAddCart]);
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerTitle: () => <Tabs />,
+      headerRight: () => {
+        return (
+          <Link>
+            <Icon size={24} icon="more" />
+          </Link>
+        )
+      }
+    })
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>

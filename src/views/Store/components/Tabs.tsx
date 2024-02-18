@@ -6,6 +6,7 @@ import { isTrue } from '@/utils';
 
 interface TabsProps extends ViewProps {
   activeKey?: any;
+  onChange?(value: any): void;
   contentContainerStyle?: StyleProp<ViewStyle>;
 }
 

@@ -15,7 +15,7 @@ export function useLinePosition(options: LinePositionOptions): ViewStyle {
     if (layout) {
       lineAnim.setValue(layout.x + layout?.width / 2 - 7);
     }
-  }, [tabSizes.size]);
+  }, [tabSizes.size, tabSizes.size]);
 
   useEffect(() => {
     const layout = tabSizes.get(activeKey);

@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import request from "@/utils/request";
 import storage from "@/utils/storage";
@@ -38,6 +38,7 @@ function useRequest<T = any, P extends RecordAny = RecordAny, U = any>(service: 
 function useRequest<T = any, P extends RecordAny = RecordAny>(service: Service<T, P>, options?: Options<T, P>): Result<T,P>;
 function useRequest(service: any, options: any = {}) {
   const { onSuccess } = options;
+  const mountRef = useRef(false);
   const [state, setState] = useSetState<RequestState<any>>({
     loading: false,
   });
@@ -110,8 +111,15 @@ function useRequest(service: any, options: any = {}) {
     return func;
   }, []);
 
-  useFocusEffect(useCallback(() => {
+  useEffect(() => {
     if (!options?.manual) {
+      mountRef.current = true;
+      run(options?.defaultParams);
+    }
+  }, []);
+
+  useFocusEffect(useCallback(() => {
+    if (mountRef.current && options?.refreshOnScreenFocus) {
       run(options?.defaultParams);
     }
   }, []));

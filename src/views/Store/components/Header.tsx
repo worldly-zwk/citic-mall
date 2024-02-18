@@ -11,11 +11,10 @@ interface StoreHeaderProps {
     collected?: boolean;
     collectionCount?: number;
   };
-  onSearch?: () => void;
   onCollection?: () => void;
 }
 
-const StoreHeader = ({ data, onSearch, onCollection }: StoreHeaderProps) => {
+const StoreHeader = ({ data, onCollection }: StoreHeaderProps) => {
   const { id, logo, name, collected, collectionCount } = data;
   const insets = useSafeAreaInsets();
 
@@ -31,6 +30,12 @@ const StoreHeader = ({ data, onSearch, onCollection }: StoreHeaderProps) => {
           </View>
         </Link>
         <Button size="small" type={collected ? 'disabled' : undefined} onPress={onCollection}>{collected ? '已关注' : '+ 关注'}</Button>
+        <Link style={styles.search} to={{ screen: 'StoreSearch', params: { id } }}>
+          <Icon size={20} icon="searchGray" />
+        </Link>
+        <Link>
+          <Icon size={20} icon="more" />
+        </Link>
       </View>
     </View>
   )
@@ -53,6 +58,9 @@ const styles = StyleSheet.create({
   },
   name: {
     marginBottom: 2
+  },
+  search: {
+    marginHorizontal: 12,
   }
 })
 

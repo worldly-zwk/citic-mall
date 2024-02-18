@@ -1,7 +1,7 @@
 import { Key, useCallback } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { FlatProductList, SearchBar, SortBar, SortOption } from '@/components';
+import { FlatProductList, Icon, Link, SearchBar, SortBar, SortOption } from '@/components';
 import { StoreSearchListScreenProps } from '@/typings';
 import { useInfiniteScroll } from '@/hooks';
 import { request } from '@/utils';
@@ -56,7 +56,11 @@ const StoreSearchList = ({ route }: StoreSearchListScreenProps) => {
       <View style={[styles.bar, { paddingTop: insets.top }]}>
         <SearchBar
           back
-          extra={null}
+          extra={(
+            <Link>
+              <Icon size={24} icon="storeSearch" />
+            </Link>
+          )}
         />
       </View>
       <View style={styles.main}>

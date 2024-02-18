@@ -44,6 +44,7 @@ import OrderRedEnvelope from '@/views/OrderRedEnvelope';
 import OrderResult from '@/views/OrderResult';
 import StoreInfo from '@/views/StoreInfo';
 import StoreSearch from '@/views/StoreSearch';
+import { Icon, Link } from '@/components';
 
 
 const { Navigator, Screen } = createNativeStackNavigator<RootStackParamList>();

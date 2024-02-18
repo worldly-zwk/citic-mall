@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { StoreScreenProps } from '@/typings';
@@ -13,10 +13,11 @@ import CategoryList from './components/CategoryList';
 
 const Store = ({ route }: StoreScreenProps) => {
   const { id, tab } = route.params;
-  const state = useSeller(state => state.sellerInfo);
   const insets = useSafeAreaInsets();
+  const state = useSeller(state => state.sellerInfo);
   const storeInit = useSeller(state => state.init);
   const storeCollection = useSeller(state => state.collection);
+  const [activeKey, setActiveKey] = useState(tab || 'all');
   const { mSellerIndex, sellerInfo } = state || {};
   const isCollected = state?.collected === 'true';
 
@@ -40,7 +41,7 @@ const Store = ({ route }: StoreScreenProps) => {
         }}
         onCollection={handleCollection}
       />
-      <Tabs>
+      <Tabs activeKey={activeKey} onChange={setActiveKey}>
         <Tabs.Item title="店铺首页" value="home">
           <StoreHome
             messages={state?.sellerMsgNoticeList}

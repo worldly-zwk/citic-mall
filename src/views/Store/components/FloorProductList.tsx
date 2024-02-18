@@ -28,6 +28,7 @@ const FloorProductList = ({ id, floorId, ...restProps }: FloorProductListProps) 
       <Empty
         fullscreen
         title="空空如也"
+        style={{ margin: 0 }}
       />
     )
   }

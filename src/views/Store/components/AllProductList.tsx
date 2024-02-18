@@ -31,7 +31,6 @@ interface AllProductListProps {
 }
 
 const AllProductList = ({ id }: AllProductListProps) => {
-  const listRef = useRef<FlatList>(null);
   const [sort, setSort] = useState<Key>(0);
   const [state, actions] = useInfiniteScroll(async (params) => {
     const result = await request.get<API.SellerProductPageResponse>(`${SELLER.moreProduct}/${id}`, params);
@@ -46,15 +45,14 @@ const AllProductList = ({ id }: AllProductListProps) => {
   const handleSortChange = useCallback((value: Key) => {
     setSort(value);
     actions.run({ sort: value });
-    listRef.current?.scrollToIndex({ index: 0, animated: false });
   }, [actions]);
 
   return (
     <View style={styles.container}>
       <SortBar options={sorters} onChange={handleSortChange} />
       <GridProductList
-        ref={listRef}
         data={state.data || []}
+        refreshing={state.loading}
         onEndReached={actions.loadMore}
         ListEmptyComponent={<Empty fullscreen title="空空如也" />}
       />

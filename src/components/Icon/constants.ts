@@ -29,4 +29,7 @@ export const ICON_MAP = {
   shieldStar: require('@/assets/images/icons/shield-star.png'),
   certificate: require('@/assets/images/icons/certificate.png'),
   search: require('@/assets/images/icons/search.png'),
+  storeSearch: require('@/assets/images/icons/store-search.png'),
+  searchGray: require('@/assets/images/icons/search-gray.png'),
+  more: require('@/assets/images/icons/more.png'),
 }

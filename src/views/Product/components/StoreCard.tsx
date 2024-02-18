@@ -10,7 +10,7 @@ interface StoreCardProps {
 const StoreCard: FC<StoreCardProps> = ({ data, loading }) => {
   return (
     <Skeleton style={styles.container} text={{ rows: 3 }} avatar={true} loading={loading}>
-      <Link style={styles.container} disabled={!data?.sellerId} to={{ screen: 'Store', params: { id: data?.sellerId as number } }}>
+      <Link style={styles.container} disabled={!data?.sellerId} to={{ screen: 'Store', params: { id: data?.sellerId as number } }} push>
         <View>
           <Image style={styles.avatar} source={{ uri: data?.sellerLogo }} />
         </View>

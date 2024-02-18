@@ -39,7 +39,10 @@ const useLogin = create<LoginStore>()((set, get) => ({
   },
   logout: () => {
     const destroy = Alert.loading();
-    return request.get<boolean>(SSO.logout).finally(destroy);
+    return request.get<boolean>(SSO.logout).then(result => {
+      useMember.setState({ login: false, member: null, state: null });
+      return result;
+    }).finally(destroy);
   }
 }));
 

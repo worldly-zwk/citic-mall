@@ -13,8 +13,8 @@ const CategoryList = (props: CategoryListProps) => {
   const renderCateChild = (childs: API.SellerCate[]) => {
     return (
       <View style={styles.childs}>
-        {childs.map(({ id, name }) => (
-          <Link style={styles.childItem} key={id}>
+        {childs.map(({ id: cateId, name }) => (
+          <Link style={styles.childItem} key={cateId} to={{ screen: 'StoreSearchList', params: { id, cateId } }}>
             <Typography.Text size="small">{name}</Typography.Text>
           </Link>
         ))}
@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
     rowGap: 10,
     marginTop: 10,
     justifyContent: 'space-between',
+    flexWrap: 'wrap',
   },
   childItem: {
     width: '49%',

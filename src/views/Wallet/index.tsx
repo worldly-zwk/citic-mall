@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     borderRightWidth: StyleSheet.hairlineWidth,
   },
   form: {
-    height: 400,
+    height: 300,
     paddingVertical: 6,
     paddingHorizontal: 20,
   },
