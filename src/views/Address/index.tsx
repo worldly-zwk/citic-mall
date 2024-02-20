@@ -13,6 +13,7 @@ const Address = ({ route, navigation }: AddressScreenProps) => {
   const orderUpdate = useOrder(state => state.update);
   const [checkedKey, setCheckedKey] = useState<number>();
   const [state, actions] = useRequest<API.Address[]>(MEMBER.address, {
+    refreshOnScreenFocus: true,
     onSuccess: (list) => {
       for(const item of list) {
         if (item.state === 1) {

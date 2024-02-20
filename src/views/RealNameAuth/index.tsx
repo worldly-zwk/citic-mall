@@ -11,6 +11,7 @@ import NotFound from './NotFound';
 const RealNameAuth = ({ route, navigation }: RealNameAuthScreenProps) => {
   const [checkedKey, setCheckedKey] = useState<number>();
   const [state, actions] = useRequest<API.MemberAuth[]>(MEMBER.auths, {
+    refreshOnScreenFocus: true,
     onSuccess: (list) => {
       for(const item of list) {
         if (item.isDefault === 1) {

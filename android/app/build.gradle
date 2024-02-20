@@ -73,9 +73,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.awesomeproject"
+    namespace "com.citicmall"
     defaultConfig {
-        applicationId "com.awesomeproject"
+        applicationId "com.citicmall"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -118,6 +118,8 @@ dependencies {
     } else {
         implementation jscFlavor
     }
+
+    compile project(':RCTWeChat')
 }
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)

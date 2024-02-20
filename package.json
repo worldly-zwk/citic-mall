@@ -27,6 +27,7 @@
     "react-native-screens": "^3.27.0",
     "react-native-swiper": "^1.6.0",
     "react-native-webview": "^13.6.3",
+    "react-native-wechat": "^1.9.12",
     "zustand": "^4.4.7"
   },
   "devDependencies": {

@@ -18,6 +18,7 @@ const Cart = ({ navigation }: CartScreenProps) => {
     defaultParams: {
       position: 3
     },
+    refreshOnScreenFocus: true,
     formatResult: ({ productList }: API.MemberRecommend) => {
       if (Array.isArray(productList)) {
         return productList.map(convertProduct);

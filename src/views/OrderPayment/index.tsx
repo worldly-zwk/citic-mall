@@ -1,11 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { StyleSheet, SafeAreaView, ScrollView, View, TouchableWithoutFeedback } from 'react-native';
 import { EventArg } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { pay } from 'react-native-wechat';
 import { Space, Typography, Button, Card, Radio, Icon, Alert } from '@/components';
 import { OrderPaymentScreenProps } from '@/typings';
 import { useRequest, useTimerWithClock } from '@/hooks';
 import { ORDER } from '@/services';
+import { WX_PARTNER_ID } from '@/constants';
 
 const { Text } = Typography;
 
@@ -23,6 +25,13 @@ const OrderPayment = ({ route, navigation }: OrderPaymentScreenProps) => {
   });
 
   const order = state.data?.order;
+
+  const handlePayment = useCallback(() => {
+    // pay({
+    //   prepayId
+    // })
+    console.log(WX_PARTNER_ID);
+  }, []);
 
   useEffect(() => {
     const handleBeforeRemove = (e: EventArg<'beforeRemove', true, { action: any }>) => {
@@ -89,7 +98,7 @@ const OrderPayment = ({ route, navigation }: OrderPaymentScreenProps) => {
         </Card>
       </ScrollView>
       <SafeAreaView style={[styles.buttonContainer, { paddingBottom: insets.bottom }]}>
-        <Button style={styles.button}>确定支付¥{order?.payMoney}</Button>
+        <Button style={styles.button} onPress={handlePayment}>确定支付¥{order?.payMoney}</Button>
       </SafeAreaView>
     </View>
   )

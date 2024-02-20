@@ -1,8 +1,9 @@
 import { PropsWithChildren } from 'react';
-import { StyleSheet, View, ScrollView, Text, TouchableOpacity } from 'react-native';
-import SideBarItem from './Item';
+import { StyleSheet, View, ScrollView, TouchableOpacity } from 'react-native';
 import { useTabs } from '@/hooks';
 import { isTrue } from '@/utils/type';
+import Typography from '../Typography';
+import SideBarItem from './Item';
 
 interface SideBarProps { }
 
@@ -18,7 +19,7 @@ const SideBar = (props: PropsWithChildren<SideBarProps>) => {
             return (
               <TouchableOpacity onPress={() => setActiveKey(key)}  key={key}>
                 <View style={[styles.sideItem, isTrue(isCurrent, styles.sideAtiveItem)]}>
-                  <Text style={[styles.sideItemTitle, isTrue(isCurrent, styles.sideAtiveItemTitle)]}>{title}</Text>
+                  <Typography.Text size="small" style={[styles.sideItemTitle, isTrue(isCurrent, styles.sideAtiveItemTitle)]}>{title}</Typography.Text>
                 </View>
               </TouchableOpacity>
             )
@@ -52,8 +53,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   sideItemTitle: {
-    color: '#333',
-    fontSize: 12,
     textAlign: 'center',
   },
   sideAtiveItem: {

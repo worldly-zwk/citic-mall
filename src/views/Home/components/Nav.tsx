@@ -20,7 +20,7 @@ const Nav: FC<NavProps> = ({ items, news }) => {
             </View>
           ))}
         </View>
-        {news?.length && (
+        {!!news?.length && (
           <View style={styles.news}>
             <Image style={styles.newsPrefix} source={require('@/assets/images/tag/new.png')} />
             <Swiper autoplay horizontal={false} showsPagination={false}>

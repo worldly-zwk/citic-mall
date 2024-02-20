@@ -20,10 +20,6 @@ const Search = ({ navigation }: SearchScreenProps) => {
   });
 
   const [logState] = useRequest(PRODUCT.logs, {
-    defaultParams: {
-      channel: 2,
-      showPosition: 1
-    },
     formatResult: (data: API.SearchKeyword[]) => data?.map(({ keyword }) => keyword),
   });
 

@@ -1,8 +1,7 @@
 import { Key, useCallback } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Alert, Avatar, Cell, Link, Tag, Typography } from '@/components';
+import { Alert, Avatar, Cell, Tag, Typography, UploadPicture } from '@/components';
 import { useMember } from '@/store';
-import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 
 const { Text } = Typography;
 const CellGroup = Cell.Group;
@@ -36,10 +35,10 @@ const ProfileInfo = () => {
 
   return (
     <View style={styles.container}>
-      <Link style={styles.head} onPress={() => launchCamera({ mediaType: 'photo' }, console.log)}>
+      <UploadPicture style={styles.head}>
         <Avatar src={member?.headPortrait} style={styles.avatar} />
         <Text color="disabled" size="small">点击修改头像</Text>
-      </Link>
+      </UploadPicture>
       <CellGroup>
         <Cell label="登录名">
           <Text>{member?.name}</Text>

@@ -1,9 +1,10 @@
-package com.awesomeproject;
+package com.citicmall;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
 import com.facebook.react.defaults.DefaultReactActivityDelegate;
+import com.theweflex.react.WeChatPackage;
 import android.os.Bundle;
 
 public class MainActivity extends ReactActivity {
@@ -19,7 +20,7 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected String getMainComponentName() {
-    return "AwesomeProject";
+    return "CiticMall";
   }
 
   /**
@@ -34,5 +35,16 @@ public class MainActivity extends ReactActivity {
         getMainComponentName(),
         // If you opted-in for the New Architecture, we enable the Fabric Renderer.
         DefaultNewArchitectureEntryPoint.getFabricEnabled());
+  }
+  /**
+  * A list of packages used by the app. If the app uses additional views
+  * or modules besides the default ones, add more packages here.
+  */
+  @Override
+  protected List<ReactPackage> getPackages() {
+    return Arrays.<ReactPackage>asList(
+      newMainReactPackage(),
+      newWeChatPackage()
+    );
   }
 }

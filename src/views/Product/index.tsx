@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { StyleSheet, ScrollView, View, Image, SafeAreaView } from 'react-native';
+import { StyleSheet, ScrollView, View, Image, SafeAreaView, Alert } from 'react-native';
+import { isWXAppInstalled } from 'react-native-wechat';
 import { Typography, Form, Button, InputNumber, Popup, Radio, Link, Icon } from '@/components';
 import { useBoolean } from '@/hooks';
 import { useCart } from '@/store';
@@ -105,6 +106,8 @@ const Product = ({ route, navigation }: ProductScreenProps) => {
   }, [mode, handleAddCart]);
 
   useEffect(() => {
+    // console.log(wechat)
+    isWXAppInstalled().then(value => Alert.alert(String(value)));
     navigation.setOptions({
       headerTitle: () => <Tabs />,
       headerRight: () => {

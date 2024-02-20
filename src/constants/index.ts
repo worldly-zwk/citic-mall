@@ -15,3 +15,9 @@ export const LOGIN_APP_KEY = 'FFFF0000000001796DCB';
  * 域名相关
  */
 export const OSS_DOMAIN = 'https://oss.citic-mall.com/';
+
+/**
+ * 微信相关
+ */
+export const WX_APP_ID = 'wx3d42337c4dd1a9be';
+export const WX_PARTNER_ID = '1388885202';

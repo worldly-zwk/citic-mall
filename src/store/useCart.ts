@@ -32,7 +32,10 @@ const useCart = create<CartStore>((set, get) => ({
   },
   add: (data: API.AddCartParams) => {
     const destroy = Alert.loading();
-    return request.post<boolean, API.AddCartParams>(ORDER.cartAdd, data).finally(destroy);
+    return request.post<boolean, API.AddCartParams>(ORDER.cartAdd, data).then(success => {
+      get().fetch();
+      return success;
+    }).finally(destroy);
   },
   remove:  async (id: number) => {
     const data = await request.delete<boolean>(`${ORDER.cartRemove}/${id}`);

@@ -1,5 +1,5 @@
 import { ReactNode, useCallback } from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { Typography, Space, InputNumber, Checkbox, Link, SwipeToDeleteView, Tag } from '@/components';
 import { isTrue } from '@/utils/type';
@@ -41,11 +41,20 @@ const CartCard = (props: CartCardProps) => {
       </View>
       <View>
         {items?.map((item, index) => (
-          <SwipeToDeleteView key={item.productId} extra={(
-            <LinearGradient style={styles.delete} colors={['#ffaf31', '#ff8400']} end={{ x: 1, y: 0 }}>
-              <Typography.Text color="white">删除</Typography.Text>
-            </LinearGradient>
-          )}>
+          <SwipeToDeleteView
+            key={item.productId}
+            extra={(
+              <TouchableWithoutFeedback
+                onPress={() => {
+                  actions.remove(item.cartId);
+                }}
+              >
+                <LinearGradient style={styles.delete} colors={['#ffaf31', '#ff8400']} end={{ x: 1, y: 0 }}>
+                  <Typography.Text color="white">删除</Typography.Text>
+                </LinearGradient>
+              </TouchableWithoutFeedback>
+            )}
+          >
             <Space style={styles.item} align="center">
               <Checkbox style={styles.checkbox} checked={item.selected} onChange={checked => actions.checkedProduct(item.cartId, checked)} />
               <Link style={[styles.cartItem, isTrue((index + 1) < items.length, styles.borderd)]} to={{ screen: 'Product', params: { id: item.productId } }}>
@@ -59,7 +68,7 @@ const CartCard = (props: CartCardProps) => {
                     </Space>
                   )}
                   <Typography.Price style={styles.price}>{item.money}</Typography.Price>
-                  <InputNumber style={styles.numeric} value={item.number} />
+                  <InputNumber style={styles.numeric} value={item.number} onChange={count => actions.update(item.cartId, count)} />
                 </View>
               </Link>
             </Space>

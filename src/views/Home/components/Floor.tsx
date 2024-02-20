@@ -2,6 +2,7 @@ import { FC, useMemo } from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import HorizontalProductList from "@/components/HorizontalProductList";
 import { filter, isLastItem } from "@/utils/array";
+import { Typography } from "@/components";
 
 interface FloorProps {
   items?: API.Floor[];
@@ -21,7 +22,7 @@ const Floor: FC<FloorProps> = ({ items, collection }) => {
           image,
           id: product.id,
           name: productName,
-          price: product.mallPcPrice
+          price: product.mallPcPrice,
         }))
       }));
     }
@@ -35,8 +36,8 @@ const Floor: FC<FloorProps> = ({ items, collection }) => {
       <View>
         <View style={styles.collections}>
           <View style={styles.header}>
-            <Text style={styles.title}>{collection?.title}</Text>
-            <Text style={styles.subtitle}>{collection?.subtitle}</Text>
+            <Typography.Text style={styles.title}>{collection?.title}</Typography.Text>
+            <Typography.Text style={styles.subtitle}>{collection?.subtitle}</Typography.Text>
           </View>
           <View>
             {collections.map((image, index) => (

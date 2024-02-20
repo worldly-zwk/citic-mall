@@ -25,6 +25,7 @@ export { default as Tag } from './Tag';
 export { default as SortBar } from './SortBar';
 export { default as RichText } from './RichText';
 export { default as Typography } from './Typography';
+export { default as UploadPicture } from './UploadPicture';
 export { default as AutoHeightImage  } from './AutoHeightImage';
 
 export { default as Ticket } from './Ticket';

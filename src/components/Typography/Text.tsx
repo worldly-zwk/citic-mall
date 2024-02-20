@@ -66,7 +66,7 @@ const TypographyText = (props: TypographyTextProps) => {
   }, [style, primary, size, strong, deleteLine, color, align]);
 
   return (
-    <Text {...restProps} lineBreakMode={lineBreakMode} style={textStyles}>
+    <Text allowFontScaling={false} {...restProps} lineBreakMode={lineBreakMode} style={textStyles}>
       {!!indent && '\u00A0\u00A0'.repeat(indent)}
       {children}
     </Text>
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
   },
   mini: {
     fontSize: 10,
-    lineHeight: 10,
+    lineHeight: 12,
   },
   secondary: {
     color: '#666'

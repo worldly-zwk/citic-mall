@@ -1,19 +1,17 @@
 import { useCallback, useState } from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, Switch, View } from 'react-native';
-import { Alert, Button, Empty, Space, Typography } from '@/components';
-import { ContactScreenProps } from '@/typings';
+import { Alert, Button, Empty, Space, Spin, Typography } from '@/components';
 import { useRequest } from '@/hooks';
 import { MEMBER } from '@/services';
 import request from '@/utils/request';
-import Toast from 'react-native-root-toast';
-import { toast } from '@/utils';
 
-const Contact = ({ route, navigation }: ContactScreenProps) => {
+const Contact = () => {
   const [checkedKey, setCheckedKey] = useState<number>();
   const [state, actions] = useRequest<API.MemberAuth[]>(MEMBER.auths, {
     defaultParams: {
       authFlag: 9
     },
+    refreshOnScreenFocus: true,
     onSuccess: (list) => {
       for(const item of list) {
         if (item.isDefault === 1) {
@@ -49,13 +47,16 @@ const Contact = ({ route, navigation }: ContactScreenProps) => {
   const renderContent = () => {
     if (!state.data?.length) {
       return (
-        <Empty
-          fullscreen
-          title="暂无常用联系人信息"
-          description="快去添加一位吧～"
-        />
+        <Spin spinning={state.loading}>
+          <Empty
+            fullscreen
+            title="暂无常用联系人信息"
+            description="快去添加一位吧～"
+          />
+        </Spin>
       )
     }
+
     return (
       <ScrollView contentContainerStyle={styles.main}>
         {state.data?.map(authInfo => (

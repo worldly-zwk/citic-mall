@@ -1,6 +1,6 @@
 import { useMemo } from "react";
-import { StyleSheet, Text, View, SafeAreaView, ScrollView } from "react-native";
-import { SearchBar } from "@/components";
+import { StyleSheet, View, SafeAreaView, ScrollView } from "react-native";
+import { SearchBar, Typography } from "@/components";
 import { convertProduct } from "@/utils/convert";
 import { CACHE_KEY_HOME } from "@/constants";
 import { useRequest } from "@/hooks";
@@ -37,9 +37,9 @@ const Home = ({ navigation }: HomeScreenProps) => {
           <Floor items={data?.floors} collection={{ title: data?.floorBlockName, subtitle: data?.floorBlockViceName }} />
         </View>
         <View style={styles.copyright}>
-          <Text style={styles.copyrightText}>Copyright@2016-2017中信易家版权所有</Text>
-          <Text style={styles.copyrightText}>食品经营许可证编号 JY11105050876919</Text>
-          <Text style={styles.copyrightText}>京ICP备17008530号-3</Text>
+          <Typography.Text style={styles.copyrightText}>Copyright@2016-2017中信易家版权所有</Typography.Text>
+          <Typography.Text style={styles.copyrightText}>食品经营许可证编号 JY11105050876919</Typography.Text>
+          <Typography.Text style={styles.copyrightText}>京ICP备17008530号-3</Typography.Text>
         </View>
       </ScrollView>
     </SafeAreaView>

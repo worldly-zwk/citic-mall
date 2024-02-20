@@ -7,7 +7,7 @@ export interface ProductItem {
   name: string;
   price: number;
   image: string;
-  marketPrice: number;
+  marketPrice?: number;
 }
 
 export interface TabsItemProps {

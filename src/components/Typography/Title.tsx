@@ -27,7 +27,7 @@ const TypographyTitle = ({ primary, style, level, type, lineBreakMode = 'tail', 
     return StyleSheet.compose(items, style);
   }, [style, level, primary, type]);
 
-  return <Text style={titleStyle} lineBreakMode={lineBreakMode} {...restProps} />
+  return <Text style={titleStyle} lineBreakMode={lineBreakMode} allowFontScaling={false} {...restProps} />
 }
 
 const styles = StyleSheet.create({
