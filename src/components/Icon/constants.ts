@@ -32,4 +32,6 @@ export const ICON_MAP = {
   storeSearch: require('@/assets/images/icons/store-search.png'),
   searchGray: require('@/assets/images/icons/search-gray.png'),
   more: require('@/assets/images/icons/more.png'),
+  wechat: require('@/assets/images/icons/wechat.png'),
+  wechatFriend: require('@/assets/images/icons/wechat-friend.png'),
 }

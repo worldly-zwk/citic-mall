@@ -1,6 +1,6 @@
 import { useCallback, useRef } from 'react';
 import { Image, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
-import { Alert, Button, Form, FormInstance, Input, Notice, Space, Typography } from '@/components';
+import { Alert, Button, Form, FormInstance, Input, Notice, Space, Typography, UploadPicture } from '@/components';
 import { RealNameAuthFormScreenProps } from '@/typings';
 import { AUTH_RULES } from '@/constants';
 import { request } from '@/utils';
@@ -42,14 +42,14 @@ const RealNameAuthForm = ({ navigation }: RealNameAuthFormScreenProps) => {
             </View>
             <Notice>{`温馨提示：\n请上传原始比例的身份证正反面，请勿剪裁图改，以保证身份信息清晰显示，否则无法通过审核。`}</Notice>
             <Space style={styles.identity}>
-              <View style={styles.imageContainer}>
+              <UploadPicture style={styles.imageContainer}>
                 <Image style={styles.image} source={require('@/assets/images/view/auth_front.png')} />
                 <Typography.Text size="small" color="disabled" align="center">身份证人像面</Typography.Text>
-              </View>
-              <View style={styles.imageContainer}>
+              </UploadPicture>
+              <UploadPicture style={styles.imageContainer}>
                 <Image style={styles.image} source={require('@/assets/images/view/auth_back.png')} />
                 <Typography.Text size="small" color="disabled" align="center">身份证国徽面</Typography.Text>
-              </View>
+              </UploadPicture>
             </Space>
           </View>
           <View style={styles.card}>
@@ -61,9 +61,7 @@ const RealNameAuthForm = ({ navigation }: RealNameAuthFormScreenProps) => {
                 <Space size={8} key={index}>
                   <Typography.Text size="small" color="secondary" style={styles.text}>{index + 1}、</Typography.Text>
                   <View style={{ flex: 1 }}>
-                    {text.split('\n').map((text, index) => (
-                      <Typography.Text size="small" color="secondary" style={styles.text} key={index}>{text}</Typography.Text>
-                    ))}
+                    <Typography.Text size="small" color="secondary" style={styles.text}>{text}</Typography.Text>
                   </View>
                 </Space>
               ))}

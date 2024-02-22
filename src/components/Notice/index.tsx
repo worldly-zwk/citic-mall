@@ -26,9 +26,7 @@ const Notice = (props: NoticeProps) => {
         <Image style={styles.icon} source={require('@/assets/images/icons/warning.png')} />
       )}
       <View style={styles.text}>
-        {children?.split('\n').map((text, index) => (
-          <Typography.Text size="small" primary key={index}>{text}</Typography.Text>
-        ))}
+        <Typography.Text size="small" primary>{children}</Typography.Text>
       </View>
       {(extra || closeIcon) && (
         <View style={styles.extra}>

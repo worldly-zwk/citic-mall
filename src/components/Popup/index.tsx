@@ -4,7 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { RootSiblingPortal } from 'react-native-root-siblings';
 import Typography from '../Typography';
 
-interface PopupProps extends ModalProps {
+export interface PopupProps extends ModalProps {
   title?: string;
   header?: ReactNode;
   headerStyle?: StyleProp<ViewStyle>;

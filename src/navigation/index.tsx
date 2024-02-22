@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
 import { createNativeStackNavigator, NativeStackNavigationOptions } from '@react-navigation/native-stack';
 import GlobalBack from '@/components/GlobalBack';
-import ProductTitle from '@/components/ProductTitle';
-import { OrderPaymentScreenProps, ProductScreenProps, RootStackParamList } from '@/typings';
+import { useMember } from '@/store';
+import { OrderPaymentScreenProps, RootStackParamList } from '@/typings';
 import Product from '@/views/Product';
 import CategoryTabs from '@/views/CategoryTabs';
 import Search from '@/views/Search';
@@ -36,7 +36,6 @@ import ProductComment from '@/views/ProductComment';
 import Notice from '@/views/Notice';
 import NoticeDetails from '@/views/NoticeDetails';
 import Store from '@/views/Store';
-import { useMember } from '@/store';
 import CouponList from '@/views/CouponList';
 import RedEnvelopeList from '@/views/RedEnvelopeList';
 import OrderCoupon from '@/views/OrderCoupon';
@@ -63,12 +62,6 @@ const NavigatorScreen = () => {
     }
   }, []);
 
-  const screenProductOptions = useCallback((props: ProductScreenProps): NativeStackNavigationOptions => {
-      return {
-        headerTitle: () => <ProductTitle {...props} />,
-      }
-    }, []);
-
   const screenOrderPaymentOptions = useCallback(({ navigation }: OrderPaymentScreenProps): NativeStackNavigationOptions => {
     const handleBack = () => {
       navigation.reset({
@@ -82,6 +75,7 @@ const NavigatorScreen = () => {
 
     return {
       title: '收银台',
+      gestureEnabled: false,
       headerLeft: () => <GlobalBack onPress={handleBack} />
     }
   }, []);
@@ -90,7 +84,7 @@ const NavigatorScreen = () => {
     <Navigator screenOptions={screenOptions}>
       <Screen name="Index" component={HomeScreen} options={{ headerShown: false }} />
       <Screen name="Cart" component={Cart} options={{ title: '购物车' }} />
-      <Screen name="Product" component={Product} options={screenProductOptions} />
+      <Screen name="Product" component={Product} options={{ title: '' }} />
       <Screen name="ProductComment" component={ProductComment} options={{ title: '商品评价' }} />
       <Screen name="CategoryTabs" component={CategoryTabs} options={{ title: '' }} />
       <Screen name="Search" component={Search} options={{ headerShown: false }} />

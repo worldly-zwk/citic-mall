@@ -35,7 +35,12 @@ const ProfileInfo = () => {
 
   return (
     <View style={styles.container}>
-      <UploadPicture style={styles.head}>
+      <UploadPicture
+        style={styles.head}
+        onFinish={({ fileId }) => {
+          setMember({ headPortrait: fileId });
+        }}
+      >
         <Avatar src={member?.headPortrait} style={styles.avatar} />
         <Text color="disabled" size="small">点击修改头像</Text>
       </UploadPicture>

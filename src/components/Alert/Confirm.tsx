@@ -43,9 +43,7 @@ const Confirm = (props: ConfirmProps) => {
     <Animated.View style={[StyleSheet.absoluteFill, styles.container, { opacity }]}>
       <Animated.View style={[styles.confirm, { width, opacity, transform: [{ scale }] }]}>
         <Animated.View style={styles.content}>
-          {message?.split('\n').map((text, index) => (
-            <Typography.Text align="center" key={index} style={contentStyle}>{text}</Typography.Text>
-          ))}
+          <Typography.Text align="center" style={contentStyle}>{message}</Typography.Text>
         </Animated.View>
         <Space>
           <TouchableWithoutFeedback onPress={handleCancel}>

@@ -1,10 +1,9 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { StyleSheet, ScrollView, View, Image, SafeAreaView, Alert } from 'react-native';
-import { isWXAppInstalled } from 'react-native-wechat';
-import { Typography, Form, Button, InputNumber, Popup, Radio, Link, Icon } from '@/components';
+import { Typography, Form, Button, InputNumber, Popup, Radio, Link, Icon, SharePopup } from '@/components';
 import { useBoolean } from '@/hooks';
 import { useCart } from '@/store';
-import { normNameToMap, normMapToName, toast } from '@/utils';
+import { normNameToMap, normMapToName, toast, isObject } from '@/utils';
 import { AddCartMode, OrderModel, ProductScreenProps } from '@/typings';
 import Carousel from './components/Carousel';
 import BasisCard from './components/BasisCard';
@@ -22,10 +21,16 @@ const FormItem = Form.Item;
 
 const Product = ({ route, navigation }: ProductScreenProps) => {
   const { id } = route.params;
+  const scrollRef = useRef<ScrollView>(null);
+  const tabsOffsetRef = useRef<RecordAny<number>>({
+    main: 0,
+    comment: 0,
+    intro: 0
+  });
   const [count, setCount] = useState(1);
   const [mode, setMode] = useState<AddCartMode | null>(null);
-  const [visible, normActions] = useBoolean();
   const [state, actions] = useProduct(id);
+  const [visible, visibleActions] = useBoolean();
   const cartActions = useCart(state => ({
     add: state.add,
     check: state.check,
@@ -58,12 +63,12 @@ const Product = ({ route, navigation }: ProductScreenProps) => {
 
   const handleOpenPopup = useCallback((mode: AddCartMode) => {
     setMode(mode);
-    normActions.setTrue();
+    visibleActions.setTrue();
   }, []);
 
   const handleClose = useCallback(() => {
     setMode(null);
-    normActions.setFalse();
+    visibleActions.setFalse();
   }, []);
 
   const handleAddCart = useCallback(() => {
@@ -74,7 +79,7 @@ const Product = ({ route, navigation }: ProductScreenProps) => {
       isBuyNow: AddCartMode.ADD,
     }).then(success => {
       if (success) {
-        normActions.setFalse();
+        visibleActions.setFalse();
         toast('加入购物车成功');
       }
     });
@@ -92,7 +97,7 @@ const Product = ({ route, navigation }: ProductScreenProps) => {
       const check = await cartActions.check(OrderModel.ORDINARY);
 
       if (check.code === 1) {
-        normActions.setFalse();
+        visibleActions.setFalse();
         navigation.navigate('Order');
       }
     }
@@ -106,15 +111,19 @@ const Product = ({ route, navigation }: ProductScreenProps) => {
   }, [mode, handleAddCart]);
 
   useEffect(() => {
-    // console.log(wechat)
-    isWXAppInstalled().then(value => Alert.alert(String(value)));
+    const handleTabsChange = (tab: string) => {
+      const scrollTop = tabsOffsetRef.current[tab];
+      if (typeof scrollTop !== 'undefined') {
+        scrollRef.current?.scrollTo({ y: scrollTop - 10 });
+      }
+    }
     navigation.setOptions({
-      headerTitle: () => <Tabs />,
+      headerTitle: () => <Tabs onChange={handleTabsChange} />,
       headerRight: () => {
         return (
-          <Link>
+          <SharePopup>
             <Icon size={24} icon="more" />
-          </Link>
+          </SharePopup>
         )
       }
     })
@@ -122,7 +131,7 @@ const Product = ({ route, navigation }: ProductScreenProps) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView style={styles.main}>
+      <ScrollView style={styles.main} ref={scrollRef}>
         <Carousel items={state.info?.productLeadPicList} />
         <BasisCard loading={state.loading} data={state.info} />
         <GoodsCard
@@ -131,12 +140,24 @@ const Product = ({ route, navigation }: ProductScreenProps) => {
           promotions={state.activity}
           count={count}
           services={services}
-          onClickNorm={normActions.setTrue}
+          onClickNorm={visibleActions.setTrue}
         />
-        <FeedbackCard id={id} data={state.comment} />
+        <FeedbackCard
+          id={id}
+          data={state.comment}
+          onLayout={(e) => {
+            tabsOffsetRef.current.comment = e.nativeEvent.layout.y;
+          }}
+        />
         <StoreCard loading={state.loading} data={state.info} />
         <SuggestCard data={state.info?.catalogRandomProList} />
-        <Introduce data={state.info} richText={state.richText} />
+        <Introduce
+          data={state.info}
+          richText={state.richText}
+          onLayout={(e) => {
+            tabsOffsetRef.current.intro = e.nativeEvent.layout.y;
+          }}
+        />
         <View style={styles.bottomLine}>
           <Typography.Text size="small" color="disabled">已经到底了</Typography.Text>
         </View>

@@ -22,9 +22,7 @@ const Alert = (props: AlertProps) => {
     <Animated.View style={[StyleSheet.absoluteFill, styles.container, { opacity }]}>
       <Animated.View style={[styles.alert, { opacity, transform: [{ scale }] }]}>
         <Animated.View style={styles.content}>
-          {message?.split('\n').map((text, index) => (
-            <Typography.Text align="center" key={index}>{text}</Typography.Text>
-          ))}
+          <Typography.Text align="center">{message}</Typography.Text>
         </Animated.View>
         <TouchableWithoutFeedback onPress={handleOk}>
           <View style={styles.ok}>

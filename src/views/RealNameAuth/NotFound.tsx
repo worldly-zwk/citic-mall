@@ -30,9 +30,7 @@ const NotFound = (props: NotFoundProps) => {
           <Space size={8} key={index}>
             <Typography.Text size="small" color="secondary" style={styles.text}>{index + 1}、</Typography.Text>
             <View style={{ flex: 1 }}>
-              {text.split('\n').map((text, index) => (
-                <Typography.Text size="small" color="secondary" style={styles.text} key={index}>{text}</Typography.Text>
-              ))}
+              <Typography.Text size="small" color="secondary" style={styles.text}>{text}</Typography.Text>
             </View>
           </Space>
         ))}

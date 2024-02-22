@@ -1,18 +1,18 @@
-import { FC, useCallback } from "react";
-import { StyleSheet, View } from "react-native";
+import { FC } from "react";
+import { LayoutChangeEvent, StyleSheet, View } from "react-native";
 import { Comment, Link, Space, Typography } from "@/components";
-import { isTrue } from "@/utils";
 
 const { Title, Text } = Typography;
 
 interface FeedbackCardProps {
   id: number;
   data?: API.ProductCommentResponse;
+  onLayout?: (event: LayoutChangeEvent) => void;
 }
 
-const FeedbackCard: FC<FeedbackCardProps> = ({ id, data }) => {
+const FeedbackCard: FC<FeedbackCardProps> = ({ id, data, onLayout }) => {
   return (
-    <View style={styles.container}>
+    <View style={styles.container} onLayout={onLayout}>
       <View style={styles.header}>
         <Title level={4}>评价</Title>
         <Space>

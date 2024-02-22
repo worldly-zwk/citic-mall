@@ -5,6 +5,7 @@ import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
 import com.facebook.react.defaults.DefaultReactActivityDelegate;
 import com.theweflex.react.WeChatPackage;
+import com.rnfs.RNFSPackage;
 import android.os.Bundle;
 
 public class MainActivity extends ReactActivity {
@@ -43,8 +44,9 @@ public class MainActivity extends ReactActivity {
   @Override
   protected List<ReactPackage> getPackages() {
     return Arrays.<ReactPackage>asList(
-      newMainReactPackage(),
-      newWeChatPackage()
+      new MainReactPackage(),
+      new WeChatPackage(),
+      new RNFSPackage(),
     );
   }
 }

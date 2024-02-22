@@ -10,7 +10,7 @@ export interface IconProps extends Omit<ImageProps, 'source'> {
 }
 
 const Icon = (props: IconProps) => {
-  const { size = 16, icon, style } = props;
+  const { size = 16, icon, style, ...restProps } = props;
 
   const source = useMemo<ImageSourcePropType>(() => {
     if (typeof icon === 'string') {
@@ -20,7 +20,7 @@ const Icon = (props: IconProps) => {
   }, [icon]);
 
   return (
-    <Image source={source} style={[{ width: size, height: size }, style]} />
+    <Image {...restProps} source={source} style={[{ width: size, height: size }, style]} />
   )
 }
 export default Icon;

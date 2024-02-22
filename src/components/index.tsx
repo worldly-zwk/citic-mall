@@ -43,6 +43,7 @@ export { default as HorizontalProductList } from './HorizontalProductList';
 export { default as ProductSummaryInline } from './ProductSummaryInline';
 export { default as VisitedProductItem } from './VisitedProductItem';
 export { default as CheckTicket } from './CheckTicket';
+export { default as SharePopup } from './SharePopup';
 
 export * from './Link';
 export * from './Form';

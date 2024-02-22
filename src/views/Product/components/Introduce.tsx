@@ -1,5 +1,5 @@
 import { FC, memo, useMemo, useState } from "react";
-import { StyleSheet, TouchableWithoutFeedback, View, useWindowDimensions } from "react-native";
+import { StyleSheet, TouchableWithoutFeedback, View, ViewProps, useWindowDimensions } from "react-native";
 import { Typography, RichText } from "@/components";
 import Descriptions from "./Descriptions";
 
@@ -8,12 +8,12 @@ enum KeyEnum {
   SPEC,
 }
 
-interface IntroduceProps {
+interface IntroduceProps extends ViewProps {
   data?: API.ProductInfo;
   richText?: string;
 }
 
-const Introduce: FC<IntroduceProps> = ({ data, richText = '' }) => {
+const Introduce: FC<IntroduceProps> = ({ data, richText = '', ...restProps }) => {
   const { width } = useWindowDimensions();
   const [activeKey, setActiveKey] = useState(KeyEnum.INTRO);
 
@@ -38,7 +38,7 @@ const Introduce: FC<IntroduceProps> = ({ data, richText = '' }) => {
 
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} {...restProps}>
      <View style={styles.tabs}>
       <TouchableWithoutFeedback onPress={() => setActiveKey(KeyEnum.INTRO)}>
         <View style={[styles.item, styles.itemLine]}>

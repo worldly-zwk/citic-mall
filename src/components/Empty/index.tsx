@@ -24,11 +24,7 @@ const Empty = (props: EmptyProps) => {
         <Typography.Title type="secondary">{title}</Typography.Title>
       )}
       {description && (
-        <View>
-          {description.split('\n').map((text, index) => (
-            <Typography.Text size="small" color="secondary" align="center" key={index}>{text}</Typography.Text>
-          ))}
-        </View>
+        <Typography.Text size="small" color="secondary" align="center">{description}</Typography.Text>
       )}
       {children}
     </View>

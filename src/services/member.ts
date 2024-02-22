@@ -19,4 +19,5 @@ export default {
   isCollectionSeller: '/member/membercollectionsellers/collection',
   logs: '/member/productlooklogs',
   bindEmail: '/member/sendbindemail',
+  upload: '/member/memberauth/imgupload',
 }

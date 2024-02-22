@@ -950,4 +950,6 @@ declare namespace API {
     state: number;
     message: string;
   }
+
+  type UploadResponse = Record<'fileId' | 'filePath', string>;
 }
